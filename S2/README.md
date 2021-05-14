@@ -15,8 +15,8 @@ Create excel sheet showing backpropagation. Explain each major step with followi
 
 The graph shows how the learning rate changes the whole game in neural network. 
 1.  When the **learning rate is 0.1** the overall loss decreases slowly compared to other learning rates. It needs high number of epochs to reach the accuracy. 
-2.  As learning rate varies from 0.1 to 1.0, the overall loss of the neural network dimnishes very rapidly on every epoch. The learning rate below 0.5 creates a decreasing linear graph, howerver, on other side it creates decreasing exponential graph.
-3.  In the case the learning rate from 1.0 to 2.0, after 10th to 15th epoch, the overall loss reaches to point where it cannot be dimnishes further and creating a constantgraph.
+2.  As **learning rate varies from 0.1 to 1.0**, the overall loss of the neural network dimnishes very rapidly on every epoch. The learning rate below 0.5 creates a decreasing linear graph, howerver, on other side it creates decreasing exponential graph.
+3.  In the case the **learning rate from 1.0 to 2.0**, after 10th to 15th epoch, the overall loss reaches to point where it cannot be dimnishes further and creating a constantgraph.
 
 ![Loss vs Iteration](LR.JPG)
 
