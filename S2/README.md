@@ -10,7 +10,7 @@ Create excel sheet showing backpropagation. Explain each major step with followi
 - Show what happens to the error graph when you change the learning rate from [0.1, 0.2, 0.5, 0.8, 1.0, 2.0]
 
 ## Solution
-[![Excel](https://shields.io/badge/style-green?logo=microsoft-excel&style=social&label=Download)](NN_Design.xlsx)
+[![Excel](https://shields.io/badge/-Download-217346?logo=microsoft-excel&style=flat)](https://github.com/pankaj90382/END-1.0/raw/main/S2/NN_Design.xlsx)
 ### Loss vs Iteration Graph with respect to Loss
 
 The graph shows how the learning rate changes the whole game in neural network. 
