@@ -11,7 +11,7 @@ Create excel sheet showing backpropagation. Explain each major step with followi
 
 ## Solution
 [![Excel](https://shields.io/badge/-Download-217346?logo=microsoft-excel&style=flat)](https://github.com/pankaj90382/END-1.0/raw/main/S2/NN_Design.xlsx)
-### Loss vs Iteration Graph with respect to Loss
+### Loss vs Iteration Graph with respect to Learning Rate
 
 The graph shows how the learning rate changes the whole game in neural network. 
 1.  When the **learning rate is 0.1** the overall loss decreases slowly compared to other learning rates. It needs high number of epochs to reach the accuracy. 
