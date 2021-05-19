@@ -68,8 +68,8 @@ a<sub>o2</sub> = &sigma;(o<sub>2</sub>) <br><br>
 
 
 
-E<sub>1</sub> = (1/2) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>  <br>
-E<sub>2</sub> = (1/2) *(t<sub>2</sub>-a<sub>o2</sub>)<sup>2</sup>  <br>
+E<sub>1</sub> = (1&frasl;2) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>  <br>
+E<sub>2</sub> = (1&frasl;2) *(t<sub>2</sub>-a<sub>o2</sub>)<sup>2</sup>  <br>
 
 
 Where
@@ -82,7 +82,7 @@ Now we can start to compute the partial derivatives w.r.t to the weights, and al
 
 We didn't consider E2 above, because it does no contribution to w<sub>5</sub>
 
-&part;E<sub>1</sub>/&part;a<sub>o1</sub> = &nbsp;&part;((1/2) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>)/&part;a<sub>o1</sub> = a<sub>o1</sub> - t<sub>1</sub>
+&part;E<sub>1</sub>/&part;a<sub>o1</sub> = &nbsp;&part;((1&frasl;2) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>)/&part;a<sub>o1</sub> = a<sub>o1</sub> - t<sub>1</sub>
 
 &part;a<sub>o1</sub>/&part;o<sub>1</sub> = &nbsp;&part;&sigma;(o<sub>1</sub>)/&part;o<sub>1</sub> = &nbsp;&sigma;(o<sub>1</sub>)(1-&sigma;(o<sub>1</sub>) = a<sub>o1</sub>*(1-a<sub>o1</sub>)<br>
 
