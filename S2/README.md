@@ -32,11 +32,12 @@ That's interesting to look how the total loss values rapidly dimnishes with cons
 
 To train above neural network model, there are two most basic things which are loss and learning rate. To decrease the loss, one popular method used is gradient descent because it creates concave loss function graph, it's best possible to chance to avoid local minima. The gradient loss function can be defined by
 
-<h3 align="center"> w<sub>i</sub><sup>new</sup> = w<sub>i</sub><sup>old</sup> - (learning_rate * &part;E<sub>total</sub>/&part;w<sub>i</sub>) </h3>
+<h3 align="center"> w<sub>i</sub><sup>new</sup> = w<sub>i</sub><sup>old</sup> - (&eta; * &part;E<sub>total</sub>/&part;w<sub>i</sub>) </h3>
 
 where
 *  w<sub>i</sub><sup>new</sup> = new weights
 *  w<sub>i</sub><sup>old</sup> = old weights
+*  &eta; = learning rate
 *  &part;E<sub>total</sub>/&part;w<sub>i</sub> = error total with respect to weights.
 
 Now we have weights W = [w<sub>1</sub>, w<sub>2</sub>, w<sub>2</sub>, w<sub>3</sub>, w<sub>4</sub>, w<sub>5</sub>, w<sub>6</sub>, w<sub>7</sub>, w<sub>8</sub>] are the weights used
@@ -68,8 +69,8 @@ a<sub>o2</sub> = &sigma;(o<sub>2</sub>) <br><br>
 
 
 
-E<sub>1</sub> = (1&frasl;2) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>  <br>
-E<sub>2</sub> = (1&frasl;2) *(t<sub>2</sub>-a<sub>o2</sub>)<sup>2</sup>  <br>
+E<sub>1</sub> = (&frac12;) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>  <br>
+E<sub>2</sub> = (&frac12;) *(t<sub>2</sub>-a<sub>o2</sub>)<sup>2</sup>  <br>
 
 
 Where
@@ -82,7 +83,7 @@ Now we can start to compute the partial derivatives w.r.t to the weights, and al
 
 We didn't consider E2 above, because it does no contribution to w<sub>5</sub>
 
-&part;E<sub>1</sub>/&part;a<sub>o1</sub> = &nbsp;&part;((1&frasl;2) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>)/&part;a<sub>o1</sub> = a<sub>o1</sub> - t<sub>1</sub>
+&part;E<sub>1</sub>/&part;a<sub>o1</sub> = &nbsp;&part;((&frac12;) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>)/&part;a<sub>o1</sub> = a<sub>o1</sub> - t<sub>1</sub>
 
 &part;a<sub>o1</sub>/&part;o<sub>1</sub> = &nbsp;&part;&sigma;(o<sub>1</sub>)/&part;o<sub>1</sub> = &nbsp;&sigma;(o<sub>1</sub>)(1-&sigma;(o<sub>1</sub>) = a<sub>o1</sub>*(1-a<sub>o1</sub>)<br>
 
