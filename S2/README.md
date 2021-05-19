@@ -32,71 +32,85 @@ That's interesting to look how the total loss values rapidly dimnishes with cons
 
 To train above neural network model, there are two most basic things which are loss and learning rate. To decrease the loss, one popular method used is gradient descent because it creates concave loss function graph, it's best possible to chance to avoid local minima. The gradient loss function can be defined by
 
-$$W_{new}=W_{old}-\eta\nabla{E_{total}}$$
+<h3 align="center"> w<sub>i</sub><sup>new</sup> = w<sub>i</sub><sup>old</sup> - (learning_rate * &part;E<sub>total</sub>/&part;w<sub>i</sub>) </h3>
 
 where
+*  w<sub>i</sub><sup>new</sup> = new weights
+*  w<sub>i</sub><sup>old</sup> = old weights
+*  &part;E<sub>total</sub>/&part;w<sub>i</sub> = error total with respect to weights.
 
-$$W_{new} = \text{new weights} \\ W_{old}= \text{old weights} \\ \eta = \text{learning rate} \\ E_{total} = \text{error total}$$
-
-Now we have weights $$W = \lbrack w_1, w_2, w_3, w_4, w_5, w_6, w_7, w_8 \rbrack$$
+Now we have weights W = [w<sub>1</sub>, w<sub>2</sub>, w<sub>2</sub>, w<sub>3</sub>, w<sub>4</sub>, w<sub>5</sub>, w<sub>6</sub>, w<sub>7</sub>, w<sub>8</sub>] are the weights used
 
 and
 
-$$\nabla E_{total} = \nabla E_t = \lbrack \frac{\partial E_t}{\partial w_1}, \frac{\partial E_t}{\partial w_2}, \frac{\partial E_t}{\partial w_3}, \frac{\partial E_t}{\partial w_4}, \frac{\partial E_t}{\partial w_5}, \frac{\partial E_t}{\partial w_6}, \frac{\partial E_t}{\partial w_7}, \frac{\partial E_t}{\partial w_8} \rbrack$$
+&part;E<sub>total</sub>/&part;w<sub>i</sub> = [ &part;E<sub>total</sub>/&part;w<sub>1</sub>, &part;E<sub>total</sub>/&part;w<sub>2</sub>, &part;E<sub>total</sub>/&part;w<sub>3</sub>, &part;E<sub>total</sub>/&part;w<sub>4</sub>, &part;E<sub>total</sub>/&part;w<sub>5</sub>, &part;E<sub>total</sub>/&part;w<sub>6</sub>, &part;E<sub>total</sub>/&part;w<sub>7</sub>, &part;E<sub>total</sub>/&part;w<sub>8</sub>]
 
 Now see carefully, the below equations, along with our network diagram above somewhere, very important!
 
-$$h_1=w_1 i_i+w2 i_2 \\ h_2=w_3i_1+w4i_2 $$
+h<sub>1</sub> = w<sub>1</sub>*i<sub>1</sub> + w<sub>2</sub>*i<sub>2</sub> <br>
 
-$$
-a_{h1} = \sigma({h_1}) \\  a_{h2} = \sigma({h_2})
-$$
+h<sub>2</sub> = w<sub>3</sub>*i<sub>1</sub> + w<sub>4</sub>*i<sub>2</sub> <br><br>
 
-$$
-o_1 = w_5a_{h_1}+w_6a_{h_2} \\ o_2 = w_7a_{h_1}+w_8a_{h_2}
-$$
+a<sub>h1</sub> = &sigma;(h<sub>1</sub>) <br>
 
-$$
-a_{o_1} = \sigma(o_1) \\ a_{o_2} = \sigma(o_2)
-$$
+a<sub>h2</sub> = &sigma;(h<sub>2</sub>) <br><br>
 
-$$
-E_1=\frac{1}{2}(t_1-a_{o_1})^2 \\ .\\ E_2=\frac{1}{2}(t_2-a_{o_1})^2
-$$
 
-Where $$[i_1, i_2] \text{ and }[t_1, t_2]$$ are the inputs and target outputs respectively
+o<sub>1</sub> = w<sub>5</sub>*a<sub>h1</sub> + w<sub>6</sub>*a<sub>h2</sub> <br>
+
+o<sub>2</sub> = w<sub>7</sub>*a<sub>h1</sub> + w<sub>8</sub>*a<sub>h2</sub> <br>
+
+
+
+a<sub>o1</sub> = &sigma;(o<sub>1</sub>) <br>
+
+a<sub>o2</sub> = &sigma;(o<sub>2</sub>) <br><br>
+
+
+
+E<sub>1</sub> = (1/2) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>  <br>
+E<sub>2</sub> = (1/2) *(t<sub>2</sub>-a<sub>o2</sub>)<sup>2</sup>  <br>
+
+
+Where
+        [i<sub>1</sub>, i<sub>2</sub>] and [t<sub>1</sub>, t<sub>2</sub>] are the inputs and target outputs respectively
 
 Now we can start to compute the partial derivatives w.r.t to the weights, and also remember to use chain rule wherever applicable and necessary.
 
-$$\frac{\partial E_t}{\partial w_5} = \frac{\partial E_1}{\partial w_5} = \frac{\partial E_1}{\partial a_{o_1}} \frac{\partial a_{o_1}}{\partial o_1} \frac{\partial o_1}{\partial w_5}$$
+&part;E<sub>total</sub>/&part;w<sub>5</sub> = &nbsp;&part;E<sub>1</sub>/&part;w<sub>5</sub>&nbsp;
+=  &nbsp;&part;E<sub>1</sub>/&part;a<sub>o1</sub> * &part;a<sub>o1</sub>/&part;o<sub>1</sub> *  &part;o<sub>1</sub>/&part;w<sub>5</sub>  <br>
 
-We didn't consider E2 above, because it does no contribution to w5
+We didn't consider E2 above, because it does no contribution to w<sub>5</sub>
 
-$$\frac{\partial E_1}{\partial a_{o_1}}  = \frac{\partial \frac{1}{2}(t_1-a_{o_1})^2}{\partial a_{o_1}}  = a_{o_1}-t_1$$
+&part;E<sub>1</sub>/&part;a<sub>o1</sub> = &nbsp;&part;((1/2) *(t<sub>1</sub>-a<sub>o1</sub>)<sup>2</sup>)/&part;a<sub>o1</sub> = a<sub>o1</sub> - t<sub>1</sub>
 
-$$\frac{\partial a_{o_1}}{\partial o_1}=\frac{\partial \sigma{(o_1)} }{\partial o_1} = \sigma(o_1)(1-\sigma(o_1)) = (a_{o_1})(1-a_{o_1})$$
+&part;a<sub>o1</sub>/&part;o<sub>1</sub> = &nbsp;&part;&sigma;(o<sub>1</sub>)/&part;o<sub>1</sub> = &nbsp;&sigma;(o<sub>1</sub>)(1-&sigma;(o<sub>1</sub>) = a<sub>o1</sub>*(1-a<sub>o1</sub>)<br>
 
-and
-$$\frac{\partial o_1}{\partial w_5} = a-o_1$$
+and <br>
+
+&part;o<sub>1</sub>/&part;w<sub>5</sub> = a<sub>h1</sub> <br>
 
 similarly we can complete it for other weights in the last hidden layer
 
-$$\frac{\partial E_t}{\partial w_5} = (a_{o_1}-t_1)(a_{o_1})(1-a_{o_1})a_{h_{1}}$$
-$$\frac{\partial E_t}{\partial w_6} = (a_{o_1}-t_1)(a_{o_1})(1-a_{o_1})a_{h_{2}}$$
-$$\frac{\partial E_t}{\partial w_7} = (a_{o_2}-t_2)(a_{o_2})(1-a_{o_2})a_{h_{1}}$$
-$$\frac{\partial E_t}{\partial w_8} = (a_{o_2}-t_2)(a_{o_2})(1-a_{o_2})a_{h_{2}}$$
+&part;E<sub>total</sub>/&part;w<sub>5</sub> =  (a<sub>o1</sub>-t<sub>1</sub>) * a<sub>o1</sub>*(1-a<sub>o1</sub>) * a<sub>h1</sub> <br>
+&part;E<sub>total</sub>/&part;w<sub>6</sub> =  (a<sub>o1</sub>-t<sub>1</sub>) * a<sub>o1</sub>*(1-a<sub>o1</sub>) * a<sub>h2</sub> <br>
+&part;E<sub>total</sub>/&part;w<sub>7</sub> =  (a<sub>o2</sub>-t<sub>2</sub>) * a<sub>o2</sub>*(1-a<sub>o2</sub>) * a<sub>h1</sub> <br>
+&part;E<sub>total</sub>/&part;w<sub>8</sub> =  (a<sub>o2</sub>-t<sub>2</sub>) * a<sub>o2</sub>*(1-a<sub>o2</sub>) * a<sub>h2</sub> <br>
 
 Now coming to the first hidden layer weights
 
-$$\frac{\partial E_t}{\partial w_1}  = \frac{\partial E_t}{\partial a_{o_1}} \frac{\partial a_{o_1}}{\partial o_1 } \frac{\partial o_1}{\partial a_{h_1}} \frac{\partial a_{h_1}}{\partial h_1} \frac{\partial{h_1}}{\partial{w_1}}$$
+&part;E<sub>total</sub>/&part;w<sub>1</sub> = &part;E<sub>total</sub>/&part;a<sub>o1</sub> * &part;a<sub>o1</sub>/&part;o<sub>1</sub> * &part;o<sub>1</sub>/&part;a<sub>h1</sub> *  &part;a<sub>h1</sub>/&part;h<sub>1</sub> *  &part;h<sub>1</sub>/&part;w<sub>1</sub> <br>
 
 Seen this somewhere, right, we did this before
 
-$$\frac{\partial E_t}{\partial a_{o_1}} \frac{\partial a_{o_1}}{\partial o_1 } \frac{\partial o_1}{\partial a_{h_1}} = \frac{\partial (E_1+E_2)}{\partial a_{h_1}}= \frac{\partial E_1}{\partial a_{h_1}}  \frac{\partial E_2}{\partial a_{h_1}} \\ . \\ = (a_{o_1}-t_1)(a_{o_1})(1-a_{o_1})w_5 \\ + (a_{o_2}-t_2)(a_{o_2})(1-a_{o_2})w_7$$
+&part;E<sub>total</sub>/&part;a<sub>o1</sub> * &part;a<sub>o1</sub>/&part;o<sub>1</sub> *  &part;o<sub>1</sub>/&part;a<sub>h1</sub>
+ =  &part;(E<sub>1</sub> + E<sub>2</sub>)/&part;a<sub>h1</sub> =  &nbsp; &part;E<sub>1</sub>/&part;a<sub>h1</sub> * &part;E<sub>2</sub>/&part;a<sub>h1</sub> = &nbsp;((a<sub>o1</sub>-t<sub>1</sub>) * a<sub>o1</sub>*(1-a<sub>o1</sub>) * w<sub>5</sub> + (a<sub>o2</sub>-t<sub>2</sub>) * a<sub>o2</sub>*(1-a<sub>o2</sub>) * w<sub>7</sub>)
 
 Now we can compute all the gradient of the first layer
 
-$$\frac{\partial E_t}{\partial w_1} = \frac{\partial E_t}{\partial a_{h_1}} (a-h_1)(1-a_{h_1})i_1$$
-$$\frac{\partial E_t}{\partial w_2} = \frac{\partial E_t}{\partial a_{h_1}} (a-h_1)(1-a_{h_1})i_2$$
-$$\frac{\partial E_t}{\partial w_3} = \frac{\partial E_t}{\partial a_{h_2}} (a-h_2)(1-a_{h_2})i_1$$
-$$\frac{\partial E_t}{\partial w_4} = \frac{\partial E_t}{\partial a_{h_2}} (a-h_2)(1-a_{h_2})i_2$$
+&part;E<sub>total</sub>/&part;w<sub>1</sub> = &nbsp; &part;E<sub>total</sub>/&part;a<sub>h1</sub> * a<sub>h1</sub>*(1-a<sub>h1</sub>) * i<sub>1</sub> = &nbsp;((a<sub>o1</sub>-t<sub>1</sub>) * a<sub>o1</sub>*(1-a<sub>o1</sub>) * w<sub>5</sub> + (a<sub>o2</sub>-t<sub>2</sub>) * a<sub>o2</sub>*(1-a<sub>o2</sub>) * w<sub>7</sub>) * a<sub>h1</sub>*(1-a<sub>h1</sub>) * i<sub>1</sub> <br>
+ &part;E<sub>total</sub>/&part;w<sub>2</sub> = &nbsp; &part;E<sub>total</sub>/&part;a<sub>h1</sub> * a<sub>h1</sub>*(1-a<sub>h1</sub>) * i<sub>2</sub> = &nbsp;((a<sub>o1</sub>-t<sub>1</sub>) * a<sub>o1</sub>*(1-a<sub>o1</sub>) * w<sub>5</sub> + (a<sub>o2</sub>-t<sub>2</sub>) &nbsp;* a<sub>o2</sub>*(1-a<sub>o2</sub>) * w<sub>7</sub>) * a<sub>h1</sub>*(1-a<sub>h1</sub>) * i<sub>2</sub> <br>
+ &part;E<sub>total</sub>/&part;w<sub>3</sub> = &nbsp; &part;E<sub>total</sub>/&part;a<sub>h2</sub> * a<sub>h2</sub>*(1-a<sub>h2</sub>) * i<sub>1</sub> = &nbsp;((a<sub>o1</sub>-t<sub>1</sub>) * a<sub>o1</sub>*(1-a<sub>o1</sub>) * w<sub>6</sub> + (a<sub>o2</sub>-t<sub>2</sub>) &nbsp;* a<sub>o2</sub>*(1-a<sub>o2</sub>) * w<sub>8</sub>) * a<sub>h2</sub>*(1-a<sub>h2</sub>) * i<sub>1</sub> <br>
+ &part;E<sub>total</sub>/&part;w<sub>4</sub> = &nbsp; &part;E<sub>total</sub>/&part;a<sub>h2</sub> * a<sub>h2</sub>*(1-a<sub>h2</sub>) * i<sub>2</sub> = &nbsp;((a<sub>o1</sub>-t<sub>1</sub>) * a<sub>o1</sub>*(1-a<sub>o1</sub>) * w<sub>6</sub> + (a<sub>o2</sub>-t<sub>2</sub>) * a<sub>o2</sub>*(1-a<sub>o2</sub>) * w<sub>8</sub>) * a<sub>h2</sub>*(1-a<sub>h2</sub>) * i<sub>2</sub>
+ 
+ 
