@@ -10,7 +10,7 @@
 
 ### Rerun the solution
 
-The rnn solution of Sentiment Analysis. Accuracy is not as good as LSTM and performed poor performance.
+The rnn solution of Sentiment Analysis. Accuracy is not as good as LSTM and have poor performance.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S4/END2%20Session%204.ipynb)
 
@@ -187,7 +187,6 @@ Epoch: 30 | Epoch Time: 0m 34s
 | Text | Preictive Probability | Label |
 |-----------|-----------| ----------- |
 | This film is terrible | 0.001283382996916771  | Negative |
-|-----------|-----------| ----------- |
 | This film is great | 0.9960214495658875  | Postive |
 
 
