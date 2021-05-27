@@ -1,4 +1,4 @@
-# Session 3 - RNN & LSTM
+# Session 4 - RNN & LSTM
 
 ## Objective
 
