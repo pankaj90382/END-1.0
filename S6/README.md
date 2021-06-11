@@ -14,6 +14,14 @@
     
 ## Solution
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S6/LSTM_Tweets.ipynb)
+
+### Approach
+
+
+### Model
+
+#### Encoder
+
 ```python
 class Encoder(nn.Module):
   def __init__(self, input_size, hidden_size):
@@ -28,6 +36,8 @@ class Encoder(nn.Module):
           plt.show()
       return hidden_state, cell_state
 ```
+
+#### Decoder
 
 ```python
 class Decoder(nn.Module):
@@ -44,6 +54,8 @@ class Decoder(nn.Module):
         plt.show()
     return hidden_state, cell
 ```
+
+#### Common Class
 
 ```python
 class classifier(nn.Module):
@@ -104,7 +116,7 @@ class classifier(nn.Module):
         return output
 ```
 
-
+### Model Training
 ```
 Train Loss: 0.957 | Train Acc: 61.95%
 	 Val. Loss: 0.893 |  Val. Acc: 65.37% 
@@ -137,7 +149,10 @@ Train Loss: 0.957 | Train Acc: 61.95%
 	 Val. Loss: 0.800 |  Val. Acc: 75.61% 
   
   ```
-  
+### Results
+
+#### Correctly-Classified Tweets
+
 ```
 Input:- Obama has called the GOP budget social Darwinism. Nice try, but they believe in social creationism.
 Predicted Label:-  Positive
@@ -189,6 +204,7 @@ Predicted Label:-  Positive
 Actual Label:-  Positive
 ```
 
+#### Miss Correct Classified Tweets
 
 ```
 Input:- one Chicago kid who says "Obama is my man" tells Jesse Watters that the gun violence in Chicago is like "World War 17"
@@ -241,7 +257,12 @@ Predicted Label:-  Negative
 Actual Label:-  Neutral
 ```
 
+### Correctly Classified Encoding and Decoding States
+
 ![Correctly Classified States](./Saved_Data/Correctly_Classified_States.png)
+
+### Miss-Correct Classified Encoding and Decoding States
+
 ![Mis Classified States](./Saved_Data/Miss-Classified_States.png)
 
 ## Refrences
