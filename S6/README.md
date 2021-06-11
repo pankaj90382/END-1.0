@@ -17,10 +17,21 @@
 
 ### Approach
 
+#### LSTM vs LSTM Cell
+
+LSTM is developed for easy use, but LSTMCell is developed for more delicate manipulation. They look quite similar in terms of parameters and outputs, but are different in many ways.First of all, you should be sure to know that LSTM assumes multiple steps of pre-defined length, which is different from LSTMCell’s single time step assumption. LSTMCell is useful when we do teacher forcing study or generate sequences based on the input at a current time step and the output of LSTM network at the previous time step.
+
+![LSTM.png]
+[]esource](https://medium.com/@kion.kim/lstm-vs-lstmcell-and-others-on-gluon-aac33f7b54ea)
+
+In simple terms, the LSTM Cell provides two outputs for single time step. From any documentation they are written like this (hh,cc). The **CC** is Cell State or Context Vector whereas **hh** is known for h<sub>t</sub> as shown in fig. The inputs requires as **input_size, hidden_size** for the LSTM cell. The **input_size** of shape (batch, input) and **hidden_size**  consists of intial cell state and hidden state. Both having the size of (batch, hidden_size). Let's say our batch_size is 1 and embeding has 100 dimensions output, then the setntence *Obama has called the GOP budget social Darwinism. Nice try, but they believe in social creationism.* contains 19 vocabs (Words + special characters). Each of it becomes the size of 100 vector which will pass through the LSTM Cell. We need a loop to perform the time steps for a complete sentence. LSTM consists of all these things, so single line of instruction would do the work. I am using the LSTM Cell to perform the tweets analysis as the dataset is too small and single LSTM cell easily overfit this data.   
 
 ### Model
 
+The model consists of three parts and follows the encoder-decoder architecture.
 #### Encoder
+
+The input_size is the embedding dimension. The hidden_size is a combination of cell_state (context vector) and hidden_state (h<sub>t</sub>). The seaborn plot the heatmap for each hidden state.
 
 ```python
 class Encoder(nn.Module):
@@ -39,6 +50,8 @@ class Encoder(nn.Module):
 
 #### Decoder
 
+The input_size is the projecting dimension the same size as it comes from the encoder_single_vector. The hidden_size is a combination of cell_state (context vector) and hidden_state (h<sub>t</sub>) as the last output of hidden_state and cell_state from the encoder directly. The steps can be choosen according to the convience of user. I have choosed 3 as i have to predict the three classes as output. However, there is no correleation between these as user free to choose according to his/her own convience. The seaborn plot the heatmap for each hidden state.
+
 ```python
 class Decoder(nn.Module):
   def __init__(self, emb_size, hidden_size):
@@ -56,6 +69,7 @@ class Decoder(nn.Module):
 ```
 
 #### Common Class
+The embedding layer, encoder and decoder fully connected layer to convert to single vector, and final fully connected layter to predict the number of classes. In Last, the softmax to increase the value of prediction by exponentially lowering others. Used the fully connected layer on hidden_state to form into single vector with projection dimension as 16.
 
 ```python
 class classifier(nn.Module):
@@ -117,6 +131,7 @@ class classifier(nn.Module):
 ```
 
 ### Model Training
+
 ```
 Train Loss: 0.957 | Train Acc: 61.95%
 	 Val. Loss: 0.893 |  Val. Acc: 65.37% 
@@ -151,7 +166,9 @@ Train Loss: 0.957 | Train Acc: 61.95%
   ```
 ### Results
 
+
 #### Correctly-Classified Tweets
+
 
 ```
 Input:- Obama has called the GOP budget social Darwinism. Nice try, but they believe in social creationism.
@@ -205,6 +222,7 @@ Actual Label:-  Positive
 ```
 
 #### Miss Correct Classified Tweets
+
 
 ```
 Input:- one Chicago kid who says "Obama is my man" tells Jesse Watters that the gun violence in Chicago is like "World War 17"
