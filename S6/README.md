@@ -21,8 +21,8 @@
 
 LSTM is developed for easy use, but LSTMCell is developed for more delicate manipulation. They look quite similar in terms of parameters and outputs, but are different in many ways.First of all, you should be sure to know that LSTM assumes multiple steps of pre-defined length, which is different from LSTMCell’s single time step assumption. LSTMCell is useful when we do teacher forcing study or generate sequences based on the input at a current time step and the output of LSTM network at the previous time step.
 
-![LSTM.png]
-[]esource](https://medium.com/@kion.kim/lstm-vs-lstmcell-and-others-on-gluon-aac33f7b54ea)
+![LSTM vs LSTM Cell](./LSTM.png)
+[resource](https://medium.com/@kion.kim/lstm-vs-lstmcell-and-others-on-gluon-aac33f7b54ea)
 
 In simple terms, the LSTM Cell provides two outputs for single time step. From any documentation they are written like this (hh,cc). The **CC** is Cell State or Context Vector whereas **hh** is known for h<sub>t</sub> as shown in fig. The inputs requires as **input_size, hidden_size** for the LSTM cell. The **input_size** of shape (batch, input) and **hidden_size**  consists of intial cell state and hidden state. Both having the size of (batch, hidden_size). Let's say our batch_size is 1 and embeding has 100 dimensions output, then the setntence *Obama has called the GOP budget social Darwinism. Nice try, but they believe in social creationism.* contains 19 vocabs (Words + special characters). Each of it becomes the size of 100 vector which will pass through the LSTM Cell. We need a loop to perform the time steps for a complete sentence. LSTM consists of all these things, so single line of instruction would do the work. I am using the LSTM Cell to perform the tweets analysis as the dataset is too small and single LSTM cell easily overfit this data.   
 
