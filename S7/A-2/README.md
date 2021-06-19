@@ -281,5 +281,135 @@ Data set contains 6 columns out of which question1,question2 and is_duplicate fi
         Number of training examples: 104484
         Number of testing examples: 44779
     ```
-  
- 
+**6.  Examples**
+
+-   Multi30 Dataset
+
+    ```python
+
+    print(vars(train_data.examples[0]))
+    {'src': ['.', 'büsche', 'vieler', 'nähe', 'der', 'in', 'freien', 'im', 'sind', 'männer', 'weiße', 'junge', 'zwei'], 'trg': ['two', 'young', ',', 'white', 'males', 'are', 'outside', 'near', 'many', 'bushes', '.']}
+    ```
+-   Wikipedia Question/Answer Pairs
+
+    ```python
+        print(vars(train_data.examples[0]))
+        {'questions': ['what', 'was', 'the', 'faraday', 'effect', 'first', 'called', '?'], 'answers': ['diamagnetism']}
+        print(vars(test_data.examples[0]))
+        {'questions': ['where', 'is', 'the', 'most', 'densely', 'populated', 'part', 'of', 'canada', '?'], 'answers': ['the', 'most', 'densely', 'populated', 'part', 'of', 'the', 'country', 'is', 'the', 'quebec', 'city', '-', 'windsor', 'corridor', 'along', 'the', 'great', 'lakes', 'and', 'saint', 'lawrence', 'river', 'in', 'the', 'southeast', '.']}
+    ```
+
+-   Quora Dataset Release: Question Pairs
+
+    ```python
+        print(vars(train_data.examples[0]))
+        {'question1': ['what', 'are', 'the', 'most', 'intellectually', 'stimulating', 'movies', 'you', 'have', 'ever', 'seen', '?'], 'question2': ['what', 'are', 'the', 'most', 'intellectually', 'stimulating', 'films', 'you', 'have', 'ever', 'watched', '?']}
+        print(vars(test_data.examples[0]))
+
+        {'question1': ['can', 'my', 'girlfriend', 'track', 'my', 'phone', 'through', 'google', 'if', 'we', 'have', 'same', 'google', 'account', '?'], 'question2': ['can', 'my', 'girl', 'friend', 'track', 'my', 'phone', 'and', 'read', 'my', 'text', 'messages', 'if', 'we', 'have', 'the', 'same', 'google', 'acount']}
+    ```
+
+## Logs
+
+-   Multi30 Dataset
+
+    ```
+    Epoch: 01 | Time: 0m 37s
+        Train Loss: 5.050 | Train PPL: 156.032
+         Val. Loss: 5.009 |  Val. PPL: 149.738
+    Epoch: 02 | Time: 0m 38s
+        Train Loss: 4.500 | Train PPL:  90.013
+         Val. Loss: 4.871 |  Val. PPL: 130.418
+    Epoch: 03 | Time: 0m 38s
+        Train Loss: 4.205 | Train PPL:  67.024
+         Val. Loss: 4.600 |  Val. PPL:  99.458
+    Epoch: 04 | Time: 0m 38s
+        Train Loss: 4.004 | Train PPL:  54.837
+         Val. Loss: 4.545 |  Val. PPL:  94.184
+    Epoch: 05 | Time: 0m 37s
+        Train Loss: 3.850 | Train PPL:  46.975
+         Val. Loss: 4.425 |  Val. PPL:  83.531
+    Epoch: 06 | Time: 0m 38s
+        Train Loss: 3.727 | Train PPL:  41.538
+         Val. Loss: 4.341 |  Val. PPL:  76.754
+    Epoch: 07 | Time: 0m 37s
+        Train Loss: 3.599 | Train PPL:  36.571
+         Val. Loss: 4.235 |  Val. PPL:  69.068
+    Epoch: 08 | Time: 0m 37s
+        Train Loss: 3.452 | Train PPL:  31.573
+         Val. Loss: 4.115 |  Val. PPL:  61.281
+    Epoch: 09 | Time: 0m 38s
+        Train Loss: 3.310 | Train PPL:  27.385
+         Val. Loss: 4.026 |  Val. PPL:  56.035
+    Epoch: 10 | Time: 0m 38s
+        Train Loss: 3.217 | Train PPL:  24.960
+         Val. Loss: 3.974 |  Val. PPL:  53.217
+    ```
+
+-   Wikipedia Question/Answer Pairs
+    ```
+     Epoch: 01 | Time: 0m 2s
+        Train Loss: 5.183 | Train PPL: 178.164
+         Val. Loss: 3.600 |  Val. PPL:  36.602
+    Epoch: 02 | Time: 0m 2s
+        Train Loss: 4.406 | Train PPL:  81.964
+         Val. Loss: 3.614 |  Val. PPL:  37.101
+    Epoch: 03 | Time: 0m 2s
+        Train Loss: 4.324 | Train PPL:  75.460
+         Val. Loss: 3.514 |  Val. PPL:  33.595
+    Epoch: 04 | Time: 0m 2s
+        Train Loss: 4.246 | Train PPL:  69.828
+         Val. Loss: 3.491 |  Val. PPL:  32.818
+    Epoch: 05 | Time: 0m 2s
+        Train Loss: 4.182 | Train PPL:  65.481
+         Val. Loss: 3.457 |  Val. PPL:  31.710
+    Epoch: 06 | Time: 0m 2s
+        Train Loss: 4.081 | Train PPL:  59.220
+         Val. Loss: 3.452 |  Val. PPL:  31.548
+    Epoch: 07 | Time: 0m 2s
+        Train Loss: 4.011 | Train PPL:  55.197
+         Val. Loss: 3.649 |  Val. PPL:  38.448
+    Epoch: 08 | Time: 0m 2s
+        Train Loss: 3.959 | Train PPL:  52.417
+         Val. Loss: 3.366 |  Val. PPL:  28.961
+    Epoch: 09 | Time: 0m 2s
+        Train Loss: 3.925 | Train PPL:  50.656
+         Val. Loss: 3.393 |  Val. PPL:  29.755
+    Epoch: 10 | Time: 0m 2s
+        Train Loss: 3.881 | Train PPL:  48.491
+         Val. Loss: 3.409 |  Val. PPL:  30.246
+    ```
+    
+-   Quora Dataset Release: Question Pairs
+    ```
+    Epoch: 01 | Time: 4m 16s
+        Train Loss: 4.820 | Train PPL: 123.977
+         Val. Loss: 4.673 |  Val. PPL: 106.980
+    Epoch: 02 | Time: 4m 17s
+        Train Loss: 3.830 | Train PPL:  46.043
+         Val. Loss: 4.163 |  Val. PPL:  64.232
+    Epoch: 03 | Time: 4m 17s
+        Train Loss: 3.293 | Train PPL:  26.912
+         Val. Loss: 3.874 |  Val. PPL:  48.157
+    Epoch: 04 | Time: 4m 18s
+        Train Loss: 2.970 | Train PPL:  19.499
+         Val. Loss: 3.765 |  Val. PPL:  43.184
+    Epoch: 05 | Time: 4m 20s
+        Train Loss: 2.726 | Train PPL:  15.278
+         Val. Loss: 3.664 |  Val. PPL:  39.021
+    Epoch: 06 | Time: 4m 19s
+        Train Loss: 2.542 | Train PPL:  12.705
+         Val. Loss: 3.625 |  Val. PPL:  37.537
+    Epoch: 07 | Time: 4m 17s
+        Train Loss: 2.405 | Train PPL:  11.076
+         Val. Loss: 3.620 |  Val. PPL:  37.348
+    Epoch: 08 | Time: 4m 16s
+        Train Loss: 2.298 | Train PPL:   9.957
+         Val. Loss: 3.566 |  Val. PPL:  35.364
+    Epoch: 09 | Time: 4m 17s
+        Train Loss: 2.193 | Train PPL:   8.963
+         Val. Loss: 3.570 |  Val. PPL:  35.524
+    Epoch: 10 | Time: 4m 16s
+        Train Loss: 2.118 | Train PPL:   8.318
+         Val. Loss: 3.574 |  Val. PPL:  35.665
+    ```
