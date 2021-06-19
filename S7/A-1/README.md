@@ -18,7 +18,7 @@ Before I pass our embeddings to the RNN, we need to pack them, which we do with 
 
 ### Cleanning the Dataset for better Accuracy
 
-The proper cleanning the Dataset helps to join the setentences with phrases more accurately.
+The proper cleanning the Dataset helps to join/merge the setentences with phrases more accurately.
 
 ```python
 def clean_data(x):
@@ -65,6 +65,7 @@ def clean_data(x):
 ```
 ### Dataset Prepration
 
+Series of operation to get correct data to perform the analysis on Stanford Sentimental Data.
 ```python
 def get_phrase_sentiments(base_directory):
     def group_labels(label):
@@ -120,6 +121,8 @@ for splitset, partition in partition(base_directory):
 ```
 ### Data Cleanning
 
+There are 3 and 1 null values respectiveley in the train data and Dev Data. I have dropped those records from the respective dataframes.
+
 ```python
 print("The Total null values in Train Data:- ",train_data['fine'].isnull().sum())
 print("The Total null values in Test Data:- ",test_data['fine'].isnull().sum())
@@ -146,11 +149,15 @@ The Total null values in Dev Data:-  0
 ```
 ### All in one
 
+Appending the all dataframe into single dataframe.
+
 ```python
 train_data = train_data.append(test_data, ignore_index=True)
 train_data = train_data.append(dev_data, ignore_index=True)
 ```
 ### Model Architecture
+
+Used Bidirectional LSTM follow with Linear Fully Connected layer and applied the batch normalisationa and Relu before predicting the final classes. Atlast applied the sigmoid to scale the values.
 
 ```python
 import torch.nn as nn
@@ -161,7 +168,7 @@ class classifier(nn.Module):
     # Define all the layers used in model
     def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim, n_layers, dropout, pad_idx):
         
-        super().__init__()          
+        super().__init__()          e
         
         # Embedding layer
         self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx = pad_idx)
@@ -202,8 +209,11 @@ class classifier(nn.Module):
         return output
   ```
 ### Logs  
+  
+  The Model is trained for 20 epochs.
+  
   ```
-  Train Loss: 1.579 | Train Acc: 28.53%
+         Train Loss: 1.579 | Train Acc: 28.53%
 	 Test Loss: 1.561 |  Test Acc: 31.62% 
 
 	Train Loss: 1.543 | Train Acc: 34.01%
