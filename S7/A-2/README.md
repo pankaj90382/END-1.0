@@ -267,19 +267,19 @@ Data set contains 6 columns out of which question1,question2 and is_duplicate fi
     ```
 -   Quora Dataset Release: Question Pairs
     
-   ```python
-    quora_duplicate_ques_examples = [data.Example.fromlist([str(quora_duplicate_ques_dataset.question1[i]),str(quora_duplicate_ques_dataset.question2[i])],fields) for i in           range(quora_duplicate_ques_dataset.shape[0])]
-    quora_duplicate_dataset= data.Dataset(quora_duplicate_ques_examples, fields)
-    (train_data, test_data) = quora_duplicate_dataset.split(split_ratio=[0.7,0.3], random_state=random.seed(SEED))
+    ```python
+        quora_duplicate_ques_examples = [data.Example.fromlist([str(quora_duplicate_ques_dataset.question1[i]),str(quora_duplicate_ques_dataset.question2[i])],fields) for i in           range(quora_duplicate_ques_dataset.shape[0])]
+        quora_duplicate_dataset= data.Dataset(quora_duplicate_ques_examples, fields)
+        (train_data, test_data) = quora_duplicate_dataset.split(split_ratio=[0.7,0.3], random_state=random.seed(SEED))
 
-    print(f"Toatal examples: {len(quora_duplicate_ques_examples)}")
-    print(f"Number of training examples: {len(train_data.examples)}")
-    # print(f"Number of validation examples: {len(valid_data.examples)}")
-    print(f"Number of testing examples: {len(test_data.examples)}")
+        print(f"Toatal examples: {len(quora_duplicate_ques_examples)}")
+        print(f"Number of training examples: {len(train_data.examples)}")
+        # print(f"Number of validation examples: {len(valid_data.examples)}")
+        print(f"Number of testing examples: {len(test_data.examples)}")
 
-    Toatal examples: 149263
-    Number of training examples: 104484
-    Number of testing examples: 44779
+        Toatal examples: 149263
+        Number of training examples: 104484
+        Number of testing examples: 44779
     ```
   
  
