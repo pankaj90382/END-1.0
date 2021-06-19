@@ -63,6 +63,7 @@ def clean_data(x):
   for keys in char_dict.keys():
     x = x.replace(keys, char_dict[keys])
 ```
+### Dataset Prepration
 
 ```python
 def get_phrase_sentiments(base_directory):
@@ -117,6 +118,7 @@ for splitset, partition in partition(base_directory):
     del partition["splitset_label"]
     partition.to_csv(filename)
 ```
+### Data Cleanning
 
 ```python
 print("The Total null values in Train Data:- ",train_data['fine'].isnull().sum())
@@ -142,11 +144,13 @@ The Total null values in Train Data:-  0
 The Total null values in Test Data:-  0
 The Total null values in Dev Data:-  0
 ```
+### All in one
 
 ```python
 train_data = train_data.append(test_data, ignore_index=True)
 train_data = train_data.append(dev_data, ignore_index=True)
 ```
+### Model Architecture
 
 ```python
 import torch.nn as nn
@@ -197,7 +201,7 @@ class classifier(nn.Module):
             
         return output
   ```
-  
+### Logs  
   ```
   Train Loss: 1.579 | Train Acc: 28.53%
 	 Test Loss: 1.561 |  Test Acc: 31.62% 
@@ -260,7 +264,7 @@ class classifier(nn.Module):
 	 Test Loss: 1.561 |  Test Acc: 32.79% 
 
   ```
-  
+### Correctly Classified  
   
 **Index**|**Unnamed: 0**|**sentence**|**id**|**phrase**|**sentiment**|**fine**|**coarse**|**Predicted\_Label**|**Flag**
 :-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:
@@ -276,7 +280,8 @@ class classifier(nn.Module):
 11853|7906|it seems to me the film is about the art of ri...|163906.0|it seems to me the film is about the art of ri...|0.29167|negative|negative|negative|1
 11857|7910|Schaeffer has to find some hook on which to ha...|148419.0|Schaeffer has to find some hook on which to ha...|0.27778|negative|negative|negative|1
 
-  
+### Mis-Classified
+
 **Index**|**Unnamed: 0**|**sentence**|**id**|**phrase**|**sentiment**|**fine**|**coarse**|**Predicted\_Label**|**Flag**
 :-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:
  0|0|The Rock is destined to be the 21st Century's ...|226166.0|The Rock is destined to be the 21st Century 's...|0.69444|positive|positive|negative|0
