@@ -46,105 +46,288 @@ Data set contains 6 columns out of which question1,question2 and is_duplicate fi
 
 ### Approach
 
-#### Download and Preprocess
+**1.  Download and Preprocess**
 
-##### Multi30 Dataset
+-   Multi30 Dataset
 
-Direct from torchtext
+    Direct from torchtext
 
-```python
-from torchtext.legacy.datasets import Multi30k
-```     
-##### Wikipedia Question/Answer Pairs
+    ```python
+    from torchtext.legacy.datasets import Multi30k
+    ```     
+ -   Wikipedia Question/Answer Pairs
 
-```python
-!wget http://www.cs.cmu.edu/~ark/QA-data/data/Question_Answer_Dataset_v1.2.tar.gz
+        ```python
+        !wget http://www.cs.cmu.edu/~ark/QA-data/data/Question_Answer_Dataset_v1.2.tar.gz
 
-! tar -xf /content/Question_Answer_Dataset_v1.2.tar.gz
+        ! tar -xf /content/Question_Answer_Dataset_v1.2.tar.gz
 
-import glob
+        import glob
 
-import pandas as pd
-
-
-QA_dataset_complete = pd.DataFrame()
-
-# get all .txt files from all subdirectories
-
-all_files = glob.glob('./Question_Answer_Dataset_v1.2/*/*.txt')
+        import pandas as pd
 
 
-for file in all_files:
+        QA_dataset_complete = pd.DataFrame()
 
-  QA_dataset = pd.read_csv(file, sep='\t', encoding= 'ISO-8859-1')
-                           #'unicode_escape',header=None,error_bad_lines=False,skiprows=[0])
-  print(f'Complete file path :{file} | Number of records or dimentions : {QA_dataset.shape}')
-  QA_dataset_complete=pd.concat([QA_dataset_complete,QA_dataset])
+        # get all .txt files from all subdirectories
 
-
-print(f'After combining all files total number of records or dimentions : {QA_dataset_complete.shape}')
-```  
-##### Quora Dataset Release: Question Pairs
+        all_files = glob.glob('./Question_Answer_Dataset_v1.2/*/*.txt')
 
 
-```python
+        for file in all_files:
 
-!wget http://qim.fs.quoracdn.net/quora_duplicate_questions.tsv
+          QA_dataset = pd.read_csv(file, sep='\t', encoding= 'ISO-8859-1')
+                                   #'unicode_escape',header=None,error_bad_lines=False,skiprows=[0])
+          print(f'Complete file path :{file} | Number of records or dimentions : {QA_dataset.shape}')
+          QA_dataset_complete=pd.concat([QA_dataset_complete,QA_dataset])
 
-import pandas as pd
 
-quora_duplicate_ques_dataset = pd.read_csv("/content/quora_duplicate_questions.tsv", sep='\t')
+        print(f'After combining all files total number of records or dimentions : {QA_dataset_complete.shape}')
+        ```  
+-   Quora Dataset Release: Question Pairs
 
-print(f' Total number of records or dimentions : {quora_duplicate_ques_dataset.shape}')
+    ```python
 
-quora_duplicate_ques_dataset = quora_duplicate_ques_dataset[quora_duplicate_ques_dataset['is_duplicate']==1]
+    !wget http://qim.fs.quoracdn.net/quora_duplicate_questions.tsv
 
-quora_duplicate_ques_dataset.reset_index(drop=True,  inplace=True)
-``` 
-#### Data Cleanning
+    import pandas as pd
 
-##### Multi30 Dataset
+    quora_duplicate_ques_dataset = pd.read_csv("/content/quora_duplicate_questions.tsv", sep='\t')
 
-There is no data cleanning required in Multi30k Dataset
+    print(f' Total number of records or dimentions : {quora_duplicate_ques_dataset.shape}')
 
-##### Wikipedia Question/Answer Pairs
+    quora_duplicate_ques_dataset = quora_duplicate_ques_dataset[quora_duplicate_ques_dataset['is_duplicate']==1]
 
-```python
+    quora_duplicate_ques_dataset.reset_index(drop=True,  inplace=True)
+    ``` 
+    
+**2.  Data Cleanning**
 
-QA_dataset_complete.isnull().sum()
-ArticleTitle                  0
-Question                     37
-Answer                      576
-DifficultyFromQuestioner    955
-DifficultyFromAnswerer      580
-ArticleFile                   2
-dtype: int64
+-   Multi30 Dataset
 
-QA_dataset_complete.dropna(subset=['Question','Answer'], inplace=True)
-QA_dataset_complete.shape
-(3422, 6)
+            There is no data cleanning required in Multi30k Dataset
 
-QA_dataset_complete.isnull().sum()
+-   Wikipedia Question/Answer Pairs
 
-ArticleTitle                  0
-Question                      0
-Answer                        0
-DifficultyFromQuestioner    688
-DifficultyFromAnswerer        5
-ArticleFile                   2
-dtype: int64
-```
+    ```python
 
-##### Quora Dataset Release: Question Pairs
+    QA_dataset_complete.isnull().sum()
+    ArticleTitle                  0
+    Question                     37
+    Answer                      576
+    DifficultyFromQuestioner    955
+    DifficultyFromAnswerer      580
+    ArticleFile                   2
+    dtype: int64
 
-```python
-quora_duplicate_ques_dataset.isnull().sum()
+    QA_dataset_complete.dropna(subset=['Question','Answer'], inplace=True)
+    QA_dataset_complete.shape
+    (3422, 6)
 
-id              0
-qid1            0
-qid2            0
-question1       0
-question2       0
-is_duplicate    0
-dtype: int64
-```
+    QA_dataset_complete.isnull().sum()
+
+    ArticleTitle                  0
+    Question                      0
+    Answer                        0
+    DifficultyFromQuestioner    688
+    DifficultyFromAnswerer        5
+    ArticleFile                   2
+    dtype: int64
+    ```
+
+-   Quora Dataset Release: Question Pairs
+
+    ```python
+    quora_duplicate_ques_dataset.isnull().sum()
+
+    id              0
+    qid1            0
+    qid2            0
+    question1       0
+    question2       0
+    is_duplicate    0
+    dtype: int64
+    ```
+
+**3.  Tokenizer**
+
+-   Multi30 Dataset
+
+    ```python
+        def tokenize_de(text):
+            """
+            Tokenizes German text from a string into a list of strings (tokens) and reverses it
+            """
+            return [tok.text for tok in spacy_de.tokenizer(text)][::-1]
+
+        def tokenize_en(text):
+            """
+            Tokenizes English text from a string into a list of strings (tokens)
+            """
+            return [tok.text for tok in spacy_en.tokenizer(text)]
+    ```
+
+-   Wikipedia Question/Answer Pairs
+
+    ```python
+        def tokenize_en(text):
+            """
+            Tokenizes English text from a string into a list of strings (tokens)
+            """
+            return [tok.text for tok in spacy_en.tokenizer(text)]
+    ```
+
+-   Quora Dataset Release: Question Pairs
+    ```python
+    def tokenize_en(text):
+        """
+        Tokenizes English text from a string into a list of strings (tokens)
+        """
+        return [tok.text for tok in spacy_en.tokenizer(text)]
+    ```
+
+**4.  Field**
+
+-   Multi30 Dataset
+
+    ```python
+
+    SRC = Field(tokenize = tokenize_de, 
+                init_token = '<sos>', 
+                eos_token = '<eos>', 
+                lower = True)
+
+    TRG = Field(tokenize = tokenize_en, 
+                init_token = '<sos>', 
+                eos_token = '<eos>', 
+                lower = True)
+    ```
+
+-   Wikipedia Question/Answer Pairs
+
+    ```python
+    question = Field(tokenize = tokenize_en, 
+                init_token = '<sos>', 
+                eos_token = '<eos>', 
+                lower = True)
+
+    answer = Field(tokenize = tokenize_en, 
+                init_token = '<sos>', 
+                eos_token = '<eos>', 
+                lower = True)
+
+    fields = [('questions', question),('answers',answer)]
+    ```
+-   Quora Dataset Release: Question Pairs
+    
+    ```python
+    question1 = Field(tokenize = tokenize_en, 
+                init_token = '<sos>', 
+                eos_token = '<eos>', 
+                lower = True)
+
+    question2 = Field(tokenize = tokenize_en, 
+                init_token = '<sos>', 
+                eos_token = '<eos>', 
+                lower = True)
+
+    fields = [('question1', question1),('question2',question2)]
+    ```
+**5.  Train and Test Dataset**
+
+-   Multi30 Dataset
+
+    ```python
+    train_data, valid_data, test_data = Multi30k.splits(exts = ('.de', '.en'), 
+                                                        fields = (SRC, TRG))
+
+    print(f"Number of training examples: {len(train_data.examples)}")
+    print(f"Number of validation examples: {len(valid_data.examples)}")
+    print(f"Number of testing examples: {len(test_data.examples)}")
+    Number of training examples: 29000
+    Number of validation examples: 1014
+    Number of testing examples: 1000
+    ```
+
+-   Wikipedia Question/Answer Pairs
+
+    ```python
+    QA_dataset_examples = [data.Example.fromlist([str(QA_dataset_complete.Question[i]),str(QA_dataset_complete.Answer[i])],fields) for i in range(QA_dataset_complete.shape[0])]
+    QA_Dataset= data.Dataset(QA_dataset_examples, fields)
+    (train_data, test_data) = QA_Dataset.split(split_ratio=[0.7,0.3], random_state=random.seed(SEED))
+
+    print(f"Toatal examples: {len(QA_Dataset.examples)}")
+    print(f"Number of training examples: {len(train_data.examples)}")
+    # print(f"Number of validation examples: {len(valid_data.examples)}")
+    print(f"Number of testing examples: {len(test_data.examples)}")
+
+    Toatal examples: 3422
+    Number of training examples: 2395
+    Number of testing examples: 1027
+    ```
+-   Quora Dataset Release: Question Pairs
+    
+   ```python
+    quora_duplicate_ques_examples = [data.Example.fromlist([str(quora_duplicate_ques_dataset.question1[i]),str(quora_duplicate_ques_dataset.question2[i])],fields) for i in           range(quora_duplicate_ques_dataset.shape[0])]
+    quora_duplicate_dataset= data.Dataset(quora_duplicate_ques_examples, fields)
+    (train_data, test_data) = quora_duplicate_dataset.split(split_ratio=[0.7,0.3], random_state=random.seed(SEED))
+
+    print(f"Toatal examples: {len(quora_duplicate_ques_examples)}")
+    print(f"Number of training examples: {len(train_data.examples)}")
+    # print(f"Number of validation examples: {len(valid_data.examples)}")
+    print(f"Number of testing examples: {len(test_data.examples)}")
+
+    Toatal examples: 149263
+    Number of training examples: 104484
+    Number of testing examples: 44779
+    ```
+  
+**6.  Train and Test Dataset**
+
+-   Multi30 Dataset
+
+    ```python
+    train_data, valid_data, test_data = Multi30k.splits(exts = ('.de', '.en'), 
+                                                        fields = (SRC, TRG))
+
+    print(f"Number of training examples: {len(train_data.examples)}")
+    print(f"Number of validation examples: {len(valid_data.examples)}")
+    print(f"Number of testing examples: {len(test_data.examples)}")
+    Number of training examples: 29000
+    Number of validation examples: 1014
+    Number of testing examples: 1000
+    ```
+
+-   Wikipedia Question/Answer Pairs
+
+    ```python
+    QA_dataset_examples = [data.Example.fromlist([str(QA_dataset_complete.Question[i]),str(QA_dataset_complete.Answer[i])],fields) for i in range(QA_dataset_complete.shape[0])]
+    QA_Dataset= data.Dataset(QA_dataset_examples, fields)
+    (train_data, test_data) = QA_Dataset.split(split_ratio=[0.7,0.3], random_state=random.seed(SEED))
+
+    print(f"Toatal examples: {len(QA_Dataset.examples)}")
+    print(f"Number of training examples: {len(train_data.examples)}")
+    # print(f"Number of validation examples: {len(valid_data.examples)}")
+    print(f"Number of testing examples: {len(test_data.examples)}")
+
+    Toatal examples: 3422
+    Number of training examples: 2395
+    Number of testing examples: 1027
+    ```
+-   Quora Dataset Release: Question Pairs
+    
+   ```python
+    quora_duplicate_ques_examples = [data.Example.fromlist([str(quora_duplicate_ques_dataset.question1[i]),str(quora_duplicate_ques_dataset.question2[i])],fields) for i in range(quora_duplicate_ques_dataset.shape[0])]
+    quora_duplicate_dataset= data.Dataset(quora_duplicate_ques_examples, fields)
+    (train_data, test_data) = quora_duplicate_dataset.split(split_ratio=[0.7,0.3], random_state=random.seed(SEED))
+
+    print(f"Toatal examples: {len(quora_duplicate_ques_examples)}")
+    print(f"Number of training examples: {len(train_data.examples)}")
+    # print(f"Number of validation examples: {len(valid_data.examples)}")
+    print(f"Number of testing examples: {len(test_data.examples)}")
+
+    Toatal examples: 149263
+    Number of training examples: 104484
+    Number of testing examples: 44779
+    ```
+ 
