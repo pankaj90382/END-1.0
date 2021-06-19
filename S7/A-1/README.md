@@ -261,31 +261,32 @@ class classifier(nn.Module):
 
   ```
   
-  ```
-  	Unnamed: 0	sentence	id	phrase	sentiment	fine	coarse	Predicted_Label	Flag
-2	63	Singer\/composer Bryan Adams contributes a sle...	225801.0	Singer\/composer Bryan Adams contributes a sle...	0.62500	positive	positive	positive	1
-3	64	You'd think by now America would have had enou...	14646.0	You 'd think by now America would have had eno...	0.50000	neutral	neutral	neutral	1
-4	65	Yet the act is still charming here .	14644.0	Yet the act is still charming here .	0.72222	positive	positive	positive	1
-7	74	Part of the charm of Satin Rouge is that it av...	225402.0	Part of the charm of Satin Rouge is that it av...	0.72222	positive	positive	positive	1
-14	138	Still , this flick is fun , and host to some t...	225973.0	Still , this flick is fun , and host to some t...	0.81944	very positive	positive	very positive	1
-...	...	...	...	...	...	...	...	...	...
-11848	7901	But it could have been worse .	222770.0	But it could have been worse .	0.36111	negative	negative	negative	1
-11849	7902	Some of their jokes work , but most fail miser...	148746.0	Some of their jokes work , but most fail miser...	0.20833	negative	negative	negative	1
-11852	7905	... Designed to provide a mix of smiles and te...	221766.0	... Designed to provide a mix of smiles and te...	0.22222	negative	negative	negative	1
-11853	7906	it seems to me the film is about the art of ri...	163906.0	it seems to me the film is about the art of ri...	0.29167	negative	negative	negative	1
-11857	7910	Schaeffer has to find some hook on which to ha...	148419.0	Schaeffer has to find some hook on which to ha...	0.27778	negative	negative	negative	1
-  ```
   
-  ```
-  0	0	The Rock is destined to be the 21st Century's ...	226166.0	The Rock is destined to be the 21st Century 's...	0.69444	positive	positive	negative	0
-1	1	The gorgeously elaborate continuation of `` Th...	226300.0	The gorgeously elaborate continuation of `` Th...	0.83333	very positive	positive	negative	0
-5	66	Whether or not you're enlightened by any of De...	227114.0	Whether or not you 're enlightened by any of D...	0.83333	very positive	positive	positive	0
-6	70	Just the labour involved in creating the layer...	224508.0	Just the labour involved in creating the layer...	0.87500	very positive	positive	positive	0
-8	84	a screenplay more ingeniously constructed than...	228134.0	a screenplay more ingeniously constructed than...	0.83333	very positive	positive	negative	0
-...	...	...	...	...	...	...	...	...	...
-11850	7903	Even horror fans will most likely not find wha...	145161.0	Even horror fans will most likely not find wha...	0.12500	very negative	negative	positive	0
-11851	7904	comes off like a rejected ABC Afterschool Spec...	229921.0	comes off like a rejected ABC Afterschool Spec...	0.16667	very negative	negative	negative	0
-11854	7907	It's just disappointingly superficial -- a mov...	146522.0	It 's just disappointingly superficial -- a mo...	0.33333	negative	negative	positive	0
-11855	7908	The title not only describes its main characte...	149944.0	The title not only describes its main characte...	0.23611	negative	negative	positive	0
-11856	7909	Sometimes it feels as if it might have been ma...	148760.0	Sometimes it feels as if it might have been ma...	0.44444	neutral	neutral	negative	0
-  ```
+**Index**|**Unnamed: 0**|**sentence**|**id**|**phrase**|**sentiment**|**fine**|**coarse**|**Predicted\_Label**|**Flag**
+:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:
+2|63|Singer\/composer Bryan Adams contributes a sle...|225801.0|Singer\/composer Bryan Adams contributes a sle...|0.62500|positive|positive|positive|1
+3|64|You'd think by now America would have had enou...|14646.0|You 'd think by now America would have had eno...|0.50000|neutral|neutral|neutral|1
+4|65|Yet the act is still charming here .|14644.0|Yet the act is still charming here .|0.72222|positive|positive|positive|1
+7|74|Part of the charm of Satin Rouge is that it av...|225402.0|Part of the charm of Satin Rouge is that it av...|0.72222|positive|positive|positive|1
+14|138|Still , this flick is fun , and host to some t...|225973.0|Still , this flick is fun , and host to some t...|0.81944|very positive|positive|very positive|1
+...|...|...|...|...|...|...|...|...|...
+11848|7901|But it could have been worse .|222770.0|But it could have been worse .|0.36111|negative|negative|negative|1
+11849|7902|Some of their jokes work , but most fail miser...|148746.0|Some of their jokes work , but most fail miser...|0.20833|negative|negative|negative|1
+11852|7905|... Designed to provide a mix of smiles and te...|221766.0|... Designed to provide a mix of smiles and te...|0.22222|negative|negative|negative|1
+11853|7906|it seems to me the film is about the art of ri...|163906.0|it seems to me the film is about the art of ri...|0.29167|negative|negative|negative|1
+11857|7910|Schaeffer has to find some hook on which to ha...|148419.0|Schaeffer has to find some hook on which to ha...|0.27778|negative|negative|negative|1
+
+  
+**Index**|**Unnamed: 0**|**sentence**|**id**|**phrase**|**sentiment**|**fine**|**coarse**|**Predicted\_Label**|**Flag**
+:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:
+ 0|0|The Rock is destined to be the 21st Century's ...|226166.0|The Rock is destined to be the 21st Century 's...|0.69444|positive|positive|negative|0
+1|1|The gorgeously elaborate continuation of `` Th...|226300.0|The gorgeously elaborate continuation of `` Th...|0.83333|very positive|positive|negative|0
+5|66|Whether or not you're enlightened by any of De...|227114.0|Whether or not you 're enlightened by any of D...|0.83333|very positive|positive|positive|0
+6|70|Just the labour involved in creating the layer...|224508.0|Just the labour involved in creating the layer...|0.87500|very positive|positive|positive|0
+8|84|a screenplay more ingeniously constructed than...|228134.0|a screenplay more ingeniously constructed than...|0.83333|very positive|positive|negative|0
+...|...|...|...|...|...|...|...|...|...
+11850|7903|Even horror fans will most likely not find wha...|145161.0|Even horror fans will most likely not find wha...|0.12500|very negative|negative|positive|0
+11851|7904|comes off like a rejected ABC Afterschool Spec...|229921.0|comes off like a rejected ABC Afterschool Spec...|0.16667|very negative|negative|negative|0
+11854|7907|It's just disappointingly superficial -- a mov...|146522.0|It 's just disappointingly superficial -- a mo...|0.33333|negative|negative|positive|0
+11855|7908|The title not only describes its main characte...|149944.0|The title not only describes its main characte...|0.23611|negative|negative|positive|0
+11856|7909|Sometimes it feels as if it might have been ma...|148760.0|Sometimes it feels as if it might have been ma...|0.44444|neutral|neutral|negative|0
