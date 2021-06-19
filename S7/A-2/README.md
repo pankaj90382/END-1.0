@@ -1,4 +1,4 @@
-# Session 7 A-2 - Stanford Sentimental Data (STT)
+# Session 7 A-2 - Encoder Decoder LSTM Architecture on Multiple Data Sets
 
 ## Objective
 
