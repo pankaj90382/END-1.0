@@ -23,8 +23,8 @@ The existing code has written in the torchtext legacy set. The code has refactor
   from torchtext.data.utils import get_tokenizer
   from torchtext.vocab import build_vocab_from_iterator
   
-    SRC_LANGUAGE = 'de'
-  TGT_LANGUAGE = 'en'
+   SRC_LANGUAGE = 'de'
+   TGT_LANGUAGE = 'en'
 
   # Place-holders
   token_transform = {}
