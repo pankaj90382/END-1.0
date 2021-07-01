@@ -29,3 +29,7 @@
  - [Loss Function and Optimization](https://medium.com/data-science-group-iitr/loss-functions-and-optimization-algorithms-demystified-bb92daff331c)
  - [Torch Text Datasets](https://pytorch.org/text/stable/datasets.html#ag-news)
  - [Pytorch Seq2seq Dataset](https://github.com/bentrevett/pytorch-seq2seq)
+ - [Pytorch Language Translation Tutorial](https://pytorch.org/tutorials/beginner/torchtext_translation_tutorial.html)
+ - [Pytorch Sentiment Tutorial](https://pytorch.org/tutorials/beginner/text_sentiment_ngrams_tutorial.html)
+ - [Pytorch Transformer Tutorial](https://pytorch.org/tutorials/beginner/transformer_tutorial.html)
+ - [Pytorch Tutorials](https://pytorch.org/tutorials/)
