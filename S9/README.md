@@ -270,3 +270,35 @@ Epoch: 10 | Time: 3m 10s
 	 
 | Test Loss: 3.656 | Test PPL:  38.691 | BLEU. Score : 0.289395 | BERT. P-Score : 0.932 | BERT. R-Score : 0.931 | BERT. F1-Score : 0.931 
 ```
+
+#### Examples
+
+```
+src = Ein schwarzer Hund und ein gefleckter Hund kämpfen.
+trg = A black dog and a spotted dog are fighting
+predicted trg = ['A', 'black', 'dog', 'and', 'a', 'spotted', 'dog', 'are', 'fighting', '.', '<eos>']
+```
+| Attention | Similarity Matrix |
+|--|--|
+|![Example 1a](./Example_1a.png) | ![Example 1b](./Example_1b.png) |
+
+
+```
+src = Mehrere Frauen warten in einer Stadt im Freien.
+trg = Several women wait outside in a city.
+predicted trg = ['Several', 'women', 'are', 'outside', 'a', 'conversation', 'in', 'a', 'city', '.', '<eos>']
+```
+| Attention | Similarity Matrix |
+|--|--|
+|![Example 2a](./Example_2a.png) | ![Example 2b](./Example_2b.png) |
+
+```
+
+src = Fünf Personen sitzen mit Instrumenten im Kreis.
+trg = Five people are sitting in a circle with instruments.
+predicted trg = ['Five', 'people', 'are', 'sitting', 'in', 'a', 'circle', 'with', 'instruments', '.', '<eos>']
+```
+
+| Attention | Similarity Matrix |
+|--|--|
+|![Example 3a](./Example_3a.png) | ![Example 3b](./Example_3b.png) |
