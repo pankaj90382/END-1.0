@@ -311,6 +311,6 @@ predicted trg = ['Five', 'people', 'are', 'sitting', 'in', 'a', 'circle', 'with'
 
 #### Infrences
 
-The PPL calculated for this model was in Unigram, which was $38.691$ for test set, this would be interpreted as the model has to choose among $~38$ possible options of words to predict the next outcome. Its Good Enough ? `¯\_(ツ)_/¯`
-We got a BLEU Score of `28.9395`, so it comes under "Understandable to good translation", and it is ! Note that this score was got from using unigram, bigram and trigram and 4-gram of the corpuses.
+The PPL calculated for this model was in Unigram, which was $38.691$ for test set, this would be interpreted as the model has to choose among $~38$ possible options of words to predict the next outcome.<br>
+We got a BLEU Score of `28.9395`, so it comes under "Understandable to good translation", and it is ! Note that this score was got from using unigram, bigram and trigram and 4-gram of the corpuses.<br>
 Each token in `x` is matched to the most similar token in $\hat{x}$ and vice-versa for calculating Recall and Precision respectively. The matching is greedy and isolated. Precision and Recall are combined for calculating the F1 score. The Scores we get are relative to BERT model performing on the dataset. We get a score of `0.932` pretty good ? too good to be true ? yes could be, but the test dataset has only 1K samples.
