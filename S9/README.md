@@ -81,10 +81,160 @@ BertScore basically addresses two common pitfalls in n-gram-based metrics. First
 ### Text Classification Model and Evaluation
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S9/END2_LSTM.ipynb)
 
+**Dataset** - IMDB
 
+| Model | Precision | Recall | F1 |
+|--|--|--|--|
+| LSTM | 0.81 | 0.91 | 0.86
 
+#### Logs
 
-
+```
+Epoch: 05 | Epoch Time: 0m 41s
+	Train Loss: 0.596 | Train Acc: 69.23%
+	 Val. Loss: 0.509 |  Val. Acc: 78.57%
++--------------------+-----------------+-----------------+
+|       Train        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       6243      |       2712      |
+| Predicted Negative |       3159      |       6636      |
++--------------------+-----------------+-----------------+
++--------------------+-----------------+-----------------+
+|       Valid        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       2273      |       613       |
+| Predicted Negative |       825       |       2539      |
++--------------------+-----------------+-----------------+
++-----------+--------+--------+
+|  Metrics  | Train  | Valid  |
++-----------+--------+--------+
+|    Loss   | 0.596  | 0.509  |
+|  Accuracy | 68.69% | 76.99% |
+| Precision |  0.70  |  0.79  |
+|   Recall  |  0.66  |  0.73  |
+|  F1 score |  0.68  |  0.76  |
++-----------+--------+--------+
+Epoch: 06 | Epoch Time: 0m 41s
+	Train Loss: 0.522 | Train Acc: 76.02%
+	 Val. Loss: 0.483 |  Val. Acc: 80.20%
++--------------------+-----------------+-----------------+
+|       Train        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       7056      |       2249      |
+| Predicted Negative |       2346      |       7099      |
++--------------------+-----------------+-----------------+
++--------------------+-----------------+-----------------+
+|       Valid        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       2102      |       343       |
+| Predicted Negative |       996       |       2809      |
++--------------------+-----------------+-----------------+
++-----------+--------+--------+
+|  Metrics  | Train  | Valid  |
++-----------+--------+--------+
+|    Loss   | 0.522  | 0.483  |
+|  Accuracy | 75.49% | 78.58% |
+| Precision |  0.76  |  0.86  |
+|   Recall  |  0.75  |  0.68  |
+|  F1 score |  0.75  |  0.76  |
++-----------+--------+--------+
+Epoch: 07 | Epoch Time: 0m 41s
+	Train Loss: 0.450 | Train Acc: 80.36%
+	 Val. Loss: 0.663 |  Val. Acc: 76.31%
++--------------------+-----------------+-----------------+
+|       Train        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       7421      |       1806      |
+| Predicted Negative |       1981      |       7542      |
++--------------------+-----------------+-----------------+
++--------------------+-----------------+-----------------+
+|       Valid        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       2969      |       1448      |
+| Predicted Negative |       129       |       1704      |
++--------------------+-----------------+-----------------+
++-----------+--------+--------+
+|  Metrics  | Train  | Valid  |
++-----------+--------+--------+
+|    Loss   | 0.450  | 0.663  |
+|  Accuracy | 79.80% | 74.77% |
+| Precision |  0.80  |  0.67  |
+|   Recall  |  0.79  |  0.96  |
+|  F1 score |  0.80  |  0.79  |
++-----------+--------+--------+
+Epoch: 08 | Epoch Time: 0m 41s
+	Train Loss: 0.434 | Train Acc: 81.33%
+	 Val. Loss: 0.389 |  Val. Acc: 85.50%
++--------------------+-----------------+-----------------+
+|       Train        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       7614      |       1821      |
+| Predicted Negative |       1788      |       7527      |
++--------------------+-----------------+-----------------+
++--------------------+-----------------+-----------------+
+|       Valid        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       2626      |       543       |
+| Predicted Negative |       472       |       2609      |
++--------------------+-----------------+-----------------+
++-----------+--------+--------+
+|  Metrics  | Train  | Valid  |
++-----------+--------+--------+
+|    Loss   | 0.434  | 0.389  |
+|  Accuracy | 80.75% | 83.76% |
+| Precision |  0.81  |  0.83  |
+|   Recall  |  0.81  |  0.85  |
+|  F1 score |  0.81  |  0.84  |
++-----------+--------+--------+
+Epoch: 09 | Epoch Time: 0m 41s
+	Train Loss: 0.372 | Train Acc: 85.03%
+	 Val. Loss: 0.370 |  Val. Acc: 86.60%
++--------------------+-----------------+-----------------+
+|       Train        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       8059      |       1576      |
+| Predicted Negative |       1343      |       7772      |
++--------------------+-----------------+-----------------+
++--------------------+-----------------+-----------------+
+|       Valid        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       2759      |       608       |
+| Predicted Negative |       339       |       2544      |
++--------------------+-----------------+-----------------+
++-----------+--------+--------+
+|  Metrics  | Train  | Valid  |
++-----------+--------+--------+
+|    Loss   | 0.372  | 0.370  |
+|  Accuracy | 84.43% | 84.85% |
+| Precision |  0.84  |  0.82  |
+|   Recall  |  0.86  |  0.89  |
+|  F1 score |  0.85  |  0.85  |
++-----------+--------+--------+
+Epoch: 10 | Epoch Time: 0m 41s
+	Train Loss: 0.325 | Train Acc: 87.19%
+	 Val. Loss: 0.371 |  Val. Acc: 86.86%
++--------------------+-----------------+-----------------+
+|       Train        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       8146      |       1262      |
+| Predicted Negative |       1256      |       8086      |
++--------------------+-----------------+-----------------+
++--------------------+-----------------+-----------------+
+|       Valid        | Actual Positive | Actual Negative |
++--------------------+-----------------+-----------------+
+| Predicted Positive |       2821      |       655       |
+| Predicted Negative |       277       |       2497      |
++--------------------+-----------------+-----------------+
++-----------+--------+--------+
+|  Metrics  | Train  | Valid  |
++-----------+--------+--------+
+|    Loss   | 0.325  | 0.371  |
+|  Accuracy | 86.57% | 85.09% |
+| Precision |  0.87  |  0.81  |
+|   Recall  |  0.87  |  0.91  |
+|  F1 score |  0.87  |  0.86  |
++-----------+--------+--------+
+```
 
 ### Language Translation Model and Evaluation
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S9/4%20-%20Packed%20Padded%20Sequences%2C%20Masking%2C%20Inference%20and%20BLEU.ipynb)
