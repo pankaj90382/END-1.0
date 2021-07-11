@@ -235,7 +235,38 @@ Epoch: 10 | Epoch Time: 0m 41s
 |  F1 score |  0.87  |  0.86  |
 +-----------+--------+--------+
 ```
+#### Infrences
 
+In the Epoch 5 to 10, the Precision, Recall, Accuracy and F1 Score increases which indicates the model is learning the dataset epoch by epoch. A high precision rate of 0.81 signififes a low False Positive rate and a high recall of 0.91 suggests that the model has a low False Negative rate. Since both the precision and recall have high scores, we can conclude that the model is returning accurate results as well as returning a majority of the positive results.
+
+A F1 score of 0.86 signifies a low number of False positives and False negatives, that is, the model has a hgh recall and precision score. Hence the model is able to correctly label most of the positive samples successfully.
+
+#### Examples
+
+```python
+predict_sentiment(model, "This film is terrible")
+neg
+predict_sentiment(model, "This film is great")
+pos
+```
 ### Language Translation Model and Evaluation
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S9/4%20-%20Packed%20Padded%20Sequences%2C%20Masking%2C%20Inference%20and%20BLEU.ipynb)
 
+#### Logs
+
+```
+Epoch: 07 | Time: 3m 57s
+	Train Loss: 1.887 | Train PPL:   6.597
+	 Val. Loss: 3.583 |  Val. PPL:  35.987 | BLEU. Score : 0.273213 | BERT. P-Score : 0.926 | BERT. R-Score : 0.926 | BERT. F1-Score : 0.926
+Epoch: 08 | Time: 3m 43s
+	Train Loss: 1.687 | Train PPL:   5.405
+	 Val. Loss: 3.655 |  Val. PPL:  38.657 | BLEU. Score : 0.281270 | BERT. P-Score : 0.928 | BERT. R-Score : 0.928 | BERT. F1-Score : 0.928
+Epoch: 09 | Time: 3m 15s
+	Train Loss: 1.531 | Train PPL:   4.624
+	 Val. Loss: 3.667 |  Val. PPL:  39.130 | BLEU. Score : 0.284322 | BERT. P-Score : 0.930 | BERT. R-Score : 0.929 | BERT. F1-Score : 0.930
+Epoch: 10 | Time: 3m 10s
+	Train Loss: 1.403 | Train PPL:   4.068
+	 Val. Loss: 3.693 |  Val. PPL:  40.167 | BLEU. Score : 0.280844 | BERT. P-Score : 0.929 | BERT. R-Score : 0.929 | BERT. F1-Score : 0.929
+	 
+| Test Loss: 3.656 | Test PPL:  38.691 | BLEU. Score : 0.289395 | BERT. P-Score : 0.932 | BERT. R-Score : 0.931 | BERT. F1-Score : 0.931 
+```
