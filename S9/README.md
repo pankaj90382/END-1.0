@@ -314,3 +314,14 @@ predicted trg = ['Five', 'people', 'are', 'sitting', 'in', 'a', 'circle', 'with'
 The PPL calculated for this model was in Unigram, which was $38.691$ for test set, this would be interpreted as the model has to choose among $~38$ possible options of words to predict the next outcome.<br>
 We got a BLEU Score of `28.9395`, so it comes under "Understandable to good translation", and it is ! Note that this score was got from using unigram, bigram and trigram and 4-gram of the corpuses.<br>
 Each token in `x` is matched to the most similar token in ![x hat](https://latex.codecogs.com/png.image?\dpi{110}%20\hat{x}) and vice-versa for calculating Recall and Precision respectively. The matching is greedy and isolated. Precision and Recall are combined for calculating the F1 score. The Scores we get are relative to BERT model performing on the dataset. We get a score of `0.932` pretty good ? too good to be true ? yes could be, but the test dataset has only 1K samples.
+
+## Refrences
+- [NLPEvaltion Metrics](https://huggingface.co/metrics)
+- [BERT Implementation](https://colab.research.google.com/drive/1kpL8Y_AnUUiCxFjhxSrxCsc6-sDMNb_Q)
+- [BERT Explanation](https://huggingface.co/metrics/bertscore)
+- [Google BLEU Explanation](https://cloud.google.com/translate/automl/docs/evaluate)
+- [BLEU Score Repo](https://github.com/Tiiiger/bert_score)
+- [Classification Metrics Pyotch](https://pytorch.org/ignite/master/generated/ignite.metrics.recall.Recall.html)
+- [BLEU Code Refrence](https://pytorch.org/text/stable/_modules/torchtext/data/metrics.html#bleu_score)
+- [Preplexity Intution](https://towardsdatascience.com/perplexity-intuition-and-derivation-105dd481c8f3)
+- [Preplexity](https://huggingface.co/transformers/perplexity.html)
