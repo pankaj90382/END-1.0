@@ -252,6 +252,12 @@ pos
 ### Language Translation Model and Evaluation
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S9/4%20-%20Packed%20Padded%20Sequences%2C%20Masking%2C%20Inference%20and%20BLEU.ipynb)
 
+**Dataset:** [Multi30k](https://github.com/multi30k/dataset)
+
+| Model | PPL | BLEU Score | BERT Score |
+|--|--|--|--|
+| Seq2Seq w/ Attention | 38.691 | 28.9395 | P=0.932 R=0.931 F1=0.931 |
+
 #### Logs
 
 ```
@@ -302,3 +308,9 @@ predicted trg = ['Five', 'people', 'are', 'sitting', 'in', 'a', 'circle', 'with'
 | Attention | Similarity Matrix |
 |--|--|
 |![Example 3a](./Example_3a.png) | ![Example 3b](./Example_3b.png) |
+
+#### Infrences
+
+The PPL calculated for this model was in Unigram, which was $38.691$ for test set, this would be interpreted as the model has to choose among $~38$ possible options of words to predict the next outcome. Its Good Enough ? `¯\_(ツ)_/¯`
+We got a BLEU Score of `28.9395`, so it comes under "Understandable to good translation", and it is ! Note that this score was got from using unigram, bigram and trigram and 4-gram of the corpuses.
+Each token in `x` is matched to the most similar token in $\hat{x}$ and vice-versa for calculating Recall and Precision respectively. The matching is greedy and isolated. Precision and Recall are combined for calculating the F1 score. The Scores we get are relative to BERT model performing on the dataset. We get a score of `0.932` pretty good ? too good to be true ? yes could be, but the test dataset has only 1K samples.
