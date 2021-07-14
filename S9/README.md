@@ -46,7 +46,7 @@ F1 is the weighted average of precision and recall of the model. It gives more i
 </p>
 <br>It can also be written as
     <p align="center">
-    <img alt="F1 Score" src="https://latex.codecogs.com/gif.latex?F1%20Score%20%3D%20%5Cfrac%7B2%20*%20True%20Postive%7D%7BTrue%20Postive%20&plus;%5Cfrac%7B1%7D%7B2%7D%20*%20%28False%20Postive%20&plus;%20False%20Negative%29%7D">
+    <img alt="F1 Score" src="https://latex.codecogs.com/gif.latex?F1%20Score%20%3D%20%5Cfrac%7B%20True%20Postive%7D%7BTrue%20Postive%20&plus;%5Cfrac%7B1%7D%7B2%7D%20*%20%28False%20Postive%20&plus;%20False%20Negative%29%7D">
     </p>
 
 #### BLEU Score
