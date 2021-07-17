@@ -247,7 +247,8 @@ def indexesFromSentence(lang, sentence):
 |i m not scared of dying .|je ne crains pas mourir mourir . <EOS> ![Example 3a](./Example_3a.png) <br> Google Translation = I am not afraid to die die. | je ne ai pas de de mourir . <EOS> ![Example 3b](./Example_3b.png) <br> Google Translation = i don't have to die. |
 |he s a talented young talented .|c est un jeune de talentueux . <EOS> ![Example 4a](./Example_4a.png) <br> Google Translation = he is a talented youngster. | c est un jeune jeune talentueux . <EOS> ![Example 4b](./Example_4b.png) <br> Google Translation = he is a young talented youngster.  |
 
-    
+Since i am no longer have expertise in french, it is impossible to concieve the results as which one is better. Assuming Google Translator as the best option, both the results seems to be the same. There is not much imporvement in GloVe Embedding, which is unexpected, as from the vocabulary one. By looking at the figures in summary section. from the point of loss value, there is no doubt that vocabulary embedding has lowered value than GloVe embedding. 
+
 ## Improvement
 - French Embedding can be used to increase the dataset as similar to English corpus like GloVe.
 - Skip-Gram Embeddings - French
