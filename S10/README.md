@@ -242,14 +242,15 @@ def indexesFromSentence(lang, sentence):
 
 | input| Vocabulary | GloVe Embedding |
 |--|--|--|
-|she s five years younger than i am .| elle a cinq ans de moins que moi . <EOS> ![Example 1a](./Example_1a.png) | elle a six de de que moi . <EOS> ![Example 1b](./Example_1b.png)
-|she s too short .|elle n est trop petit . <EOS> ![Example 2a](./Example_2a.png) | elle a trop affaire . <EOS> ![Example 2b](./Example_2b.png)
-|i m not scared of dying .|je ne crains pas mourir mourir . <EOS> ![Example 3a](./Example_3a.png) | je ne ai pas de de mourir . <EOS> ![Example 3b](./Example_3b.png)
-|he s a talented young talented .|c est un jeune de talentueux . <EOS> ![Example 4a](./Example_4a.png) | c est un jeune jeune talentueux . <EOS> ![Example 4b](./Example_4b.png)
+|she s five years younger than i am .| elle a cinq ans de moins que moi . <EOS> ![Example 1a](./Example_1a.png)<br> Google Translation = she is five years younger than me. | elle a six de de que moi . <EOS> ![Example 1b](./Example_1b.png)<br> Google Translate = she has six of me.|
+|she s too short .|elle n est trop petit . <EOS> ![Example 2a](./Example_2a.png) <br> Google Translation = it is not too small. | elle a trop affaire . <EOS> ![Example 2b](./Example_2b.png) <br> Google Translation = she has too much business. |
+|i m not scared of dying .|je ne crains pas mourir mourir . <EOS> ![Example 3a](./Example_3a.png) <br> Google Translation = I am not afraid to die die. | je ne ai pas de de mourir . <EOS> ![Example 3b](./Example_3b.png) <br> Google Translation = i don't have to die. |
+|he s a talented young talented .|c est un jeune de talentueux . <EOS> ![Example 4a](./Example_4a.png) <br> Google Translation = he is a talented youngster. | c est un jeune jeune talentueux . <EOS> ![Example 4b](./Example_4b.png) <br> Google Translation = he is a young talented youngster.  |
 
+    
 ## Improvement
-    - French Embedding can be used to increase the dataset as similar to English corpus like GloVe.
-    - Skip-Gram Embeddings - French
+- French Embedding can be used to increase the dataset as similar to English corpus like GloVe.
+- Skip-Gram Embeddings - French
         This is a pre-trained word2vec embeddings for the French language. It is available at [fauconnier.github.io](https://fauconnier.github.io/index.html#wordembeddingmodels). Various models (cbow/skip-gram) of different dimensions are available.
     
 ## Refrences
