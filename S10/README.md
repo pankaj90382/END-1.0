@@ -235,10 +235,10 @@ def indexesFromSentence(lang, sentence):
 
 | input| Vocabulary | GloVe Embedding |
 |--|--|--|
-|she s five years younger than i am .| elle a cinq ans de moins que moi . <EOS> | elle a six de de que moi . <EOS>
-|she s too short .|elle n est trop petit . <EOS>| elle a trop affaire . <EOS>
-|i m not scared of dying .|je ne crains pas mourir mourir . <EOS>| je ne ai pas de de mourir . <EOS>
-|he s a talented young talented .|c est un jeune de talentueux . <EOS>| c est un jeune jeune talentueux . <EOS>
+|she s five years younger than i am .| elle a cinq ans de moins que moi . <EOS> ![Example 1a](./Example_1a.png) | elle a six de de que moi . <EOS> ![Example 1b](./Example_1b.png)
+|she s too short .|elle n est trop petit . <EOS> ![Example 2a](./Example_2a.png) | elle a trop affaire . <EOS> ![Example 2b](./Example_2b.png)
+|i m not scared of dying .|je ne crains pas mourir mourir . <EOS> ![Example 3a](./Example_3a.png) | je ne ai pas de de mourir . <EOS> ![Example 3b](./Example_3b.png)
+|he s a talented young talented .|c est un jeune de talentueux . <EOS> ![Example 4a](./Example_4a.png) | c est un jeune jeune talentueux . <EOS> ![Example 4b](./Example_4b.png)
 
 ## Refrences
  - [Glove Embedding](https://leakyrelu.com/2019/10/18/using-glove-word-embeddings-with-seq2seq-encoder-decoder-in-pytorch/)
