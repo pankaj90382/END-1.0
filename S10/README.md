@@ -103,7 +103,7 @@ input_lang, output_lang, pairs = prepareData('eng', 'fra')
 < vous etes tous contentes . <EOS>
  ```
 
-## Code with Glove EMbedding
+## Code with Glove Embedding
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S10/Seq2Seq_translation_tutorial_glove.ipynb)
 
 For GloVe Embedding, TorchText GloVe Embeding can be used easily with 6B Tokens and by default this embedding has 300 features which again can be limited to 50. 100 ..etc.
@@ -223,6 +223,22 @@ def indexesFromSentence(lang, sentence):
 < il le fait comme il faut . <EOS>
 
 ```
+
+## Summary
+
+| model | average loss | total time  |  english words corpus  |  embdedding Dimension
+| --- | --- | --- | --- | --- |
+| without pre- trained embedding | **0.9651** | 18m 49s |  2803 | 256 |
+| with pre- trained GloVe embedding | **1.1617** | 95m 38s |  400001 | 300 |
+
+## Comparison
+
+| input| Vocabulary | GloVe Embedding |
+|--|--|--|
+|she s five years younger than i am .| elle a cinq ans de moins que moi . <EOS> | elle a six de de que moi . <EOS>
+|she s too short .|elle n est trop petit . <EOS>| elle a trop affaire . <EOS>
+|i m not scared of dying .|je ne crains pas mourir mourir . <EOS>| je ne ai pas de de mourir . <EOS>
+|he s a talented young talented .|c est un jeune de talentueux . <EOS>| c est un jeune jeune talentueux . <EOS>
 
 ## Refrences
  - [Glove Embedding](https://leakyrelu.com/2019/10/18/using-glove-word-embeddings-with-seq2seq-encoder-decoder-in-pytorch/)
