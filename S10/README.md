@@ -8,7 +8,14 @@
 ## Solution
 
 ### GloVe
-GloVe, stands for "Global Vectors", is a model for distributed word representation. The model is an unsupervised learning algorithm for obtaining vector representations for words. This is achieved by mapping words into a meaningful space where the distance between words is related to semantic similarity.<br>
+
+GloVe stands for 'Global Vectors for Word Representation'. It is an unsupervised learning algorithm used to obtain an efficient vector represntations of words in order to better capture their meanings and their relations. A frequently given example is that the 'distance' between the word `man` and `woman` must be close to the distance between `king` and `queen`.
+
+
+![](https://nlp.stanford.edu/projects/glove/images/man_woman_small.jpg)
+
+
+These embeddings are available at [nlp.stanford.edu](https://nlp.stanford.edu/projects/glove/). There are a number of models available that differ in the source of text, the embedding dimensions, and the number of words in the vocabulary.
 
 ### Dataset
 The data consists of a set of thousands of English to French translation pairs. Each word in both the the languages will be represented as a one-hot vector. This process is handled by the Lang class. The data is normalized wherein it is transformed to lowercase and converted from unicode to ASCII. All non-letter characters are also omitted as part of the normalization process. Normalization is done to define the data in a standard form so as to reduce randomness and increase efficiency. Once the normalization process is completed, we reduce the size of the available input data using two parameters- the length of the sentence (maximum of 10 words) and certain prefixes found in the English language. At the end of this process, we have a standardised limited dataset of English to French pairs.
@@ -240,5 +247,10 @@ def indexesFromSentence(lang, sentence):
 |i m not scared of dying .|je ne crains pas mourir mourir . <EOS> ![Example 3a](./Example_3a.png) | je ne ai pas de de mourir . <EOS> ![Example 3b](./Example_3b.png)
 |he s a talented young talented .|c est un jeune de talentueux . <EOS> ![Example 4a](./Example_4a.png) | c est un jeune jeune talentueux . <EOS> ![Example 4b](./Example_4b.png)
 
+## Improvement
+    - French Embedding can be used to increase the dataset as similar to English corpus like GloVe.
+    - Skip-Gram Embeddings - French
+        This is a pre-trained word2vec embeddings for the French language. It is available at [fauconnier.github.io](https://fauconnier.github.io/index.html#wordembeddingmodels). Various models (cbow/skip-gram) of different dimensions are available.
+    
 ## Refrences
  - [Glove Embedding](https://leakyrelu.com/2019/10/18/using-glove-word-embeddings-with-seq2seq-encoder-decoder-in-pytorch/)
