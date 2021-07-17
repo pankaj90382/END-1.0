@@ -20,11 +20,26 @@ For building the model, we will be using GloVe (Global Vectors for Word Represen
 
 In our model, we are using GloVe embeddings of 300 dimensions and adding 'SOS' and 'EOS' token to the start of the word embeddings. Once the word embeddings are ready and the data has been normalized, we build the weight matrix which is added to the embedding layer of the encoder. This weight matrix is built based on pre-trained weights of the glove vectors.
 
-### No GLoVe Embedding
+## Code with Vocabulary
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S10/Seq2Seq_translation_tutorial.ipynb)
 
 
+Minor modifications in the python code to stretch the solution for English-French Translation as the original model will work for French to English Translations. The modifications are given below.
 
- **- Training Logs**
+Chnage the Filter Function now to process the English Translations as Input.
+``` python
+def filterPair(p):
+    return len(p[0].split(' ')) < MAX_LENGTH and \
+        len(p[1].split(' ')) < MAX_LENGTH and \
+        p[0].startswith(eng_prefixes)
+```
+
+Pass without reverse as in this code need only English to French Translations Dataset.
+```python
+input_lang, output_lang, pairs = prepareData('eng', 'fra')
+```
+
+ - **Training Logs**
 
 ```
 1m 16s (- 17m 55s) (5000 6%) 3.4005
@@ -44,7 +59,7 @@ In our model, we are using GloVe embeddings of 300 dimensions and adding 'SOS' a
 18m 49s (- 0m 0s) (75000 100%) 0.9651
  ```
  
- **- Results**
+ - **Results**
  
  ```
  > we re almost there .
@@ -88,10 +103,64 @@ In our model, we are using GloVe embeddings of 300 dimensions and adding 'SOS' a
 < vous etes tous contentes . <EOS>
  ```
 
-### Glove EMbedding
+## Code with Glove EMbedding
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S10/Seq2Seq_translation_tutorial_glove.ipynb)
 
+For GloVe Embedding, TorchText GloVe Embeding can be used easily with 6B Tokens and by default this embedding has 300 features which again can be limited to 50. 100 ..etc.
+```python
+import torchtext
+vectors = torchtext.vocab.GloVe("6B")
+```
 
- **- Training Logs**
+As the existing solution, have the sos token and eos token at the front of the vocab. Similar to it, there is need to over-ride the vectors of the glove to put in the first place. This can be easily be done with stoi and itos representation of the GloVe Vectors.
+``` python
+sos_index, eos_index = vectors.stoi['sos'], vectors.stoi['eos']
+sos_swap_word, eos_swap_word = vectors.itos[0], vectors.itos[1]
+vectors.itos[0], vectors.itos[sos_index] = vectors.itos[sos_index], vectors.itos[0]
+vectors.itos[1], vectors.itos[eos_index] = vectors.itos[eos_index], vectors.itos[1]
+vectors.stoi[sos_swap_word], vectors.stoi['sos'] = vectors.stoi['sos'], vectors.stoi[sos_swap_word]
+vectors.stoi[eos_swap_word], vectors.stoi['eos'] = vectors.stoi['eos'], vectors.stoi[eos_swap_word]
+```
+
+Assign it to the current class of input language to over-ride the existing functionality of the vocabulary function. Now it has total number of words more than 400000.
+```python
+input_lang.word2index = vectors.stoi
+input_lang.word2count = { word : 1 for word in vectors.itos }
+input_lang.index2word = {i : word for i, word in enumerate (vectors.itos)}
+input_lang.n_words = len(vectors.itos)+1
+```
+
+In pytorch torchtext, vectors.get_vecs_by_tokens provide the sequence of 300 dimension tensor to dirctly provide the embedding vector. However, to maintain the structural feature as it is, additional numpy vector is created which hold the values of GloVe the corpus.
+```python
+matrix_len = input_lang.n_words
+weights_matrix = np.zeros((matrix_len, 300))
+words_found = 0
+for i, word in enumerate(input_lang.word2index):
+    try: 
+        weights_matrix[i] = vectors.get_vecs_by_tokens(word,lower_case_backup=True)
+        words_found += 1
+    except KeyError:
+        weights_matrix[i] = np.random.normal(scale=0.6, size=(300, ))
+```
+
+There is slight modification in embeddingRNN class to superimpose the embedding weights from the GloVe Embeddings weights.
+```python
+class EncoderRNN(nn.Module):
+    def __init__(self, input_size, hidden_size):
+        super(EncoderRNN, self).__init__()
+        self.hidden_size = hidden_size
+
+        self.embedding = nn.Embedding(input_size, hidden_size)
+        self.embedding.weight.data.copy_(torch.from_numpy(weights_matrix))
+```
+
+Lastly, needs smaller updates in indexesFromSequence function to return the unk token, if the word is not present in the GloVe Corpus.
+```python
+def indexesFromSentence(lang, sentence):
+    return [lang.word2index[word] if word in lang.word2index.keys() else lang.word2index['unk'] for word in sentence.split(' ')]
+```
+
+ - **Training Logs**
  
  ```
 6m 25s (- 89m 52s) (5000 6%) 3.6031
@@ -110,7 +179,7 @@ In our model, we are using GloVe embeddings of 300 dimensions and adding 'SOS' a
 89m 14s (- 6m 22s) (70000 93%) 1.2303
 95m 38s (- 0m 0s) (75000 100%) 1.1617
  ```
- **- Results**
+ - **Results**
 
 ```
 > you re not being rational .
