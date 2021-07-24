@@ -436,19 +436,6 @@ The resulting sentence will not make sense since the lstm/embedding layers were 
 |5| Step 5 <br> Word => EOS Tag <br>  <br> torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) <br> ![Example 6a](./Example_6a.png)<br>![Example 6aa](./Example_6aa.png) | Step 5 <br> Expected output(word) => . <br> Expected output(Index) => 4 <br> Predicted output(word) => situation <br> Predicted output(Index) => 2227 <br> ![Example 6b](./Example_6b.png)<br> |
 |6| - | Step 6 <br> Expected output(word) => EOS Tag <br> Expected output(Index) => 1 <br> Predicted output(word) => mobile <br> Predicted output(Index) => 2642 <br> ![Example 7b](./Example_7b.png)<br> |
 
-### LSTM 
-
-| Steps| Encoder | Decoder |
-|--|--|--|
-|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
-|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
-|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
-|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
-|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
-|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
-|6| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
-
-
 ## Refrences
  - [Attention Mechanism](https://blog.floydhub.com/attention-mechanism/)
  - [Attention Mechanism Code](https://github.com/spro/practical-pytorch/tree/master/seq2seq-translation)
