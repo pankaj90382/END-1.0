@@ -5,10 +5,121 @@
 1. Follow the similar strategy as in session [baby-steps-code](https://colab.research.google.com/drive/1IlorkvXhZgmd_sayOVx4bC_I5Qpdzxk_?usp=sharing), but replace GRU with LSTM. In your code you must:
   * Perform 1 full feed forward step for the encoder manually
   * Perform 1 full feed forward step for the decoder manually.
-  * You can use any of the 3 attention mechanisms that we discussed. 
+  * You can use any of the 3 attention mechanisms (Generalized Attention, Loung Attention, Bahdanau Attention) as discussed. 
 
 ## Solution
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S11/Seq2seq_Translation_Step_by_Step_Guide.ipynb)
+
+### Approach
+## LSTM + Bahdanau Attention with baby-steps
+
+Most of the code is similar to the first part. The only difference is the way the attention is calculated that affects the layers and their dimensions.
+
+### Encoder
+The encoder is exactly the same!
+
+### Decoder
+
+#### Layers
+
+```python
+embedding = nn.Embedding(DIM_OUT, DIM_HID).to(device)
+attn = nn.Linear(DIM_HID, DIM_HID)
+lstm_inp = nn.Linear(DIM_HID * 2, DIM_HID).to(device) #this layer takes care of the mismatched dimensions
+lstm = nn.LSTM(DIM_HID, DIM_HID).to(device)
+linear_out = nn.Linear(DIM_HID*2, DIM_OUT).to(device)
+```
+
+
+#### First output
+
+For the first word, we get the embeddings of the first word , and feed the lstm layer with it and the initial hidden/cell states.
+
+
+```python
+embedded = embedding(decoder_input)
+
+## Attn module
+attn_energies = torch.zeros(MAX_LEN_IN).to(device)
+for i in range(MAX_LEN_IN):
+  energy = attn(encoder_outputs[i])
+  attn_energies[i] = hidden[0,0].dot(energy) + cell[0,0].dot(energy)
+attn_weights = F.softmax(attn_energies, dim=0).unsqueeze(0).unsqueeze(0)
+##
+
+context = attn_weights.bmm(encoder_outputs.unsqueeze(1).transpose(0, 1))
+
+input_to_lstm1 = torch.cat((embedded, context), 2)
+input_to_lstm2 = lstm_inp(input_to_lstm1)
+output, (decoder_hidden, decoder_cell) = lstm(input_to_lstm2, (decoder_hidden, decoder_cell))
+
+output = F.log_softmax(linear_out(torch.cat((output, context), 2)), dim=2)
+top_value, top_index = output.data.topk(1) # same as using np.argmax
+
+out_word = output_lang.index2word[top_index.item()]
+print(out_word)
+predicted_sentence.append(out_word)
+```
+
+
+#### Second Output
+
+Again teacher forcing is randomly chosen. 
+
+```python
+teacher_forcing_ratio = 0.5
+use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
+
+if use_teacher_forcing:
+  decoder_input = torch.tensor([[target_indices[0]]], device=device)
+else:
+  decoder_input = torch.tensor([[top_index.item()]], device=device)
+```
+
+Once decided, then this input is then fed to the LSTM.
+
+
+```python
+embedded = embedding(decoder_input)
+
+## Attn module
+attn_energies = torch.zeros(MAX_LEN_IN).to(device)
+for i in range(MAX_LEN_IN):
+  energy = attn(encoder_outputs[i])
+  attn_energies[i] = hidden[0,0].dot(energy) + cell[0,0].dot(energy)
+attn_weights = F.softmax(attn_energies, dim=0).unsqueeze(0).unsqueeze(0)
+##
+
+context = attn_weights.bmm(encoder_outputs.unsqueeze(1).transpose(0, 1))
+
+input_to_lstm1 = torch.cat((embedded, context), 2)
+input_to_lstm2 = lstm_inp(input_to_lstm1)
+output, (decoder_hidden, decoder_cell) = lstm(input_to_lstm2, (decoder_hidden, decoder_cell))
+
+output = F.log_softmax(linear_out(torch.cat((output, context), 2)), dim=2)
+top_value, top_index = output.data.topk(1) # same as using np.argmax
+
+out_word = output_lang.index2word[top_index.item()]
+print(out_word)
+predicted_sentence.append(out_word)
+```
+
+
+#### Remaining Outputs
+
+The step above is repeated for the entire output sequence.
+
+#### Output
+
+Finally, all the outputs are concatenated to form a sentence. 
+
+```python
+predicted_sentence = ' '.join(predicted_sentence)
+predicted_sentence
+```
+The resulting sentence will not make sense since the lstm/embedding layers were initialized randomly. Training/backpropagation is needed to generate a proper sentence.
+
+## LSTM Babay-Steps-Code
 
 ### Sample
 Since we are not allowed loops, a random sample from the data has been chosen so that the maximum length of input/output sequences over which we have to proceed does not change. The sample is 
@@ -158,115 +269,6 @@ out_word = output_lang.index2word[top_index.item()]
 print(out_word)
 predicted_sentence.append(out_word)
 ```
-
-#### Remaining Outputs
-
-The step above is repeated for the entire output sequence.
-
-#### Output
-
-Finally, all the outputs are concatenated to form a sentence. 
-
-```python
-predicted_sentence = ' '.join(predicted_sentence)
-predicted_sentence
-```
-
-The resulting sentence will not make sense since the lstm/embedding layers were initialized randomly. Training/backpropagation is needed to generate a proper sentence.
-
-## Seq2Seq Model with Bahdanau Attention
-
-Most of the code is similar to the first part. The only difference is the way the attention is calculated that affects the layers and their dimensions.
-
-### Encoder
-The encoder is exactly the same!
-
-### Decoder
-
-#### Layers
-
-```python
-embedding = nn.Embedding(DIM_OUT, DIM_HID).to(device)
-attn = nn.Linear(DIM_HID, DIM_HID)
-lstm_inp = nn.Linear(DIM_HID * 2, DIM_HID).to(device) #this layer takes care of the mismatched dimensions
-lstm = nn.LSTM(DIM_HID, DIM_HID).to(device)
-linear_out = nn.Linear(DIM_HID*2, DIM_OUT).to(device)
-```
-
-
-#### First output
-
-For the first word, we get the embeddings of the first word , and feed the lstm layer with it and the initial hidden/cell states.
-
-
-```python
-embedded = embedding(decoder_input)
-
-## Attn module
-attn_energies = torch.zeros(MAX_LEN_IN).to(device)
-for i in range(MAX_LEN_IN):
-  energy = attn(encoder_outputs[i])
-  attn_energies[i] = hidden[0,0].dot(energy) + cell[0,0].dot(energy)
-attn_weights = F.softmax(attn_energies, dim=0).unsqueeze(0).unsqueeze(0)
-##
-
-context = attn_weights.bmm(encoder_outputs.unsqueeze(1).transpose(0, 1))
-
-input_to_lstm1 = torch.cat((embedded, context), 2)
-input_to_lstm2 = lstm_inp(input_to_lstm1)
-output, (decoder_hidden, decoder_cell) = lstm(input_to_lstm2, (decoder_hidden, decoder_cell))
-
-output = F.log_softmax(linear_out(torch.cat((output, context), 2)), dim=2)
-top_value, top_index = output.data.topk(1) # same as using np.argmax
-
-out_word = output_lang.index2word[top_index.item()]
-print(out_word)
-predicted_sentence.append(out_word)
-```
-
-
-#### Second Output
-
-Again teacher forcing is randomly chosen. 
-
-```python
-teacher_forcing_ratio = 0.5
-use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
-
-if use_teacher_forcing:
-  decoder_input = torch.tensor([[target_indices[0]]], device=device)
-else:
-  decoder_input = torch.tensor([[top_index.item()]], device=device)
-```
-
-Once decided, then this input is then fed to the LSTM.
-
-
-```python
-embedded = embedding(decoder_input)
-
-## Attn module
-attn_energies = torch.zeros(MAX_LEN_IN).to(device)
-for i in range(MAX_LEN_IN):
-  energy = attn(encoder_outputs[i])
-  attn_energies[i] = hidden[0,0].dot(energy) + cell[0,0].dot(energy)
-attn_weights = F.softmax(attn_energies, dim=0).unsqueeze(0).unsqueeze(0)
-##
-
-context = attn_weights.bmm(encoder_outputs.unsqueeze(1).transpose(0, 1))
-
-input_to_lstm1 = torch.cat((embedded, context), 2)
-input_to_lstm2 = lstm_inp(input_to_lstm1)
-output, (decoder_hidden, decoder_cell) = lstm(input_to_lstm2, (decoder_hidden, decoder_cell))
-
-output = F.log_softmax(linear_out(torch.cat((output, context), 2)), dim=2)
-top_value, top_index = output.data.topk(1) # same as using np.argmax
-
-out_word = output_lang.index2word[top_index.item()]
-print(out_word)
-predicted_sentence.append(out_word)
-```
-
 
 #### Remaining Outputs
 
