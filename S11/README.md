@@ -11,12 +11,106 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S11/Seq2seq_Translation_Step_by_Step_Guide.ipynb)
 
 ### Approach
+
 ## LSTM + Bahdanau Attention with baby-steps
 
-Most of the code is similar to the first part. The only difference is the way the attention is calculated that affects the layers and their dimensions.
+### Sample
+Select a pair of senetences from the data we prepared since in this code did not have used the any for loop. Defining the sentence will restrict the random pair which ultimately effect Max_word length.
+
+```python
+# sample = random.choice(pairs)
+sample = ['vous me faites rougir .', 'you re making me blush .']
+sample
+```
+```
+['vous me faites rougir .', 'you re making me blush .']
+```
+
+In order to work with embedding layer and the LSTM the inputs should be in the form of tensor, So we need to convert the sentences(words) to tensors.<br>
+First we'll split the sentences by whitespaces and convert each words into indices(using word2index[word])
+
+```python
+input_sentence = sample[0]
+output_sentence = sample[1]
+input_indices = [input_lang.word2index[word] for word in input_sentence.split(' ')]
+target_indices = [output_lang.word2index[word] for word in output_sentence.split(' ')]
+input_indices, target_indices
+    ([118, 27, 590, 2795, 5], [129, 78, 505, 343, 1655, 4])
+input_indices.append(EOS_token)
+target_indices.append(EOS_token)
+input_indices, target_indices
+   ([118, 27, 590, 2795, 5, 1], [129, 78, 505, 343, 1655, 4, 1])
+```
+
+Then convert the input_indices into tensors
+
+```python
+input_tensor = torch.tensor(input_indices, dtype=torch.long, device = device)
+output_tensor = torch.tensor(target_indices, dtype=torch.long, device = device)
+input_tensor.shape, output_tensor.shape
+   (torch.Size([6]), torch.Size([7]))
+```
+
+### Dimensions of Layers
+
+```python
+DIM_IN = input_lang.n_words
+DIM_OUT = output_lang.n_words
+DIM_HID = 256 # arbitraily chosen! must be same for encoder and decoder!
+MAX_LEN_IN = input_tensor.size()[0] # length of the input sequence under consideration
+MAX_LEN_OUT = output_tensor.size()[0] # length of the output sequence under consideration
+DIM_IN, DIM_OUT, DIM_HID, MAX_LEN_IN, MAX_LEN_OUT
+   (4345, 2803, 256, 6, 7)
+```
+
 
 ### Encoder
-The encoder is exactly the same!
+#### LSTM Layer
+We create an LSTM layer for use in the encoder
+
+```python
+embedding = nn.Embedding(DIM_IN, DIM_HID).to(device)
+lstm = nn.LSTM(DIM_HID, DIM_HID).to(device)
+```
+
+#### Intitial states
+
+The initial hidden/cell states of the LSTM are initialized to zeros.
+
+```python
+encoder_outputs = torch.zeros(MAX_LEN_IN, DIM_HID, device=device) # array to store outputs of enocders so that it can be used for attention
+hidden = torch.zeros(1, 1, DIM_HID, device=device) # first hidden state initialized as zeros
+cell = torch.zeros(1, 1, DIM_HID, device=device) # first hidden state initialized as zeros
+```
+
+#### First Encoder output
+
+For the first word, we get the embeddings of the first word , and feed the lstm layer with it and the initial hidden/cell states.
+
+```python
+input = input_tensor[0].view(-1, 1)
+embedded_input = embedding(input)
+output, (hidden, cell) = lstm(embedded_input, (hidden, cell))
+encoder_outputs[0] += output[0,0]
+print('Step %d\nWord => %s\n'%(0,input_sentence.split(' ')[0]))
+print(embedded_input.shape, output.shape,hidden.shape,cell.shape)
+plot_func(embedded_input, output, input_sentence.split(' ')[0])
+```
+
+#### Second Encoder output
+
+For the first word, we get the embeddings of the second word, and feed the lstm layer with it and the hidden/cell states obtained from the first word.
+```python
+input = input_tensor[1].view(-1, 1)
+embedded_input = embedding(input)
+output, (hidden, cell) = lstm(embedded_input, (hidden, cell))
+encoder_outputs[1] += output[0,0]
+```
+
+#### Remaining Outputs
+
+The step above is repeated for the entire input sequence.
+
 
 ### Decoder
 
@@ -37,8 +131,14 @@ For the first word, we get the embeddings of the first word , and feed the lstm 
 
 
 ```python
+decoder_input = torch.tensor([[SOS_token]], device=device) # We start from the <SOS> Token
+decoder_hidden = hidden # what we got from the output of the encoder from the last word
+decoder_cell = cell # what we got from the output of the encoder from the last word
+print('\nStep %d'%(0))
+print('Expected output(word) => %s '% output_sentence.split(" ")[0])
+print('Expected output(Index) => %d '% target_indices[0])
 embedded = embedding(decoder_input)
-
+print('Decoder Embedding shape',embedded.shape)
 ## Attn module
 attn_energies = torch.zeros(MAX_LEN_IN).to(device)
 for i in range(MAX_LEN_IN):
@@ -57,7 +157,9 @@ output = F.log_softmax(linear_out(torch.cat((output, context), 2)), dim=2)
 top_value, top_index = output.data.topk(1) # same as using np.argmax
 
 out_word = output_lang.index2word[top_index.item()]
-print(out_word)
+print('Predicted output(word) => %s '% out_word)
+print('Predicted output(Index) => %d '% top_index.item())
+attention_plot(attn_weights)
 predicted_sentence.append(out_word)
 ```
 
@@ -81,7 +183,9 @@ Once decided, then this input is then fed to the LSTM.
 
 ```python
 embedded = embedding(decoder_input)
-
+print('\nStep %d'%(1))
+print('Expected output(word) => %s '% output_sentence.split(" ")[1])
+print('Expected output(Index) => %d '% target_indices[1])
 ## Attn module
 attn_energies = torch.zeros(MAX_LEN_IN).to(device)
 for i in range(MAX_LEN_IN):
@@ -100,7 +204,9 @@ output = F.log_softmax(linear_out(torch.cat((output, context), 2)), dim=2)
 top_value, top_index = output.data.topk(1) # same as using np.argmax
 
 out_word = output_lang.index2word[top_index.item()]
-print(out_word)
+print('Predicted output(word) => %s '% out_word)
+print('Predicted output(Index) => %d '% top_index.item())
+attention_plot(attn_weights)
 predicted_sentence.append(out_word)
 ```
 
@@ -117,11 +223,17 @@ Finally, all the outputs are concatenated to form a sentence.
 predicted_sentence = ' '.join(predicted_sentence)
 predicted_sentence
 ```
+```
+absolute concerns mobile volunteering volunteering situation mobile
+```
 The resulting sentence will not make sense since the lstm/embedding layers were initialized randomly. Training/backpropagation is needed to generate a proper sentence.
+
 
 ## LSTM Babay-Steps-Code
 
+Most of the code is similar to the first part. The only difference is the way the attention is calculated that affects the layers and their dimensions.
 ### Sample
+
 Since we are not allowed loops, a random sample from the data has been chosen so that the maximum length of input/output sequences over which we have to proceed does not change. The sample is 
 
 ```python
@@ -143,6 +255,7 @@ MAX_LEN_OUT = output_tensor.size()[0] # length of the output sequence under cons
 We create an LSTM layer for use in the encoder
 
 ```python
+embedding = nn.Embedding(DIM_IN, DIM_HID).to(device)
 lstm = nn.LSTM(DIM_HID, DIM_HID).to(device)
 ```
 
@@ -151,6 +264,7 @@ lstm = nn.LSTM(DIM_HID, DIM_HID).to(device)
 The initial hidden/cell states of the LSTM are initialized to zeros.
 
 ```python
+encoder_outputs = torch.zeros(MAX_LEN_IN, DIM_HID, device=device) # array to store outputs of enocders so that it can be used for attention
 hidden = torch.zeros(1, 1, DIM_HID, device=device) # first hidden state initialized as zeros
 cell = torch.zeros(1, 1, DIM_HID, device=device) # first hidden state initialized as zeros
 ```
@@ -164,6 +278,9 @@ input = input_tensor[0].view(-1, 1)
 embedded_input = embedding(input)
 output, (hidden, cell) = lstm(embedded_input, (hidden, cell))
 encoder_outputs[0] += output[0,0]
+print('Step %d\nWord => %s\n'%(0,input_sentence.split(' ')[0]))
+print(embedded_input.shape, output.shape,hidden.shape,cell.shape)
+plot_func(embedded_input, output, input_sentence.split(' ')[0])
 ```
 
 #### Second output
@@ -174,6 +291,9 @@ input = input_tensor[1].view(-1, 1)
 embedded_input = embedding(input)
 output, (hidden, cell) = lstm(embedded_input, (hidden, cell))
 encoder_outputs[1] += output[0,0]
+print('Step %d\nWord => %s\n'%(1,input_sentence.split(' ')[1]))
+print(embedded_input.shape, output.shape,hidden.shape,cell.shape)
+plot_func(embedded_input, output, input_sentence.split(' ')[1])
 ```
 
 #### Remaining Outputs
@@ -210,8 +330,14 @@ decoder_cell = cell # what we got from the output of the encoder from the last w
 For the first word, we get the embeddings of the first word , and feed the lstm layer with it and the initial hidden/cell states.
 
 ```python
-embedded = embedding(decoder_input)
+decoder_input = torch.tensor([[SOS_token]], device=device) # We start from the <SOS> Token
+decoder_hidden = hidden # what we got from the output of the encoder from the last word
+decoder_cell = cell # what we got from the output of the encoder from the last word
 
+embedded = embedding(decoder_input)
+print('\nStep %d'%(0))
+print('Expected output(word) => %s '% output_sentence.split(" ")[0])
+print('Expected output(Index) => %d '% target_indices[0])
 # This decides the values with which output from the encoder needs weighed!
 attn_weigts_layer_input = torch.cat((embedded[0], decoder_hidden[0], cell[0]), 1)
 attn_weights = attn_weigts_layer(attn_weigts_layer_input)
@@ -228,7 +354,9 @@ output = F.relu(output)
 output = F.softmax(linear_out(output[0]), dim = 1)
 top_value, top_index = output.data.topk(1) # same as using np.argmax
 out_word = output_lang.index2word[top_index.item()]
-print(out_word)
+print('Predicted output(word) => %s '% out_word)
+print('Predicted output(Index) => %d '% top_index.item())
+attention_plot(attn_weights)
 predicted_sentence.append(out_word)
 ```
 
@@ -249,7 +377,9 @@ This input is then fed to the LSTM.
 
 ```python
 embedded = embedding(decoder_input)
-
+print('\nStep %d'%(1))
+print('Expected output(word) => %s '% output_sentence.split(" ")[1])
+print('Expected output(Index) => %d '% target_indices[1])
 # This decides the values with which output from the encoder needs weighed!
 attn_weigts_layer_input = torch.cat((embedded[0], decoder_hidden[0], cell[0]), 1)
 attn_weights = attn_weigts_layer(attn_weigts_layer_input)
@@ -266,7 +396,9 @@ output = F.relu(output)
 output = F.softmax(linear_out(output[0]), dim = 1)
 top_value, top_index = output.data.topk(1) # same as using np.argmax
 out_word = output_lang.index2word[top_index.item()]
-print(out_word)
+print('Predicted output(word) => %s '% out_word)
+print('Predicted output(Index) => %d '% top_index.item())
+attention_plot(attn_weights)
 predicted_sentence.append(out_word)
 ```
 
@@ -282,7 +414,9 @@ Finally, all the outputs are concatenated to form a sentence.
 predicted_sentence = ' '.join(predicted_sentence)
 predicted_sentence
 ```
-
+```
+depth desk desk desk desk desk desk
+```
 The resulting sentence will not make sense since the lstm/embedding layers were initialized randomly. Training/backpropagation is needed to generate a proper sentence.
 
 ## Refrences
