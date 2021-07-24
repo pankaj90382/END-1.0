@@ -12,6 +12,8 @@
 
 ### Approach
 
+In this exercise, I have developed LSTM with Bahdanau Attention, and LSTM to work out the complete single sentence through the model without using for loop. Ideally it should managed by the pytorch to go through all the loop mechanism with the batches however its good practice to develop it from scratch rather than taking the code from existing libraries.
+
 ## LSTM + Bahdanau Attention with baby-steps
 
 ### Sample
@@ -419,6 +421,33 @@ predicted_sentence
 depth desk desk desk desk desk desk
 ```
 The resulting sentence will not make sense since the lstm/embedding layers were initialized randomly. Training/backpropagation is needed to generate a proper sentence.
+
+## Results of each Step
+
+### LSTM + Bahdanau Attention
+
+| Steps| Encoder | Decoder |
+|--|--|--|
+|0| Step 0 <br> Word => vous <br>  <br> torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) <br> ![Example 1a](./Example_1a.png)<br> | Step 0 <br> Expected output(word) => you <br> Expected output(Index) => 129 <br> Decoder Embedding shape torch.Size([1, 1, 256]) <br> Predicted output(word) => absolute <br> Predicted output(Index) => 1467 <br> ![Example 1b](./Example_1b.png)<br> |
+|1| Step 1 <br> Word => me <br>  <br> torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) <br> ![Example 1a](./Example_1a.png)<br> | Step 1 <br> Expected output(word) => re <br> Expected output(Index) => 78 <br> Predicted output(word) => concerns <br> Predicted output(Index) => 2549 <br> ![Example 1b](./Example_1b.png)<br> |
+|2| Step 2 <br> Word => faites <br>  <br> torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) <br> ![Example 1a](./Example_1a.png)<br> | Step 2 <br> Expected output(word) => making <br> Expected output(Index) => 505 <br> Predicted output(word) => mobile <br> Predicted output(Index) => 2642 <br> ![Example 1b](./Example_1b.png)<br> |
+|3| Step 3 <br> Word => rougir <br>  <br> torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) <br> ![Example 1a](./Example_1a.png)<br> | Step 3 <br> Expected output(word) => me <br> Expected output(Index) => 343 <br> Predicted output(word) => volunteering <br> Predicted output(Index) => 800 <br> ![Example 1b](./Example_1b.png)<br> |
+|4| Step 4 <br> Word => . <br>  <br> torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) <br> ![Example 1a](./Example_1a.png)<br> | Step 4 <br> Expected output(word) => blush <br> Expected output(Index) => 1655 <br> Predicted output(word) => volunteering <br> Predicted output(Index) => 800 <br> ![Example 1b](./Example_1b.png)<br> |
+|5| Step 5 <br> Word => <EOS> <br>  <br> torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) torch.Size([1, 1, 256]) <br> ![Example 1a](./Example_1a.png)<br> | Step 5 <br> Expected output(word) => . <br> Expected output(Index) => 4 <br> Predicted output(word) => situation <br> Predicted output(Index) => 2227 <br> ![Example 1b](./Example_1b.png)<br> |
+|6| - | ![Example 1b](./Example_1b.png)<br> |
+
+### LSTM 
+
+| Steps| Encoder | Decoder |
+|--|--|--|
+|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
+|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
+|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
+|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
+|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
+|0| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
+|6| ![Example 1a](./Example_1a.png)<br> | ![Example 1b](./Example_1b.png)<br> |
+
 
 ## Refrences
  - [Attention Mechanism](https://blog.floydhub.com/attention-mechanism/)
