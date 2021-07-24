@@ -36,6 +36,7 @@ input_indices = [input_lang.word2index[word] for word in input_sentence.split(' 
 target_indices = [output_lang.word2index[word] for word in output_sentence.split(' ')]
 input_indices, target_indices
     ([118, 27, 590, 2795, 5], [129, 78, 505, 343, 1655, 4])
+    
 input_indices.append(EOS_token)
 target_indices.append(EOS_token)
 input_indices, target_indices
