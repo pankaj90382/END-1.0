@@ -6,8 +6,9 @@ Take the [repo](https://github.com/aladdinpersson/Machine-Learning-Collection/bl
 
 ## Solution
 
-### Approach
+### Dataset - Multi30K
 
+The data consists of a set of thousands of **French to English translation** pairs. Each word in both the the languages will be represented as a one-hot vector. This process is handled by the Lang class. The data is normalized wherein it is transformed to lowercase and converted from unicode to ASCII. All non-letter characters are also omitted as part of the normalization process. Normalization is done to define the data in a standard form so as to reduce randomness and increase efficiency. Once the normalization process is completed, we reduce the size of the available input data using two parameters- the length of the sentence (maximum of 10 words) and certain prefixes found in the English language. At the end of this process, we have a standardised limited dataset of English to French pairs.
 
 
 ### Transforemers from Scratch
