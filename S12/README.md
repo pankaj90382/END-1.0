@@ -10,14 +10,9 @@ Take the [repo](https://github.com/aladdinpersson/Machine-Learning-Collection/bl
 
 The data consists of a set of thousands of **French to English translation** pairs. Each word in both the the languages will be represented as a one-hot vector. This process is handled by the Lang class. The data is normalized wherein it is transformed to lowercase and converted from unicode to ASCII. All non-letter characters are also omitted as part of the normalization process. Normalization is done to define the data in a standard form so as to reduce randomness and increase efficiency. Once the normalization process is completed, we reduce the size of the available input data using two parameters- the length of the sentence (maximum of 10 words) and certain prefixes found in the English language. At the end of this process, we have a standardised limited dataset of English to French pairs.
 
-
-### Transforemers from Scratch
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S12/translation_transformer_from_scratch.ipynb)
-
-### Pytorch Transformer
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S12/translation_transformer.ipynb)
+| | Transforemers from Scratch | Pytorch Transformer |
+|--|--|--|
+| Colab Code| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S12/translation_transformer_from_scratch.ipynb) |  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S12/translation_transformer.ipynb) |
 
 ## Results
 
@@ -68,6 +63,7 @@ Epoch: 18, Train loss: 0.978, Val loss: 1.899, Epoch time = 44.487s
 ```
 
 ### Examples
+
 | Input | Transforemers from Scratch | Pytorch Transformer |
 |--|--|--|
 | Eine Gruppe von Menschen steht vor einem Iglu .| A group of people are gathered in front of a house . |  A group of people stand in front of an office . |
