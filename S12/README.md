@@ -6,6 +6,10 @@ Take the [repo](https://github.com/aladdinpersson/Machine-Learning-Collection/bl
 
 ## Solution
 
+### Approach
+
+
+
 ### Transforemers from Scratch
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S12/translation_transformer_from_scratch.ipynb)
@@ -13,7 +17,6 @@ Take the [repo](https://github.com/aladdinpersson/Machine-Learning-Collection/bl
 ### Pytorch Transformer
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S12/translation_transformer.ipynb)
-
 
 ## Results
 
@@ -62,3 +65,8 @@ Epoch: 16, Train loss: 1.106, Val loss: 1.920, Epoch time = 44.209s
 Epoch: 17, Train loss: 1.038, Val loss: 1.916, Epoch time = 44.514s
 Epoch: 18, Train loss: 0.978, Val loss: 1.899, Epoch time = 44.487s
 ```
+
+### Examples
+| Input | Transforemers from Scratch | Pytorch Transformer |
+|--|--|--|
+| Eine Gruppe von Menschen steht vor einem Iglu .| A group of people are gathered in front of a house . |  A group of people stand in front of an office . |
