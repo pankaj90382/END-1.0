@@ -3,7 +3,7 @@
 ## Objective
 This  [code](https://colab.research.google.com/github/bentrevett/pytorch-seq2seq/blob/master/6%20-%20Attention%20is%20All%20You%20Need.ipynb#scrollTo=FqXbPB80r8p4)is from the same repo that we were following.
 
-1.  remove all the legacy stuff from this and submit:
+1.  remove all the legacy stuff from file.
 2.  Training EPOCH logs
 3.  Sample translation for 10 example
 
@@ -11,6 +11,10 @@ This  [code](https://colab.research.google.com/github/bentrevett/pytorch-seq2seq
 ## Solution
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S13/Attention%20is%20All%20You%20Need_Torchtext.ipynb)
+
+### Dataset - Multi30K
+
+The data consists of a set of thousands of **French to English translation** pairs. Each word in both the the languages will be represented as a one-hot vector. This process is handled by the Lang class. The data is normalized wherein it is transformed to lowercase and converted from unicode to ASCII. All non-letter characters are also omitted as part of the normalization process. Normalization is done to define the data in a standard form so as to reduce randomness and increase efficiency. Once the normalization process is completed, we reduce the size of the available input data using two parameters- the length of the sentence (maximum of 10 words) and certain prefixes found in the English language. At the end of this process, we have a standardised limited dataset of English to French pairs.
 
 ### Results
 
@@ -144,3 +148,42 @@ trg = Two young girls are sitting on the street eating corn.
 ```
 
 ### Attention Visualization
+
+A Sample from Training Set
+
+```python
+src = 'Eine Frau mit einer großen Geldbörse geht an einem Tor vorbei.'
+trg = 'A woman with a large purse is walking by a gate.'
+
+predicted trg = ['People', 'are', 'walking', 'with', 'a', 'large', 'boulder', 'past', 'a', 'valley', 'that', 'is', 'walking', 'past', 'a', 'valley', '.', '<eos>']
+```
+
+![train set attn](./Train_Attention.png)
+
+---
+A Sample from Validation Test
+
+```python
+src = 'Ein brauner Hund rennt dem schwarzen Hund hinterher.'
+trg = 'A brown dog is running after the black dog.'
+
+predicted trg = ['A', 'brown', 'brown', 'dog', 'is', 'running', 'through', 'the', 'fall', '.', '<eos>']
+```
+
+![validation set attn](./Valid_Attention.png)
+
+---
+
+A Sample from Test Set
+
+```python
+src = 'Eine Mutter und ihr kleiner Sohn genießen einen schönen Tag im Freien.'
+trg = 'A mother and her young song enjoying a beautiful day outside.'
+
+predicted trg = ['People', 'are', 'watching', 'their', 'small', 'ride', 'a', 'nice', 'wheelbarrow', 'in', 'the', 'desert', '.', '<eos>']
+```
+
+![test set attn](./Test_Attention.png)
+
+
+---
