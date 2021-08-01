@@ -149,7 +149,7 @@ trg = Two young girls are sitting on the street eating corn.
 
 ### Attention Visualization
 
-A Sample from Training Set
+- **A Sample from Training Set**
 
 ```python
 src = 'Eine Frau mit einer großen Geldbörse geht an einem Tor vorbei.'
@@ -161,7 +161,7 @@ predicted trg = ['People', 'are', 'walking', 'with', 'a', 'large', 'boulder', 'p
 ![train set attn](./Train_Attention.png)
 
 ---
-A Sample from Validation Test
+- **A Sample from Validation Test**
 
 ```python
 src = 'Ein brauner Hund rennt dem schwarzen Hund hinterher.'
@@ -174,7 +174,7 @@ predicted trg = ['A', 'brown', 'brown', 'dog', 'is', 'running', 'through', 'the'
 
 ---
 
-A Sample from Test Set
+- **A Sample from Test Set**
 
 ```python
 src = 'Eine Mutter und ihr kleiner Sohn genießen einen schönen Tag im Freien.'
