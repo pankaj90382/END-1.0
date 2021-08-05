@@ -106,7 +106,7 @@ For this [question](https://stackoverflow.com/questions/64837376/how-to-efficien
  'total': 0}
 ```
 
-The Stackoverflow api fetches the answers of question with various attributes.
+As the same question have two answers, the Stackoverflow api fetches both answers of question with their attributes seperately into different dictonaries.
 
 ```text
 {'backoff': 0,
