@@ -480,20 +480,7 @@ model's answer >> Reciprocating
 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+---
 
 <a id="task2"></a>
  ### BERT Sentence Classification
@@ -638,19 +625,11 @@ The score will be based on the entire test set, but let's take a look at the sco
 
 ![bert MC PLot](./Sentence%20Classification%20MC%20Score.png?raw=true)
 
+---
  <a id="task3"></a>
  ### BART Paraphrasing
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S14/BART_For_Paraphrasing.ipynb)
-
-
-**Training Logs**
-
-
-**Sample Outputs**
-
-
-
 
 #### BART
 
@@ -670,29 +649,12 @@ In the above example the origin text is ` A B C D E` and the span `C, D` is mask
 
 The decoder must now use this encoding to reconstruct the original document. `A B C D E`
 
+**Training Logs**
 
 
+**Sample Outputs**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ ---
  
  ## Refrences
 
