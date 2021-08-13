@@ -675,7 +675,7 @@ BART is trained on tasks where spans of text are replaced by masked tokens, and 
 
 BART improves on BERT by replacing the BERT's fill-in-the-blank cloze task with a more complicated mix of pretraining tasks.
 
-![text infilling](https://github.com/satyajitghana/TSAI-DeepNLP-END2.0/blob/main/14_BERT_BART/assets/text_infilling.png?raw=true)
+![text infilling](https://miro.medium.com/max/700/1*jWecxbzBsJEbNgiy_LOIvw.png?raw=true)
 
 In the above example the origin text is ` A B C D E` and the span `C, D` is masked before sending it to the encoder, also an extra mask is placed between `A` and `B` and one mask is removed between `B` and `E`, now the corrupted document is `A _ B _ E`. The encoder takes this as input, encodes it and throws it to the decoder.
 
