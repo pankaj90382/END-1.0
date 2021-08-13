@@ -5,10 +5,6 @@
 1.  TASK 1: Train BERT using the code mentioned  [here (Links to an external site.)](https://drive.google.com/file/d/1Zp2_Uka8oGDYsSe5ELk-xz6wIX8OIkB7/view?usp=sharing)  on the Squad Dataset for 20% overall samples (1/5 Epochs). Show results on 5 samples.
 2.  TASK 2: Reproductive  [these (Links to an external site.)](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)  results, and show output on 5 samples.
 3.  TASK 3: Reproduce the training explained in this  [blog (Links to an external site.)](https://towardsdatascience.com/bart-for-paraphrasing-with-simple-transformers-7c9ea3dfdd8c). You can decide to pick fewer datasets.
-4.  Proceed to Session 14 - Assignment Solutions page and:
-    1.  Submit README link for Task 1 (training log snippets and 5 sample results along with BERT description must be available) - 750
-    2.  Submit README link for Task 2 (training log snippets and 5 sample results) - 250
-    3.  Submit README link for Task 3 (training log snippets and 5 sample results along with BART description must be available) - 1000
 
 ## Solution
 
@@ -20,6 +16,24 @@
 ### BERT QA Bot on SQUAD Dataset
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S14/BERT_Tutorial_How_To_Build_a_Question_Answering_Bot.ipynb)
+
+
+#### BERT
+
+**B**idirectional **E**ncoder **R**epresentations from **T**ransformers
+
+BERT is basically a trained Transformer Encoder stack. Both BERT models (Large & Base) have large number of encoder layers (Transformer Blocks) - 12 for the Base version and 24 for the large version.
+
+Model Input: The first input token is `[CLS]`, which stands for Classification. Just like a normal Transformer, BERT takes a sequence of words as input.
+Model Outputs: Each position of the sequence outputs a vector of size `hidden_size`. For sentence classification we only focus on the first position (the `[CLS]` token position. The vector can now be used to classify into the class you chose. If you have more classes, this last layer (Classifier Network) is only changed.
+
+As opposed to directional models, which read the text input sequentially (left-to-right or right-to-left), the Transformer encoder reads the entire sequence of words at once. Therefore it is considered bidirectional, though it would be more accurate to say that it’s non-directional.
+
+Before feeding word sequences into BERT, 15% of the words in each sequence are replaced with a `[MASK]` token. The model then attempts to predict the original value of the masked words, based on the context provided by the other, non-masked, words in the sequence.
+
+The BERT loss function takes into consideration only the prediction of the masked values and ignores the prediction of the non-masked words. As a consequence, the model converges slower than directional models.
+
+In the BERT training process, the model receives pairs of sentences as input and learns to predict if the second sentence in the pair is the subsequent sentence in the original document. During training, 50% of the inputs are a pair in which the second sentence is the subsequent sentence in the original document, while in the other 50% a random sentence from the corpus is chosen as the second sentence. The assumption is that the random sentence will be disconnected from the first sentence.
 
 **Training Logs**
 
@@ -649,7 +663,23 @@ true cls  = unacceptable
 
 
 
+#### BART
 
+**B**idirectional and **A**uto-**R**egressive **T**ransformers
+
+BART is a denoising autoencoder built with a sequence-to-sequence model that is applicable to a very wide range of end tasks.
+
+### Pretraining: Fill In the Span
+
+BART is trained on tasks where spans of text are replaced by masked tokens, and the model must learn to reconstruct the original document from this altered span of text.
+
+BART improves on BERT by replacing the BERT's fill-in-the-blank cloze task with a more complicated mix of pretraining tasks.
+
+![text infilling](https://github.com/satyajitghana/TSAI-DeepNLP-END2.0/blob/main/14_BERT_BART/assets/text_infilling.png?raw=true)
+
+In the above example the origin text is ` A B C D E` and the span `C, D` is masked before sending it to the encoder, also an extra mask is placed between `A` and `B` and one mask is removed between `B` and `E`, now the corrupted document is `A _ B _ E`. The encoder takes this as input, encodes it and throws it to the decoder.
+
+The decoder must now use this encoding to reconstruct the original document. `A B C D E`
 
 
 
