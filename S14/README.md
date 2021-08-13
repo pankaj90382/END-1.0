@@ -2,15 +2,15 @@
 
 ## Assignment
 
-1.  TASK 1: Train BERT using the code mentioned  [here (Links to an external site.)](https://drive.google.com/file/d/1Zp2_Uka8oGDYsSe5ELk-xz6wIX8OIkB7/view?usp=sharing)  on the Squad Dataset for 20% overall samples (1/5 Epochs). Show results on 5 samples.
-2.  TASK 2: Reproductive  [these (Links to an external site.)](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)  results, and show output on 5 samples.
-3.  TASK 3: Reproduce the training explained in this  [blog (Links to an external site.)](https://towardsdatascience.com/bart-for-paraphrasing-with-simple-transformers-7c9ea3dfdd8c). You can decide to pick fewer datasets.
+1.  Train BERT using the code mentioned  [here (Links to an external site.)](https://drive.google.com/file/d/1Zp2_Uka8oGDYsSe5ELk-xz6wIX8OIkB7/view?usp=sharing)  on the Squad Dataset for 20% overall samples (1/5 Epochs). Show results on 5 samples.
+2.  Reproductive  [these (Links to an external site.)](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)  results, and show output on 5 samples.
+3.  Reproduce the training explained in this  [blog (Links to an external site.)](https://towardsdatascience.com/bart-for-paraphrasing-with-simple-transformers-7c9ea3dfdd8c). You can decide to pick fewer datasets.
 
 ## Solution
 
-   * [Task 1](#task1)
-   * [Task 2](#task2)
-   * [Task 3](#task3)
+   * [BERT QA Bot on SQUAD Dataset](#task1)
+   * [BERT Sentence Classification](#task2)
+   * [BART Paraphrasing](#task3)
 
 <a id="task1"></a>
 ### BERT QA Bot on SQUAD Dataset
