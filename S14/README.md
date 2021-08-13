@@ -417,56 +417,14 @@ Epoch: 100%|██████████| 1/1 [25:50<00:00, 1550.62s/it]
 
 ```text
 
-question       >> What does rebellion require in Christian Bay's encyclopedia?
-model's answer >> 
-
 question       >> The immune systems of bacteria have enzymes that protect against infection by what kind of cells?
 model's answer >> unicellular
-
-question       >> Where does the cold water mix with Lake Constance?
-model's answer >> 
-
-question       >> What can be viewed as a limited collection of instances together with a solution for every instance?
-model's answer >> 
 
 question       >> Where is the lowest point of Warsaw located?
 model's answer >> 75.6 metres (248.0 ft) (at the right bank of the Vistula, by the eastern border of Warsaw
 
-question       >> When was the Black Forest discovered?
-model's answer >> 
-
-question       >> In what year did the House of Guise gain influence?
-model's answer >> 
-
-question       >> What was abnormal British defense?
-model's answer >> 
-
-question       >> X.25 uses what type network type 
-model's answer >> 
-
 question       >> What river runs alongside Jacksonville?
 model's answer >> St. Johns River
-
-question       >> Who never captured Fort Beausejour?
-model's answer >> 
-
-question       >> Who works to get workers higher compensation?
-model's answer >> 
-
-question       >> Who developed an axiomatic complexity theory based on his axioms in 1974?
-model's answer >> 
-
-question       >> What is the immune system of the brained known as?
-model's answer >> 
-
-question       >> What is another function that primes have that the number 1 does not?
-model's answer >> 
-
-question       >> What are phagocytes in tissues that only have contact with the internal environment called?
-model's answer >> 
-
-question       >> Other than Scotland's Chief Law Officer, from whence are most ministers drawn from amongst?
-model's answer >> 
 
 question       >> What do a and b represent in a Gaussian integer expression? 
 model's answer >> arbitrary integers
@@ -480,53 +438,20 @@ model's answer >> the Sierra Freeway
 question       >> Does packet switching charge a fee when no data is transferred?
 model's answer >> fee per unit of connection time
 
-question       >> What university was John of London an alum of?
-model's answer >> 
-
-question       >> When did the Jurassic Period end?
-model's answer >> 
-
 question       >> What months out of the year is Woodward Park open?
 model's answer >> April through October
 
 question       >> Which University ranks having the 9th most number of volumes in the US?
 model's answer >> University of Chicago
 
-question       >> In Sept 1706 who negotiated a capitulation from Montreal?
-model's answer >> 
-
 question       >> What has been the main reason for the shift to the view that income inequality harms growth?
 model's answer >> increasing importance of human capital in development
-
-question       >> Who is the father of Sophocles?
-model's answer >> 
 
 question       >> Strictly speaking who was included in DATANET 1
 model's answer >> Dutch PTT Telecom
 
-question       >> What country has the most illiterate adults in the world?
-model's answer >> 
-
-question       >> What has presented problems to the UN economy more than other nations?
-model's answer >> 
-
-question       >> What is one thing ash layers can be used to determine in a crystal lattice?
-model's answer >> 
-
-question       >> What is gravitational acceleration proportional to?
-model's answer >> 
-
-question       >> Where is the oldest known rock in the world located?
-model's answer >> 
-
 question       >> What color is the sputum of those suffering from septicemic plague sufferers?
 model's answer >> bright red
-
-question       >>  Which country today is not a remnant of the Ottoman empire?
-model's answer >> 
-
-question       >> What was the trend of female student population from 1970s and deyond?
-model's answer >> 
 
 question       >> What is  DECnet
 model's answer >> a suite of network protocols
@@ -557,11 +482,12 @@ model's answer >> Reciprocating
 <a id="task2"></a>
  ### BERT Sentence Classification
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S14/BERT%20Fine-Tuning%20Sentence%20Classification%20v4.ipynbb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S14/BERT%20Fine-Tuning%20Sentence%20Classification%20v4.ipynb)
 
 
 
 **Training Logs**
+
 
 
 **Sample Outputs**
