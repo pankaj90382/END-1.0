@@ -18,11 +18,17 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S14/BERT_Tutorial_How_To_Build_a_Question_Answering_Bot.ipynb)
 
 
-#### BERT
+**BERT**
 
-**B**idirectional **E**ncoder **R**epresentations from **T**ransformers
+BERT is Google’s  NLP framework, and seemingly the most influential one in recent times. </br>
+
+*"BERT stands for Bidirectional Encoder Representations from Transformers. It is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of NLP tasks.”*
 
 BERT is basically a trained Transformer Encoder stack. Both BERT models (Large & Base) have large number of encoder layers (Transformer Blocks) - 12 for the Base version and 24 for the large version.
+
+BERT is released in two sizes BERTBASE and BERTLARGE. The BASE model is used to measure the performance of the architecture comparable to another architecture and the LARGE model produces state-of-the-art results that were reported in the research paper.
+
+BERT is basically an Encoder stack of transformer architecture. A transformer architecture is an encoder-decoder network that uses self-attention on the encoder side and attention on the decoder side. BERTBASE has 12 layers in the Encoder stack while BERTLARGE has 24 layers in the Encoder stack. These are more than the Transformer architecture described in the original paper (6 encoder layers). BERT architectures (BASE and LARGE) also have larger feedforward-networks (768 and 1024 hidden units respectively), and more attention heads (12 and 16 respectively) than the Transformer architecture suggested in the original paper. It contains 512 hidden units and 8 attention heads. BERTBASE contains 110M parameters while BERTLARGE has 340M parameters.
 
 Model Input: The first input token is `[CLS]`, which stands for Classification. Just like a normal Transformer, BERT takes a sequence of words as input.
 Model Outputs: Each position of the sequence outputs a vector of size `hidden_size`. For sentence classification we only focus on the first position (the `[CLS]` token position. The vector can now be used to classify into the class you chose. If you have more classes, this last layer (Classifier Network) is only changed.
@@ -635,9 +641,24 @@ The score will be based on the entire test set, but let's take a look at the sco
 
 **B**idirectional and **A**uto-**R**egressive **T**ransformers
 
-BART is a denoising autoencoder built with a sequence-to-sequence model that is applicable to a very wide range of end tasks.
+BART is a denoising autoencoder for pretraining sequence-to-sequence models. BART is trained by 
 
-### Pretraining: Fill In the Span
+- corrupting text with an arbitrary noising function, and 
+- learning a model to reconstruct the original text.
+
+BART uses a standard Transformer architecture (Encoder-Decoder) and is a combination of BERT, which is only encoder-model and GPT, which is a decoder-only model.
+
+A significant advantage of this setup is the unlimited flexibility of choosing the corruption scheme; including changing the length of the original input. Or, in fancier terms, the text can be corrupted with an arbitrary noising function.
+
+The corruption schemes used in the paper are summarized below:
+
+- Token masking - a random subset of the input is replaced with [MASK] token, like in BERT
+- Token deletion - Random tokens are deleted from the input. The model must decide which positions are missing (as the tokens are simply deleted and not replaced with anything else)
+- Text infilling - A number of text spans (length can vary) are each replaced with a single [MASK] token. 
+- Sentence Permutation - the input is split based on periods (.) and the sentences are shuffled. 
+- Document Rotation - a token is chosen at random, and the sequence is rotated so that it starts with the chosen token. 
+
+#### Pretraining: Fill In the Span
 
 BART is trained on tasks where spans of text are replaced by masked tokens, and the model must learn to reconstruct the original document from this altered span of text.
 
@@ -651,8 +672,578 @@ The decoder must now use this encoding to reconstruct the original document. `A 
 
 **Training Logs**
 
+```text
+INFO:filelock:Lock 140029390796432 acquired on /root/.cache/huggingface/transformers/3f12fb71b844fcb7d591fdd4e55027da90d7b5dd6aa5430ad00ec6d76585f26c.58d5dda9f4e9f44e980adb867b66d9e0cbe3e0c05360cefe3cd86f5db4fff042.lock
+Downloading: 100%
+1.60k/1.60k [00:00<00:00, 40.2kB/s]
+INFO:filelock:Lock 140029390796432 released on /root/.cache/huggingface/transformers/3f12fb71b844fcb7d591fdd4e55027da90d7b5dd6aa5430ad00ec6d76585f26c.58d5dda9f4e9f44e980adb867b66d9e0cbe3e0c05360cefe3cd86f5db4fff042.lock
+INFO:filelock:Lock 140029278969424 acquired on /root/.cache/huggingface/transformers/d065edfe6954baf0b989a2063b26eb07e8c4d0b19354b5c74af9a51f5518df6e.6ca4df1a6ec59aa763989ceec10dff41dde19f0f0824b9f5d3fcd35a8abffdb2.lock
+Downloading: 100%
+1.02G/1.02G [00:22<00:00, 40.5MB/s]
+INFO:filelock:Lock 140029278969424 released on /root/.cache/huggingface/transformers/d065edfe6954baf0b989a2063b26eb07e8c4d0b19354b5c74af9a51f5518df6e.6ca4df1a6ec59aa763989ceec10dff41dde19f0f0824b9f5d3fcd35a8abffdb2.lock
+INFO:filelock:Lock 140026355392464 acquired on /root/.cache/huggingface/transformers/0d6fc8b2ef1860c1f8f0baff4b021e3426cc7d11b153f98e563b799603ee2f25.647b4548b6d9ea817e82e7a9231a320231a1c9ea24053cc9e758f3fe68216f05.lock
+Downloading: 100%
+899k/899k [00:00<00:00, 1.66MB/s]
+INFO:filelock:Lock 140026355392464 released on /root/.cache/huggingface/transformers/0d6fc8b2ef1860c1f8f0baff4b021e3426cc7d11b153f98e563b799603ee2f25.647b4548b6d9ea817e82e7a9231a320231a1c9ea24053cc9e758f3fe68216f05.lock
+INFO:filelock:Lock 140026355391888 acquired on /root/.cache/huggingface/transformers/6e75e35f0bdd15870c98387e13b93a8e100237eb33ad99c36277a0562bd6d850.5d12962c5ee615a4c803841266e9c3be9a691a924f72d395d3a6c6c81157788b.lock
+Downloading: 100%
+456k/456k [00:00<00:00, 1.52MB/s]
+INFO:filelock:Lock 140026355391888 released on /root/.cache/huggingface/transformers/6e75e35f0bdd15870c98387e13b93a8e100237eb33ad99c36277a0562bd6d850.5d12962c5ee615a4c803841266e9c3be9a691a924f72d395d3a6c6c81157788b.lock
+INFO:filelock:Lock 140026355390736 acquired on /root/.cache/huggingface/transformers/d94f53c8851dcda40774f97280e634b94b721a58e71bcc152b5f51d0d49a046a.fc9576039592f026ad76a1c231b89aee8668488c671dfbe6616bab2ed298d730.lock
+Downloading: 100%
+1.36M/1.36M [00:00<00:00, 4.87MB/s]
+INFO:filelock:Lock 140026355390736 released on /root/.cache/huggingface/transformers/d94f53c8851dcda40774f97280e634b94b721a58e71bcc152b5f51d0d49a046a.fc9576039592f026ad76a1c231b89aee8668488c671dfbe6616bab2ed298d730.lock
+INFO:filelock:Lock 140026356565712 acquired on /root/.cache/huggingface/transformers/1abf196c889c24daca2909359ca2090e5fcbfa21a9ea36d763f70adbafb500d7.67d01b18f2079bd75eac0b2f2e7235768c7f26bd728e7a855a1c5acae01a91a8.lock
+Downloading: 100%
+26.0/26.0 [00:00<00:00, 669B/s]
+INFO:filelock:Lock 140026356565712 released on /root/.cache/huggingface/transformers/1abf196c889c24daca2909359ca2090e5fcbfa21a9ea36d763f70adbafb500d7.67d01b18f2079bd75eac0b2f2e7235768c7f26bd728e7a855a1c5acae01a91a8.lock
+INFO:simpletransformers.seq2seq.seq2seq_utils: Creating features from dataset file at cache_dir/
+100%
+21829/21829 [00:08<00:00, 2639.14it/s]
+INFO:simpletransformers.seq2seq.seq2seq_model: Training started
+Epoch 1 of 1: 100%
+1/1 [52:28<00:00, 3148.78s/it]
+wandb: You can find your API key in your browser here: https://wandb.ai/authorize
+wandb: Paste an API key from your profile and hit enter: ··········
+wandb: W&B syncing is set to `offline` in this directory.  Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+Epochs 0/1. Running Loss: 0.6717: 100%
+2729/2729 [46:27<00:00, 1.18it/s]
+INFO:simpletransformers.seq2seq.seq2seq_utils: Creating features from dataset file at cache_dir/
+100%
+3539/3539 [00:07<00:00, 301.58it/s]
+INFO:simpletransformers.seq2seq.seq2seq_model:{'eval_loss': 0.4942293555081428}
+INFO:simpletransformers.seq2seq.seq2seq_model:Saving model into outputs/best_model
+INFO:simpletransformers.seq2seq.seq2seq_model:Saving model into outputs/checkpoint-2729-epoch-1
+INFO:simpletransformers.seq2seq.seq2seq_utils: Creating features from dataset file at cache_dir/
+100%
+3539/3539 [00:11<00:00, 205.02it/s]
+INFO:simpletransformers.seq2seq.seq2seq_model:{'eval_loss': 0.4932126947888383}
+INFO:simpletransformers.seq2seq.seq2seq_model:Saving model into outputs/best_model
+INFO:simpletransformers.seq2seq.seq2seq_model:Saving model into outputs/
+INFO:simpletransformers.seq2seq.seq2seq_model: Training of facebook/bart-large model complete. Saved to outputs/.
+Generating outputs: 100%
+222/222 [17:36<00:00, 3.62s/it]
+/usr/local/lib/python3.7/dist-packages/torch/_tensor.py:575: UserWarning: floor_divide is deprecated, and will be removed in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values.
+To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor'). (Triggered internally at  /pytorch/aten/src/ATen/native/BinaryOps.cpp:467.)
+  return torch.floor_divide(self, other)
+```
 
 **Sample Outputs**
+
+```text
+Text  > They were there to enjoy us and they were there to pray for us .
+Pred  < Paraphrase : They were there to enjoy us and they were there for us to pray.
+Truth = They were there for us to enjoy and they were there for us to pray .
+
+Text  > After the end of the war in June 1902 , Higgins left Southampton in the `` SSBavarian '' in August , returning to Cape Town the following month .
+Pred  < Paraphrase : After the end of the war in June 1902, Higgins left Southampton in August in the `` SSBavarian '', returning to Cape Town the following month.
+Truth = In August , after the end of the war in June 1902 , Higgins Southampton left the `` SSBavarian '' and returned to Cape Town the following month .
+
+Text  > From the merger of the Four Rivers Council and the Audubon Council , the Shawnee Trails Council was born .
+Pred  < Paraphrase : From the merger of the Four Rivers Council and the Audubon Council, the Shawnee Trails Council was born.
+Truth = Shawnee Trails Council was formed from the merger of the Four Rivers Council and the Audubon Council .
+
+Text  > The group toured extensively and became famous in Israel , and even played in New York City in 2007 .
+Pred  < Paraphrase : The group toured extensively and became famous in Israel, and even played in New York City in 2007.
+Truth = The group toured extensively and was famous in Israel and even played in New York City in 2007 .
+
+Text  > Kathy and her husband Pete Beale ( Peter Dean ) are stable financially .
+Pred  < Paraphrase : Kathy and her husband Peter Dean ( Pete Beale ) are financially stable.
+Truth = Kathy and her husband Peter Dean ( Pete Beale ) are financially stable .
+
+Text  > Timora diarhoda is a species of moth of the Noctuidae family . It is found in Africa , including South Africa .
+Pred  < Paraphrase : Timora diarhoda is a species of moth of the Noctuidae family. It is found in Africa, including South Africa.
+Truth = Diarhoda is a kind of moth of the Noctuidae family . It is found in South Africa including Africa .
+
+Text  > Joe R. Campa Jr. is a former sailor of the United States Navy , who served as the eleventh Master Chief Petty Officer of the U.S. Navy .
+Pred  < Joe R. Campa Jr. is a former sailor of the United States Navy, who served as the eleventh Master Chief Petty Officer of the Navy.
+Truth = Joe R. Campa Jr. is a former U.S. Navy Matrose who served as the 11th Master Chief Petty Officer of the United States Navy .
+
+Text  > The exception was between late 2005 and 2009 when he played in Sweden with Carlstad United BK , Serbia with FK Borac Čačak and Russian FC Terek Grozny .
+Pred  < The exception was between late 2005 and 2009 when he played with Carlstad United BK in Sweden, Serbia with FK Borac Čačak and Russian FC Terek Grozny.
+Truth = The exception was between late 2005 and 2009 , when he played in Sweden with Carlstad United BK , Serbia with FK Borac Čačak and the Russian FC Terek Grozny .
+
+Text  > The family moved to Camp Hill in 1972 , where he attended Trinity High School in Harrisburg , Pennsylvania .
+Pred  < Paraphrase : The family moved to Camp Hill in 1972, where he attended Trinity High School in Harrisburg, Pennsylvania.
+Truth = In 1972 , the family moved to Camp Hill , where he visited the Trinity High School in Harrisburg , Pennsylvania .
+
+Text  > A recording of folk songs done for the Columbia society in 1942 was largely arranged by Pjetër Dungu .
+Pred  < Paraphrase : A recording of folk songs done in 1942 for the Columbia Society was largely arranged by Pjetër Dungu.
+Truth = A recording of folk songs made for the Columbia society in 1942 was largely arranged by Pjetër Dungu .
+
+Text  > Components of elastic potential systems store mechanical energy if they are deformed when forces are applied to the system .
+Pred  < Paraphrase : Components of elastic potential systems store mechanical energy if they are deformed when forces are applied to the system.
+Truth = Components of elastic potential systems store mechanical energy if they are deformed to the system when applied to forces .
+
+Text  > Earl St Vincent was a British ship that was captured in 1803 and became a French trade man .
+Pred  < Earl St Vincent was a British ship captured in 1803 and became a French trade man.
+Truth = Earl St Vincent was a British ship that was captured and became a French merchantman in 1803 .
+
+Text  > Steam can also be used , and does not need to be pumped .
+Pred  < Paraphrase : Steam can also be used and does not need to be pumped.
+Truth = Also steam can be used and need not be pumped .
+
+Text  > In mathematical astronomy , his fame is due to the introduction of the astronomical globe , and his early contributions to understanding the movement of the planets .
+Pred  < Paraphrase : In mathematical astronomy, his fame is due to the introduction of the astronomical globe and his early contributions to understanding the movement of the planets.
+Truth = His fame is due in mathematical astronomy to the introduction of the astronomical globe and to his early contributions to the understanding of the movement of the planets .
+
+Text  > Winarsky is a member of the IEEE , Phi Beta Kappa , the ACM and Sigma Xi .
+Pred  < Paraphrase : Winarsky is a member of the ACM, Phi Beta Kappa, the IEEE and Sigma Xi.
+Truth = Winarsky is a member of ACM , the IEEE , the Phi Beta Kappa and the Sigma Xi .
+
+Text  > Mandarin - Chinese has specific terms and racial euphemisms for different races and ethnicities , and some discriminatory attacks against representatives of certain governments and backgrounds .
+Pred  < Paraphrase : Mandarin Chinese has specific terms and racial euphemisms for different races and ethnicities, and some discriminatory attacks against representatives of certain governments and backgrounds.
+Truth = Mandarin Chinese has specific terms and racial euphemisms for different races and ethnicities , and some discriminatory slurs against representatives from certain governments and backgrounds .
+
+Text  > The solar approach to this requirement is the use of solar panels in a conventional-powered aircraft .
+Pred  < Paraphrase : The solar approach to this requirement is the use of solar panels in a conventional aircraft.
+Truth = The solar approach to this requirement is the use of solar panels in a conventionally powered aircraft .
+
+Text  > The police also questioned singer Rimi Tomy and the actor Kavya Madhavan , both close friends of Siddique and his wife Dileep , as part of the ongoing investigation .
+Pred  < Paraphrase : The police also questioned singer Rimi Tomy and actor Kavya Madhavan, both close friends of Siddique and his wife Dileep, as part of the ongoing investigation.
+Truth = The police also questioned singer Rimi Tomy and actor Kavya Madhavan , both close friends of Siddique and his wife Dileep , as part of the ongoing investigation .
+
+Text  > Its music critics included Julius Korngold ( 1864 -- 1904 ) and Eduard Hanslick ( 1904 -- 1934 ) .
+Pred  < Paraphrase : Its music critics included Julius Korngold ( 1864 -- 1904 ) and Eduard Hanslick ( 1904 -- 1934 ).
+Truth = Its music critics included Julius Korngold ( 1864 -- 1904 ) and Eduard Hanslick ( 1904 -- 1934 ) .
+
+Text  > Holly was musically influenced by Elton John .
+Pred  < Paraphrase : Holly was musically influenced by Elton John.
+Truth = Holly Holly was influenced musically by Elton John .
+
+Text  > It was that Easipower said ,
+Pred  < Paraphrase : It was Easipower that said,
+Truth = It was Easipower that said :
+
+Text  > The Tabaci River is a tributary of the Leurda River in Romania .
+Pred  < The Tabaci River is a tributary of the Leurda River in Romania.
+Truth = The river Tabaci is a tributary of the River Leurda in Romania .
+
+Text  > Aamir Khan agreed to act immediately after reading Mehra 's screenplay in `` Rang De Basanti '' .
+Pred  < Paraphrase : Aamir Khan agreed to act immediately after reading Mehra's screenplay in `` Rang De Basanti ''.
+Truth = Aamir Khan agreed to act in `` Rang De Basanti '' immediately after reading Mehra 's script .
+
+Text  > Loyang 's team defeated Xinmin Secondary School in the opening round and Raffles Institution in the quarter-finals , before losing to Hwa Chong Institution in the semi-finals .
+Pred  < Paraphrase : Loyang's team defeated Xinmin Secondary School in the opening round and Raffles Institution in the quarter-finals before losing in the semi-finals to Hwa Chong Institution.
+Truth = The Loyang team defeated Xinmin Secondary School in the opening round and Raffles Institution in the quarterfinals before losing to the Hwa Chong Institution in the semi-finals .
+
+Text  > Retzius was born in Stockholm , son of the anatomist Anders Jahan Retzius ( and grandson of the naturalist and chemist Anders Retzius ) .
+Pred  < Paraphrase : Retzius was born in Stockholm, son of anatomist Anders Jahan Retziu ( and grandson of the naturalist and chemist Anders Retzlius ).
+Truth = Retzius was born in Stockholm , the son of anatomist Anders Jahan Retzius ( and grandson of the naturalist and chemist Anders Retzius ) .
+
+Text  > The `` Fallbeil '' was used for the last time in West Germany in 1949 , in East Germany in 1966 .
+Pred  < Paraphrase : The `` Fallbeil '' was used for the last time in 1949 in West Germany, in 1966 in East Germany.
+Truth = The `` Fall Beil '' was used for the last time in West Germany in 1949 , in 1966 in East Germany .
+
+Text  > In 2009 he moved back to Philadelphia and lives in New York City today .
+Pred  < Paraphrase : In 2009 he moved back to Philadelphia and lives in New York City today.
+Truth = He moved back to Philadelphia in 2009 and now lives in New York City .
+
+Text  > Stipsits was born in Korneuburg , Germany and spent his childhood in Stammersdorf , Vienna .
+Pred  < Stipsits was born in Korneuburg, Germany, and spent his childhood in Stammersdorf, Vienna.
+Truth = Stipsits was born in Korneuburg , and spent his childhood in Stammersdorf , Vienna .
+
+Text  > Daudkhali is a village in Barisal Division in the Pirojpur district in southwestern Bangladesh .
+Pred  < Daudkhali is a village in the Barisal Division in the Pirojpur district of southwestern Bangladesh.
+Truth = Daudkhali is a village in Pirojpur District in the Barisal Division of southwestern Bangladesh .
+
+Text  > The temple serves as the cultural and religious center for Korean Hindus and immigrants from South Asian countries .
+Pred  < Paraphrase : The temple serves as the cultural and religious center for Korean Hindus and immigrants from South Asian countries.
+Truth = The temple serves as a cultural and religious centre for Korean Hindus and immigrants from the South Asian countries .
+
+Text  > When a surface has a constant zero developable curvature , then it is a Euclidean surface and the geometry of the surface is Gaussian geometry .
+Pred  < Paraphrase : When a surface has a constant zero developable curvature, then it is a Euclidean surface and the geometry of the surface is Gaussian geometry.
+Truth = If a surface has a constant developable curvature of zero , then it is an euclidean surface and the geometry of the surface is a Gaussian geometry .
+
+Text  > The following is a list of fouls established by the states that regulate MMA , as outlined by the Nevada State Athletic Commission .
+Pred  < The following is a list of fouls established by the states that regulate MMA as outlined by the Nevada State Athletic Commission.
+Truth = The following is a list of fouls defined by the states that regulate MMA as outlined by the Nevada State Athletic Commission .
+
+Text  > The Keita dynasty ruled pre-imperial and imperial Mali from the 12th century into the early 17th century .
+Pred  < Paraphrase : The Keita dynasty ruled pre-imperial and imperial Mali from the 12th century to the early 17th century.
+Truth = The Keita dynasty ruled Mali from the 12th to the early 17th century , pre-imperial and imperial .
+
+Text  > The compound was patented by Dr. Patrick Page and his team and was invented by Genkyotex in 2007 .
+Pred  < Paraphrase : The compound was patented by Dr. Patrick Page and his team and was invented by Genkyotex in 2007.
+Truth = The compound was patented by Dr. Patrick Page and his team , and was invented in 2007 by Genkyotex .
+
+Text  > When Phil Spector heard `` Stubborn Kind of Fellow '' for the first time , he was so excited that he lost control of his car while driving down the Sunset Boulevard with Jack Nitzsche .
+Pred  < Paraphrase : When Phil Spector heard `` Stubborn Kind of Fellow '' for the first time, he was so excited that he lost control of his car while driving with Jack Nitzsche on Sunset Boulevard.
+Truth = When Phil Spector first heard `` Stubborn Kind of Fellow '' he was so excited he lost control of his car while driving down Sunset Boulevard with Jack Nitzsche .
+
+Text  > This genus is presently in the family of lizards known as Iguanidae , subfamily Polychrotinae , and is no longer classified in the now invalid family , Polychrotidae .
+Pred  < Paraphrase : This genus is currently in the family of lizards known as Iguanidae, subfamily Polychrotinae, and is no longer classified in the now invalid family PolyChrotidae.
+Truth = This genus is currently classified in the family of lizards , known as Iguanidae , subfamily Polychrotinae , and is no longer classified in the now invalid family , polychrotidae .
+
+Text  > Iyer next appeared in the Kannada film `` Darshan '' with actor Jaggu Dada .
+Pred  < Paraphrase : Iyer next appeared in the Kannada film `` Darshan '' with the actor Jaggu Dada.
+Truth = Next appeared Iyer in Kannada - Film `` Darshan '' with actor Jaggu Dada .
+
+Text  > Born in South Korea , he lived in Brazil for 9 years since 2002 and played football there for 5 years . He started his professional career in 2007 .
+Pred  < Paraphrase : Born in South Korea, he lived in Brazil for 9 years since 2002 and played football there for 5 years. He started his professional career in 2007.
+Truth = Born in South Korea , he lived since 2002 for 9 years in Brazil , played there 5 years of football and started his career in 2007 .
+
+Text  > On May 8 , 2015 , Michel Soro lost to Tapia .
+Pred  < Paraphrase : Michel Soro lost to Tapia on 8 May 2015.
+Truth = On 8 May 2015 , Michel Soro lost Tapia .
+
+Text  > The music was written by Shyam and lyrics was composed by Sreekumaran Thampi and Sathyan Anthikkad .
+Pred  < Paraphrase : The music was written by Shyam and lyrics was composed by Sreekumaran Thampi and Sathyan Anthikkad.
+Truth = The music was written by Shyam and the lyrics by Sreekumaran Thampi and Sathyan Anthikkad composed .
+
+Text  > In 2012 , Ned Evett released `` Treehouse '' , his sixth solo record , produced in Nashville Tennessee by musician Adrian Belew .
+Pred  < In 2012, Ned Evett released `` Treehouse '', his sixth solo record, produced by the musician Adrian Belew in Nashville Tennessee.
+Truth = In 2012 , Ned Evett `` Treehouse '' released his sixth solo record , produced in Nashville Tennessee by musician Adrian Belew .
+
+Text  > North Northamptonshire was a county constituency in Northamptonshire , represented in the House of Commons of the Parliament of the United Kingdom .
+Pred  < North Northamptonshire was a county constituency in Northamptonhire, represented in the House of Commons of the Parliament of the United Kingdom.
+Truth = Northamptonshire was a county constituency in Northamptonshire , represented in the House of Commons of the United Kingdom Parliament .
+
+Text  > In February 2014 , Network Ten announced that Hugh Riminton would replace Danielle Isdale as presenter , and Victoria Murphy would become the sports presenter .
+Pred  < In February 2014, Network Ten announced that Hugh Riminton would replace Danielle Isdale as presenter, and Victoria Murphy would become the sports presenter.
+Truth = In February 2014 , Network Ten announced that Hugh Riminton would replace Danielle Isdale as presenter and Victoria Murphy as sports presenter .
+
+Text  > The crash of Aerosucre Flight 4544 was the second aviation incident involving Aerosucre , the first being the crash of another Boeing 727 on November 18 , 2006 .
+Pred  < The crash of Aerosucre Flight 4544 was the second aviation incident involving Aerosüre, the first being the crash of another Boeing 727 on November 18, 2006.
+Truth = The crash of Aerosucre Flight 4544 was the second aviation incident with Aerosucre , the first being the crash of another Boeing 727 on November 18 , 2006 .
+
+Text  > Among them are Marie Teresa Rios , a composer of Boleros , Julita Ross , author , and Sylvia Rexach , a singer .
+Pred  < Among them are Marie Teresa Rios, a composer of Boleros, Julita Ross, author and Sylvia Rexach, a singer.
+Truth = Among them are Marie Teresa Rios , a composer of boleros , Julita Ross , an author , and Sylvia Rexach , a singer .
+
+Text  > Kabir asks Sarika to reveal his plan to end Ranvir 's game .
+Pred  < Paraphrase : Kabir asks Sarika to reveal his plan to end Ranvir's game.
+Truth = Kabir asks Sarika to reveal his plan to end Ranvir 's game to him .
+
+Text  > `` Trust in Me '' is a song written by Ned Wever , Milton Ager , and Jean Schwartz .
+Pred  < `` Trust in Me '' is a song written by Ned Wever, Milton Ager and Jean Schwartz.
+Truth = `` Trust in Me '' is a song by Jean Schwartz , Milton Ager and Ned Wever written .
+
+Text  > Jason Thornton is the orchestra 's Artistic Director , Peter Donohoe the Principal Guest Conductor and Gavin Carr the Associate Conductor .
+Pred  < Paraphrase : Jason Thornton is the orchestra's Artistic Director, Peter Donohoe the Principal Guest Conductor and Gavin Carr the Associate Conductor.
+Truth = Jason Thornton is the artistic director of the orchestra , Peter Donohoe , the principal guest conductor and Gavin Carr of the Associate Conductor .
+
+Text  > Bob and Ted were brothers . Ted is John 's son .
+Pred  < Paraphrase : Bob and Ted were brothers, Ted is John's son.
+Truth = Bob and Ted were brothers , and Ted is John 's son .
+
+Text  > It was released on 22 December 2011 and was announced in February 2012 .
+Pred  < Paraphrase : It was released on December 22, 2011 and announced in February 2012.
+Truth = It was published on 22 December 2011 and was announced in February 2012 .
+
+Text  > From the west end of the bridge , Pennsylvania Route 268 leads south to Parker and north to Emlenton .
+Pred  < Paraphrase : From the west end of the bridge, Pennsylvania Route 268 leads south to Parker and north to Emlenton.
+Truth = The Pennsylvania Route 268 leads from the west end of the bridge south to Parker and to the north to Emlenton .
+
+Text  > The Loyang team defeated the Raffles Institution in the opening round and the Xinmin Secondary School in the quarter-finals before losing to the Hwa Chong Institution in the semi-finals .
+Pred  < Paraphrase : The Loyang team defeated the Raffles Institution in the opening round and the Xinmin Secondary School in the quarterfinals before losing in the semi-finals to the Hwa Chong Institution.
+Truth = Loyang 's team defeated Raffles Institution in the opening round and Xinmin Secondary School in the quarter-finals , before losing to Hwa Chong Institution in the semi-finals .
+
+Text  > Alston was born on December 21 , 1965 in Oxon Hill , Maryland . He attended Oxon Hill High School in New Haven , Connecticut .
+Pred  < Paraphrase : Alston was born on 21 December 1965 in Oxon Hill, Maryland. He attended Oxon Hills High School in New Haven, Connecticut.
+Truth = He was born on December 21 , 1965 in Oxon Hill , Maryland , and attended High School in New Haven , Connecticut .
+
+Text  > Total US casualties were 28 killed , while Viet Cong losses were 345 killed and a further 192 estimated killed .
+Pred  < Paraphrase : Total US casualties were 28 killed, while Viet Cong losses were 345 killed and a further 192 killed.
+Truth = In total , 28 US victims were killed , while Viet Cong losses were killed 345 and a further 192 estimated killed .
+
+Text  > In CA , the title of a chartered accountant ( Sri Lanka Sri Lanka ) can only be used by members of the Institute of Sri Lankan Accountants .
+Pred  < Paraphrase : In CA, the title of Chartered Accountant ( Sri Lanka Sri Lanka ) can only be used by members of the Institute of Sri Lankan Accountants.
+Truth = In CA , the title of Chartered Accountant ( Sri Lanka Sri Lanka ) can be used by only members of the Institute of Chartered Accountants of Sri Lanka .
+
+Text  > Simyo belongs to the Dutch telecommunications group KPN , after acquisition of the remainder of E-Plus on March 14 .
+Pred  < Paraphrase : Simyo belongs to the Dutch telecommunications group KPN after the acquisition of the remainder of E-Plus on 14 March.
+Truth = Following the acquisition of the remainder of E-Plus on 14 March , Simyo belongs to the Dutch telecommunications group KPN .
+
+Text  > Worcester is a town and county city of Worcestershire in England .
+Pred  < Paraphrase : Worcester is a town and county town of Worcestershire in England.
+Truth = Worcester is a city and county town of Worcestershire in England .
+
+Text  > Besides Kuykendall , Robert White and Joshua Soule Zimmerman served as Chancery Commissioner for Hampshire County .
+Pred  < Paraphrase : Besides Kuykendall, Robert White and Joshua Soule Zimmerman served as Chancery Commissioner for Hampshire County.
+Truth = Robert White and Joshua Soule Zimmerman served alongside Kuykendall as a Chancery Commissioner for Hampshire County .
+
+Text  > In Sri Lanka , the title of Chartered Accountant ( CA Sri Lanka ) can be used by only members of the Institute of Chartered Accountants of Sri Lanka .
+Pred  < Paraphrase : In Sri Lanka, the title of Chartered Accountant ( CA Sri Lanka ) can be used only by members of the Institute of Chartering Accountants of Sri Lanka.
+Truth = In Sri Lanka , the title of an accountant ( CA Sri Lanka ) can only be used by members of the Institute of Accountants in Sri Lanka .
+
+Text  > July is the coldest month on average , the hottest in January .
+Pred  < Paraphrase : July is the coldest month on average, the hottest in January.
+Truth = July is on average the coldest month and January the hottest .
+
+Text  > He was born in Carter County , Tennessee and was later moved to Arkansas .
+Pred  < Paraphrase : He was born in Carter County, Tennessee, and later moved to Arkansas.
+Truth = He was born in Carter County , Tennessee and later moved to Arkansas .
+
+Text  > These views were often expressed during the emergence of Protestant , Puritan and Evangelical movements .
+Pred  < These views were often expressed during the emergence of the Protestant, Puritan and Evangelical movements.
+Truth = These views were often expressed during the emergence of evangelical , puritanical , and protestant movements .
+
+Text  > He died in Madrid on 6 January 1976 , and was buried in the church of the in Alicante .
+Pred  < Paraphrase : He died on 6 January 1976 in Madrid and was buried in the church of Alicante.
+Truth = He died on 6 January 1976 in Madrid and was buried in the church of Alicante .
+
+Text  > In 1876 , he moved to San Diego , California , and in 1887 to Dallas , Texas .
+Pred  < Paraphrase : In 1876 he moved to San Diego, California, and in 1887 to Dallas, Texas.
+Truth = He moved to San Diego , California in 1876 , and to Dallas , Texas in 1887 .
+
+Text  > The UEFA Cup 1973 -- 74 was won by Feyenoord Rotterdam on Tottenham Hotspur 4 : 2 .
+Pred  < Paraphrase : The UEFA Cup 1973 -- 74 was won by Feyenoord Rotterdam on Tottenham Hotspur 4 : 2.
+Truth = The 1973 -- 74 UEFA Cup was won by Feyenoord Rotterdam over Tottenham Hotspur 4 -- 2 on aggregate .
+
+Text  > He married Marie Magdalene Schweigaard , daughter of Tellef Dahll Schweigaard , niece of leading politician Anton Martin Schweigaard and aunt of later Prime Minister Christian Homann Schweigaard .
+Pred  < Paraphrase : He married Marie Magdalene Schweigaard, daughter of Tellef Dahll Schweigaad, niece of leading politician Anton Martin Schweigaards and aunt of later Prime Minister Christian Homann SchweigaARD.
+Truth = He married Marie Magdalene Schweigaard , daughter of Tellef Dahll Schweigaard , niece of the senior politician Anton Martin Schweigaard and Tante of later prime minister Christian Homann Schweigaard .
+
+Text  > Rõuge Valgjärv is a lake in the southeastern county of Voru in Estonia , close to the border with Latvia .
+Pred  < Rõuge Valgjärv is a lake in the southeastern Voru County in Estonia, close to the border with Latvia.
+Truth = Rõuge Valgjärv is a lake in Estonia 's southeastern county of Voru , close to the border with Latvia .
+
+Text  > The Central Baptist Association is an association of churches located from South Carolina to Indiana , with most of the churches being in eastern Tennessee and southwestern Virginia .
+Pred  < Paraphrase : The Central Baptist Association is an association of churches from South Carolina to Indiana, with most of the churches located in eastern Tennessee and southwestern Virginia.
+Truth = The Central Baptist Association is an association of churches from South Carolina to Indiana , with the most churches in eastern Tennessee and south-western Virginia .
+
+Text  > It was part of the Hanover Township , then Chatham Township , before being recorded in 1899 as Florham Park .
+Pred  < Paraphrase : It was part of Hanover Township, then Chatham Township, before being recorded as Florham Park in 1899.
+Truth = It was part of Hanover Township , then Chatham Township before being incorporated as Florham Park in 1899 .
+
+Text  > They also released the second track on the album , `` Vices '' , as the 5th single from the album on June 13 .
+Pred  < They also released the second track on the album `` Vices '' as the 5th single from the album on 13 June.
+Truth = They also released the second track on the album , `` Vices '' , on 13th June as the 5th single from the album .
+
+Text  > The loyalists had camped on the west side of the Catawba River , while the army of General Charles Cornwalli camped on the east side .
+Pred  < Paraphrase : The loyalists had camped on the west side of the Catawba River, while the army of General Charles Cornwalli was on the east side.
+Truth = The loyalists were camped on the west side of Catawba River , while the army of General Charles Cornwallis camped on the eastern side .
+
+Text  > The Sydney Water Board had taken over the water supply for Sydney from the City Council in 1888 .
+Pred  < Paraphrase : The Sydney Water Board had taken over the water supply for Sydney from the City Council in 1888.
+Truth = In 1888 , the Sydney Water Board took over the water supply for Sydney from the city council .
+
+Text  > Mohammad Shafiq ( variants : Mohammed , Muhammad , Shafik , Shafeek , Shafeeq , Shafique , Shafic , Chafic ) can refer to
+Pred  < Paraphrase : Mohammad Shafiq ( variants : Shafik, Shafeek, Shafeeq, Muhammad, Mohammed, Muhammad ; Shafic, Chafic ) can refer to
+Truth = Mohammad Shafiq ( variants : Mohammed , Muhammad , Shafik , Shafeek , Shafeeq , Shafique , Shafic , Chafic ) may refer to
+
+Text  > `` T '' is similar to a matrix whose canonical entries are on the superdiagonal , by the Jordan only non-zero form .
+Pred  < Paraphrase : `` T '' is similar to a matrix whose canonical entries are on the superdiagonal, by the Jordan only non-zero form.
+Truth = `` T '' is similar to a matrix whose canonical entries are on the superdiagonal form of the Jordan non-zero .
+
+Text  > Fanwood is located in the 22nd Congressional District and is part of the 12th New Jersey Legislative District .
+Pred  < Paraphrase : Fanwood is located in the 22nd Congressional District and is part of the 12th New Jersey Legislative District.
+Truth = Fanwood is located in the 22nd Congressional District and is part of New Jersey 's 12th state legislative district .
+
+Text  > In 1994 , Rodrigo Leão left the band to start a solo career , being replaced by Carlos Maria Trindade ( keyboard synthesizer ) .
+Pred  < In 1994, Rodrigo Leão left the band to start a solo career, being replaced by Carlos Maria Trindade ( keyboard synthesizer ).
+Truth = In 1994 , Rodrigo Leão left the band to start a solo career , replaced by Carlos Maria Trindade ( keyboard synthesizer ) .
+
+Text  > Note also that `` not NFL '' implies only that algorithms are inequivalent overall by `` some '' measure of performance .
+Pred  < Paraphrase : Note also that `` not NFL '' implies only that algorithms are inequivalent overall by `` some '' measure of performance.
+Truth = Note also that `` not NFL '' only implies that algorithms are inequivalent by `` some '' performance dimensions overall .
+
+Text  > Ned Lambton and McEwen divorced in 1995 . She has since married the musician Jools Holland .
+Pred  < Paraphrase : Ned Lambton and McEwen divorced in 1995. She has since married the musician Jools Holland.
+Truth = Ned Lambton and McEwen divorced in 1995 , and since then she has married the musician Jools Holland .
+
+Text  > In 1977 , Rob Taylor travelled with Barber to Scotland and Norway to climb waterfalls .
+Pred  < Paraphrase : In 1977, Rob Taylor travelled with Barber to Scotland and Norway to climb waterfalls.
+Truth = In 1977 , Rob Taylor traveled to Scotland and Norway with Barber to climb waterfalls .
+
+Text  > It then crosses over the Washita River arm of Lake Texoma .
+Pred  < Paraphrase : It then crosses over the Washita River arm of Lake Texoma.
+Truth = It then crosses the Washita River arm of Lake Texoma .
+
+Text  > In 1933 Cattell wrote that , of all the Nordic races , `` the European race was the most evolved in intelligence and stability of temperament '' .
+Pred  < Paraphrase : In 1933, Cattell wrote that of all the Nordic races, `` the European race was the most evolved in intelligence and stability of temperament ''.
+Truth = In 1933 , Cattell wrote that of all the Nordic races , `` the European race in intelligence and stability of temperament was most developed '' .
+
+Text  > Podkriváň is a village and municipality in the region Banská Bystrica , in the district of Detva in Central Slovakia .
+Pred  < Podkriváň is a village and municipality in the Banská Bystrica region in the Detva district of Central Slovakia.
+Truth = Podkriváň is a village and municipality in Banská Bystrica Region , in the Detva District of central Slovakia .
+
+Text  > The Russian cavalry withdrew behind the main line and exposed the French to the artillery fire from Russian batteries .
+Pred  < Paraphrase : The Russian cavalry withdrew behind the main line and exposed the French to artillery fire from Russian batteries.
+Truth = The Russian cavalry withdrew behind the main line , exposing the French to artillery fire from the Russian batteries .
+
+Text  > In 2016 , `` Forbes '' ranked California Maritime Academy as the 95th best university in the nation and 516th in the West .
+Pred  < Paraphrase : In 2016, `` Forbes '' ranked California Maritime Academy as the 95th best university in the nation and 516th in the West.
+Truth = In 2016 , `` Forbes '' California Maritime Academy ranks as the 95th best university in the nation and 516th in the west .
+
+Text  > Callum O 'brien ( born November 4 , 1982 in Cambridge , New Zealand ) is a professional squash player .
+Pred  < Callum O 'brien ( born 4 November 1982 in Cambridge, New Zealand ) is a professional squash player.
+Truth = Callum O'brien ( born 4 November 1982 in Cambridge ) is a New Zealand professional squash player .
+
+Text  > Abies lasiocarpa , commonly called the western North American fir or Rocky Mountain fir , is a subalpine fir tree .
+Pred  < Abies lasiocarpa, commonly called the western North American fir or Rocky Mountain fir, is a subalpine fir tree.
+Truth = Abies lasiocarpa , commonly known as the western North American fir or Rocky Mountain fir , is a subalpine fir tree .
+
+Text  > In malignant hypertension these hyperplastic changes are often accompanied by fibrinoid necrosis of the arterial intima and media .
+Pred  < Paraphrase : In malignant hypertension these hyperplastic changes are often accompanied by fibrinoid necrosis of the arterial intima and media.
+Truth = In malignant hypertension , these hyperplastic changes are often accompanied by a fibrinoid necrosis of arterial intima and media .
+
+Text  > American Motors provided only technical support in the form of limited aid .
+Pred  < Paraphrase : American Motors provided only technical support in the form of limited aid.
+Truth = American Motors provided only technical support in the form of limited help .
+
+Text  > It then crosses over the Washita River arm of Lake Texoma .
+Pred  < Paraphrase : It then crosses over the Washita River arm of Lake Texoma.
+Truth = It then crosses the Washita River Arm of the Texoma Lake .
+
+Text  > The Houston Main Building ( HMB ) earlier the Prudential Building was a skyscraper at the Texas Medical Center in Houston , Texas .
+Pred  < Paraphrase : The Houston Main Building ( HMB ) earlier the Prudential Building was a skyscraper at the Texas Medical Center in Houston, Texas.
+Truth = The Houston Main Building ( HMB ) formerly the Prudential Building , was a skyscraper in the Texas Medical Center , Houston , Texas .
+
+Text  > The UEFA Cup 1973 -- 74 was won by Tottenham Hotspur over Feyenoord Rotterdam 4 : 2 .
+Pred  < Paraphrase : The UEFA Cup 1973 -- 74 was won by Tottenham Hotspur over Feyenoord Rotterdam 4 : 2.
+Truth = The 1973 -- 74 UEFA Cup was won by Tottenham Hotspur over Feyenoord Rotterdam 4 -- 2 on aggregate .
+
+Text  > In 1974 Lao PDR established the Stage II fund with the help of the United Nations , the Asian Development Bank , and the World Bank .
+Pred  < Paraphrase : In 1974, Lao PDR established the Stage II Fund with the help of the World Bank, the Asian Development Bank and the United Nations.
+Truth = In 1974 , with the support of the United Nations , the Asian Development Bank and the World Bank , Lao PDR founded the Stage II Fund .
+
+Text  > The third line of the last verse was changed to `` Kralja Aleksandra , Bože hrani , '' during the reign of Alexander I of Yugoslavia .
+Pred  < Paraphrase : The third line of the last verse was changed during the reign of Alexander I of Yugoslavia to `` Kralja Aleksandra, Bože hrani ''.
+Truth = The third line of the last verse was modified during the reign of Alexander I of Yugoslavia in `` Kralja Aleksandra , Bože hrani '' .
+
+Text  > Ray Bloch was the announcer , and John Reed King led the orchestra .
+Pred  < Paraphrase : Ray Bloch was the announcer and John Reed King led the orchestra.
+Truth = The announcer was Ray Ray Bloch , John Reed King led the orchestra .
+
+Text  > Archbishop Seóighe was appointed on 16 May 1485 and consecrated in 1487 . He died on either the 20 or 20 December 1501 .
+Pred  < Paraphrase : Archbishop Seóighe was appointed on 16 May 1485 and consecrated in 1487. He died on 20 December or 20 December 1501.
+Truth = Archbishop Seóighe was appointed on May 16 , 1485 and consecrated in 1487 , died either on December 20 or 20 , 1501 .
+
+Text  > Another way to regulate the population of deer is to control the birth rate .
+Pred  < Paraphrase : Another way to regulate the population of deer is to control the birth rate.
+Truth = Another way to regulate deer population is to control the birth rate .
+
+Text  > The Hudeasa River is a tributary of the Bradu River in Romania .
+Pred  < The Hudeasa River is a tributary of the River Bradu in Romania.
+Truth = The Hudeasa River is the tributary of the Bradu River in Romania .
+
+Text  > The Loyalists had camped on the west side of the Catawba River while General Charles Cornwalli 's army were camped on the east side .
+Pred  < Paraphrase : The Loyalists had camped on the west side of the Catawba River, while General Charles Cornwalli's army was on the east side.
+Truth = The loyalists were camped on the west side of Catawba River , while the army of General Charles Cornwallis camped on the eastern side .
+
+Text  > His father Patrick Byrne was an MP , TD , Senator and Lord Mayor of Dublin . Another brother Alfie Byrne was also a TD .
+Pred  < Paraphrase : His father Patrick Byrne was an MP, TD, Senator and Lord Mayor of Dublin. Another brother Alfie Byrne was also a TD.
+Truth = His father , Patrick Byrne , was a delegate , senator and lord mayor of Dublin , another brother Alfie Byrne was also TD .
+
+Text  > Holly was musically influenced by Elton John .
+Pred  < Paraphrase : Holly was musically influenced by Elton John.
+Truth = Holly Holly was influenced by Elton John musically .
+
+Text  > Fishman holds a bachelor 's degree from Columbia University and a master 's degree in economics from Brown University .
+Pred  < Paraphrase : Fishman holds a bachelor's degree from Columbia University and a master's in economics from Brown University.
+Truth = Fishman holds a Bachelor 's degree from Columbia University and a Master 's degree in Brown University economics .
+
+Text  > An analysis comparing millions of RSA public keys gathered from the Internet was announced in 2012 by Lenstra , Hughes , Augier , Bos , Kleinjung , and Wachter .
+Pred  < Paraphrase : An analysis of millions of RSA public keys gathered from the Internet was announced by Lenstra, Hughes, Augier, Bos, Kleinjung and Wachter in 2012.
+Truth = An analysis of millions of public RSA keys from the Internet was announced in 2012 by Augier , Hughes , Lenstra , Bos , Kleinjung and Wachter .
+
+Text  > According to the United States Census Bureau , Kennesaw is a total area of , of which is land and or 1.08 % , has water .
+Pred  < Paraphrase : According to the United States Census Bureau, Kennesaw has a total area of which is land and or 1.08 % has water.
+Truth = According to the United States Census Bureau , Kennesaw is a total area of which is land and 1.08 % has water .
+
+Text  > King Qi met with King Zhao of Qin in western Zhou in 284 BC to form an alliance against Xi .
+Pred  < Paraphrase : King Qi met in 284 BC with King Zhao of Qin in western Zhou to form an alliance against Xi.
+Truth = In 284 BC , King Qi met with King Zhao of Qin in Western Zhou to form an alliance against Xi .
+
+Text  > The Chenzhou Administrative Region in the Tang Dynasty is under the administration of modern Henan in the east of Zhoukou :
+Pred  < Paraphrase : The administrative region of Chenzhou in the Tang Dynasty is under the administration of modern Henan in the east of Zhoukou :
+Truth = The administrative region of Chenzhou in the Tang dynasty is under the administration of modern Henan in eastern Zhoukou :
+
+Text  > The species was first formally described by the botanist Stephan Endlicher in 1846 as part of Johann Georg Christian Lehmann 's work `` Irideae . Plantae Preissianae '' .
+Pred  < Paraphrase : The species was first formally described in 1846 by the botanist Stephan Endlicher as part of Johann Georg Christian Lehmann's work `` Irideae. Plantae Preissianae ''.
+Truth = The species was first formally described in 1846 by the botanist Stephan Endlicher as part of the work `` Irideae Plantae Preissianae '' by Johann Georg Christian Lehmann .
+
+Text  > It was designed in 1983 by architects Philip Johnson ( alumnus of the University ) and John Burgee .
+Pred  < Paraphrase : It was designed by the architects Philip Johnson ( alumnus of the university ) and John Burgee in 1983.
+Truth = It was designed by architects Philip Johnson ( alumnus of the University ) and John Burgee in 1983 .
+
+Text  > This song was written and produced by the gala composed by Filippo Andrea Carmeni and Maurizio Molella .
+Pred  < Paraphrase : This song was written and produced by the gala composed by Filippo Andrea Carmeni and Maurizio Molella.
+Truth = The song was written and produced by Gala composed by Filippo Andrea Carmeni and Maurizio Molella .
+
+Text  > From 1863 to 1866 , Dunedin and Suburbs North were a parliamentary electorate in the city of Dunedin , Otago , New Zealand , and was a multi-member electorate .
+Pred  < Paraphrase : From 1863 to 1866, Dunedin and Suburbs North was a parliamentary electorate in the city of Dunedin, Otago, New Zealand, and was a multi-member electorate.
+Truth = Dunedin and Suburbs North was a parliamentary electorate in the city of Dunedin in Otago , New Zealand from 1863 to 1866 . It was a multi-member electorate .
+
+Text  > Kudlago Island is one of the many uninhabited Canadian arctic islands in Qikiqtaaluk Region , Nunavut .
+Pred  < Paraphrase : Kudlago Island is one of the many uninhabited Canadian arctic islands in the Qikiqtaaluk region of Nunavut.
+Truth = Kudlago Island is one of the many uninhabited Canadian islands in Qikiqtaaluk Region , Nunavut .
+
+Text  > The Jiul de Vest river is a tributary of the River Jidanul in Romania .
+Pred  < The Jiul de Vest River is a tributary of the Jidanul River in Romania.
+Truth = The Jiul de Vest River is a tributary of the Jidanul River in Romania .
+
+Text  > Tipico Co. Ltd and Tipico Casino Ltd were founded in 2004 as international trading companies in the commercial register of the Malta Financial Services Authority .
+Pred  < Paraphrase : Tipico Co. Ltd and Tipico Casino Ltd were founded in 2004 as international trading companies in the commercial register of the Malta Financial Services Authority.
+Truth = Tipico Co. Ltd and Tipico Casino Ltd were established in 2004 as international trading companies in the Commercial Register of the Malta Financial Services Authority .
+
+Text  > Lovey and Dude Romeo from Pittsburgh Pennsylvania have published extensively online and in YouTube - Videos Puli PrayingOriginally by Green Bay Wisconsin .
+Pred  < Paraphrase : Lovey and Dude Romeo from Pittsburgh Pennsylvania have published extensively online and in YouTube videos Puli Praying originally by Green Bay Wisconsin.
+Truth = Lovey and Dude Romeo of Pittsburgh Pennsylvania have appeared extensively online and in YouTube videos Puli PrayingOriginally from Green Bay Wisconsin .
+
+Text  > Tim Tim Henman won against Pete Sampras in the final 6 -- 7 , 6 -- 4 , 7 -- 6 .
+Pred  < Tim Henman won against Pete Sampras in the final 6 -- 7, 6 -- 4, 7 -- 6.
+Truth = Tim Henman won in the final 6 -- 7 , 6 -- 4 , 7 -- 6 against Pete Sampras .
+
+Text  > Katz was born in Sweden in 1947 and moved to New York City at the age of 1 .
+Pred  < Paraphrase : Katz was born in 1947 in Sweden and moved to New York City at the age of 1.
+Truth = Katz was born in 1947 in Sweden and moved to New York at the age of one .
+
+Text  > Most releases of the album outside of North America had the same audio content , but located the track markers differently depending on which label released the CD .
+Pred  < Paraphrase : Most releases of the album outside of North America had the same audio content, but located the track markers differently depending on which label released the CD.
+Truth = Most of the releases of the album outside North America had the same audio content , but the track markers located differently depending on the label that the CD had released .
+
+Text  > The album was recorded in Los Angeles by Aníbal Kerpel and mixed in `` La Casa '' studies in Los Angeles , California .
+Pred  < Paraphrase : The album was recorded in Los Angeles by Aníbal Kerpel and mixed in `` La Casa '' studies in Los Los Angeles, California.
+Truth = The album was recorded in Los Angeles by Aníbal Kerpel . Mixed in `` La Casa '' studies in Los Angeles , California .
+
+Text  > The crane was used to unload the lorries and to launch the craft after completion , a total of over 2000 lifts in three years .
+Pred  < Paraphrase : The crane was used to unload the lorries and to launch the craft after completion, a total of over 2000 lifts in three years.
+Truth = The crane was used to unload the trucks and to launch the ship after completion , a total of over 2000 lifts in three years .
+
+Text  > It is limited to three very native areas in Santa Cruz , Monterey Peninsula and San Luis Obispo Counties .
+Pred  < Paraphrase : It is limited to three very native areas in Santa Cruz, Monterey Peninsula and San Luis Obispo counties.
+Truth = It is limited to three very native areas located in Santa Cruz , Monterey Peninsula , and San Luis Obispo Counties .
+
+Text  > The event was attended by Boutique @ hs Ambassador Kyly Clarke , Australian actress Teresa Palmer and Michala Banas .
+Pred  < The event was attended by Boutique @ hs ambassador Kyly Clarke, Australian actress Teresa Palmer and Michala Banas.
+Truth = The event was visited by Boutique @ hs - Ambassador Kyly Clarke , Australian actress Teresa Palmer and Michala Banas .
+
+Text  > Although rugby union in Croatia was the main centre for the sport in the former Yugoslavia , there was still quite a bit of rugby played in Slovenia .
+Pred  < Although rugby union in Croatia was the main centre for the sport in the former Yugoslavia, there was still quite a bit of rugby played in Slovenia.
+Truth = Although the Rugby Union in Croatia was the main centre for sports in the former Yugoslavia , there was still a lot of rugby played in Slovenia .
+
+Text  > ACVM is based in Glasgow and has offices in Edinburgh , Aberdeen , Newcastle , Manchester and Milton Keynes .
+Pred  < ACVM is based in Glasgow and has offices in Edinburgh, Aberdeen, Newcastle, Manchester and Milton Keynes.
+Truth = ACVM is based in Glasgow and has subsidiaries in Edinburgh , Aberdeen , Newcastle , Manchester and Milton Keynes .
+
+Text  > On September 14 , 2006 , Lang was signed by the Washington Wizards and released by the Wizards in July 2017 .
+Pred  < Paraphrase : Lang was signed by the Washington Wizards on 14 September 2006 and released by the Wizards in July 2017.
+Truth = On September 14 , 2006 , Lang was signed by the Washington Wizards . In July 2017 , Lang was released by the Wizards .
+
+Text  > Vermont South is bordered by Mitcham to the north , Nunawading and Forest Hill to the west , Vermont to the south and Wantirna and Ringwood to the east .
+Pred  < Paraphrase : Vermont South is bordered by Mitcham to the north, Nunawading and Forest Hill to the west, Vermont to the south and Wantirna and Ringwood to the east.
+Truth = Vermont South is bordered to the north of Mitcham , to the west by Nunawading and Forest Hill , to the south by Vermont and to the east by Wantirna and Ringwood .
+
+Text  > It is also worth noting that the following code would work without ADL ( it will be applied to it anyway ) .
+Pred  < It is also worth noting that the following code would work without ADL ( it will be applied to it anyway ).
+Truth = It is also worth noting that the following code would work without ADL ( it 's applied to it anyway ) .
+
+Text  > It is found in North America , where it was recorded from Newfoundland and Labrador west to British Columbia , north to Alaska and the Yukon .
+Pred  < Paraphrase : It is found in North America, where it was recorded from Newfoundland and Labrador west to British Columbia, north to Alaska and the Yukon.
+Truth = It is found in North America , where it has been recorded from Newfoundland and Labrador west to British Columbia , north to Alaska and the Yukon .
+
+Text  > In 1915 bus service began between Overlea and Belair `` Jitney buses '' , which operated for several years .
+Pred  < Paraphrase : In 1915, bus service began between Overlea and Belair `` Jitney buses '', which operated for several years.
+Truth = In 1915 , bus service called between Overlea and Belair began `` jitney buses . '' These operated for several years .
+
+Text  > The species are members of various ecological groups , including tropical shrubs , lianas and trees , xerophytic plants , mycoheterotrophs , as well as different herbaceous representatives .
+Pred  < Paraphrase : The species are members of various ecological groups, including tropical shrubs, lianas and trees, xerophytic plants, mycoheterotrophs as well as different herbaceous representatives.
+Truth = The species are members of different ecological groups , including tropical shrubs , lianas and trees , xerophytic plants , mycoheterotrophic as well as various herbal representatives .
+
+```
 
  ---
  
