@@ -19,6 +19,7 @@
 <a id="task1"></a>
 ### BERT QA Bot on SQUAD Dataset
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S14/BERT_Tutorial_How_To_Build_a_Question_Answering_Bot.ipynb)
 
 
 
@@ -43,6 +44,7 @@
 <a id="task2"></a>
  ### BERT Sentence Classification
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S14/BERT%20Fine-Tuning%20Sentence%20Classification%20v4.ipynbb)
 
 
 
@@ -79,6 +81,7 @@
  <a id="task3"></a>
  ### BART Paraphrasing
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/pankaj90382/END-1.0/blob/main/S14/BART_For_Paraphrasing.ipynb)
 
 
 
