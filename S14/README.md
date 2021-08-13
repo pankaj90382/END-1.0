@@ -37,6 +37,8 @@ In the BERT training process, the model receives pairs of sentences as input and
 
 **Training Logs**
 
+![bert qa model training loss](./SQUAD Training.png?raw=true)
+
 ```text
 **** Running training *****
   Num examples = 144262
@@ -625,29 +627,16 @@ true cls  = unacceptable
 
 ```
 
+**Training Validation Loss Curve**
+
+![bert classification model training loss plot](./BERT Sentence Classification Loss.png?raw=true)
 
 
+**Matthews Corr. Coef**
 
+The score will be based on the entire test set, but let's take a look at the scores on the individual batches to get a sense of the variability in the metric between batches. Each batch has 32 sentences in it, except the last batch which has only (516 % 32) = 4 test sentences in it.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![bert MC PLot](./Sentence Classification MC Score.png?raw=true)
 
  <a id="task3"></a>
  ### BART Paraphrasing
