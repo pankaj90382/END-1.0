@@ -19,11 +19,97 @@
 <a id="task1"></a>
 ### BERT QA Bot on SQUAD Dataset
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <a id="task2"></a>
  ### BERT Sentence Classification
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  <a id="task3"></a>
  ### BART Paraphrasing
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
  ## Refrences
