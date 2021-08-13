@@ -113,3 +113,10 @@
 
  
  ## Refrences
+
+- [BERT NLP — How To Build a Question Answering Bot](https://towardsdatascience.com/bert-nlp-how-to-build-a-question-answering-bot-98b1d1594d7b)
+- [SQUAD DATASET](https://rajpurkar.github.io/SQuAD-explorer/)
+- [BART for Paraphrasing with Simple Transformers](https://towardsdatascience.com/bart-for-paraphrasing-with-simple-transformers-7c9ea3dfdd8c)
+- [BART Simple Transformers Github](https://github.com/ThilinaRajapakse/simpletransformers/tree/master/examples/seq2seq/paraphrasing)
+- [Pytorch Hugging Face](https://pytorch.org/hub/huggingface_pytorch-transformers/)
+- [BERT Fine-Tuning Tutorial with PyTorch](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)
