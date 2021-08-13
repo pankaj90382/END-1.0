@@ -488,13 +488,128 @@ model's answer >> Reciprocating
 
 **Training Logs**
 
+```text
 
+======== Epoch 1 / 4 ========
+Training...
+  Batch    40  of    241.    Elapsed: 0:00:26.
+  Batch    80  of    241.    Elapsed: 0:00:53.
+  Batch   120  of    241.    Elapsed: 0:01:19.
+  Batch   160  of    241.    Elapsed: 0:01:46.
+  Batch   200  of    241.    Elapsed: 0:02:13.
+  Batch   240  of    241.    Elapsed: 0:02:39.
+
+  Average training loss: 0.48
+  Training epcoh took: 0:02:40
+
+Running Validation...
+  Accuracy: 0.83
+  Validation Loss: 0.42
+  Validation took: 0:00:06
+
+======== Epoch 2 / 4 ========
+Training...
+  Batch    40  of    241.    Elapsed: 0:00:27.
+  Batch    80  of    241.    Elapsed: 0:00:53.
+  Batch   120  of    241.    Elapsed: 0:01:20.
+  Batch   160  of    241.    Elapsed: 0:01:47.
+  Batch   200  of    241.    Elapsed: 0:02:13.
+  Batch   240  of    241.    Elapsed: 0:02:40.
+
+  Average training loss: 0.31
+  Training epcoh took: 0:02:40
+
+Running Validation...
+  Accuracy: 0.84
+  Validation Loss: 0.47
+  Validation took: 0:00:06
+
+======== Epoch 3 / 4 ========
+Training...
+  Batch    40  of    241.    Elapsed: 0:00:27.
+  Batch    80  of    241.    Elapsed: 0:00:53.
+  Batch   120  of    241.    Elapsed: 0:01:20.
+  Batch   160  of    241.    Elapsed: 0:01:47.
+  Batch   200  of    241.    Elapsed: 0:02:13.
+  Batch   240  of    241.    Elapsed: 0:02:40.
+
+  Average training loss: 0.19
+  Training epcoh took: 0:02:40
+
+Running Validation...
+  Accuracy: 0.85
+  Validation Loss: 0.50
+  Validation took: 0:00:06
+
+======== Epoch 4 / 4 ========
+Training...
+  Batch    40  of    241.    Elapsed: 0:00:27.
+  Batch    80  of    241.    Elapsed: 0:00:53.
+  Batch   120  of    241.    Elapsed: 0:01:20.
+  Batch   160  of    241.    Elapsed: 0:01:47.
+  Batch   200  of    241.    Elapsed: 0:02:13.
+  Batch   240  of    241.    Elapsed: 0:02:40.
+
+  Average training loss: 0.14
+  Training epcoh took: 0:02:40
+
+Running Validation...
+  Accuracy: 0.85
+  Validation Loss: 0.56
+  Validation took: 0:00:06
+
+Training complete!
+Total training took 0:11:04 (h:mm:ss)
+
+```
 
 **Sample Outputs**
 
 
 
+```text
 
+sentence  > i am counting on bill to get there on time .
+predicted < acceptable
+true cls  = acceptable
+
+sentence  > the bird sings .
+predicted < acceptable
+true cls  = acceptable
+
+sentence  > john ate dinner but i don ' t know who .
+predicted < acceptable
+true cls  = unacceptable
+
+sentence  > i wonder to whom they dedicated the building .
+predicted < acceptable
+true cls  = acceptable
+
+sentence  > the bucket was kicked by pat .
+predicted < acceptable
+true cls  = acceptable
+
+sentence  > susan told a story to her .
+predicted < acceptable
+true cls  = acceptable
+
+sentence  > i know the person whose mother died .
+predicted < acceptable
+true cls  = acceptable
+
+sentence  > we gave ourselves to the cause .
+predicted < acceptable
+true cls  = acceptable
+
+sentence  > chris walks , pat eats bro ##cco ##li , and sandy plays squash .
+predicted < acceptable
+true cls  = acceptable
+
+sentence  > chocolate eggs were hidden from each other by the children .
+predicted < acceptable
+true cls  = unacceptable
+
+```
 
 
 
